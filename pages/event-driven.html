@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event-Driven Architecture - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Event-Driven Architecture</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Event-Driven Architecture</h1>
+                    <p class="topic-description">Building systems that respond to events in real-time for better scalability and decoupling</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 21 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="event-driven">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Event-Driven Architecture?</h3>
+                                <p>Event-Driven Architecture (EDA) is a software design pattern where system components communicate through events. Instead of direct method calls, components publish events when something happens, and other components subscribe to and react to those events. This enables loose coupling and real-time responsiveness.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of event-driven architecture like a newsroom - when something happens (an event), it's broadcast to everyone who needs to know, rather than calling each person individually.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're organizing a large conference. Instead of calling every attendee individually when something changes (like room change), you make an announcement over the PA system. Everyone who needs to know hears the announcement and acts accordingly. That's exactly how event-driven architecture works!</p>
+                                
+                                <h4>Key Components of Event-Driven Architecture</h4>
+                                
+                                <p><strong>1. Events</strong></p>
+                                <ul>
+                                    <li>Immutable facts about something that happened</li>
+                                    <li>Contain data about the occurrence</li>
+                                    <li>Have timestamps and unique identifiers</li>
+                                    <li>Examples: UserRegistered, OrderPlaced, PaymentCompleted</li>
+                                </ul>
+                                
+                                <p><strong>2. Event Producers</strong></p>
+                                <ul>
+                                    <li>Components that generate and publish events</li>
+                                    <li>Don't need to know who will consume events</li>
+                                    <li>Publish events to event bus or message broker</li>
+                                    <li>Examples: User service, order service, payment service</li>
+                                </ul>
+                                
+                                <p><strong>3. Event Consumers</strong></p>
+                                <ul>
+                                    <li>Components that listen for and process events</li>
+                                    <li>Subscribe to specific event types</li>
+                                    <li>React to events by performing business logic</li>
+                                    <li>Examples: Notification service, analytics service, audit service</li>
+                                </ul>
+                                
+                                <p><strong>4. Event Bus/Broker</strong></p>
+                                <ul>
+                                    <li>Infrastructure that routes events from producers to consumers</li>
+                                    <li>Manages subscriptions and message delivery</li>
+                                    <li>Ensures reliable event delivery</li>
+                                    <li>Examples: Kafka, RabbitMQ, AWS SNS, Google Pub/Sub</li>
+                                </ul>
+                                
+                                <h4>Benefits of Event-Driven Architecture</h4>
+                                
+                                <p><strong>Loose Coupling:</strong></p>
+                                <ul>
+                                    <li>Services don't need to know about each other</li>
+                                    <li>Can add new consumers without changing producers</li>
+                                    <li>Services can be developed, deployed, and scaled independently</li>
+                                </ul>
+                                
+                                <p><strong>Scalability:</strong></p>
+                                <ul>
+                                    <li>Handle high volume of events efficiently</li>
+                                    <li>Scale consumers based on event load</li>
+                                    <li>Process events asynchronously</li>
+                                </ul>
+                                
+                                <p><strong>Resilience:</strong></p>
+                                <ul>
+                                    <li>If one consumer fails, others continue working</li>
+                                    <li>Events can be stored and replayed if needed</li>
+                                    <li>Better fault isolation between services</li>
+                                </ul>
+                                
+                                <p><strong>Real-time Processing:</strong></p>
+                                <ul>
+                                    <li>React to events as they happen</li>
+                                    <li>Enable real-time notifications and updates</li>
+                                    <li>Support streaming and real-time analytics</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-amazon"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon's Event-Driven Systems</h5>
+                                        <p>Amazon uses event-driven architecture extensively. When you place an order, it triggers events that update inventory, process payments, send notifications, and update analytics - all happening asynchronously and independently.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-plug"></i> Event Patterns</h4>
+                                <p>Common patterns: Event Sourcing, CQRS, Event Notification, Event-Carried State Transfer.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Event Store</h4>
+                                <p>Immutable log of all events that can be replayed to reconstruct system state.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Eventual Consistency</h4>
+                                <p>System becomes consistent over time as events are processed by all consumers.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Event Security</h4>
+                                <p>Authentication, authorization, and encryption for secure event communication.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>EDA uses events for loose coupling between services</li>
+                                <li>Producers publish events, consumers subscribe and react</li>
+                                <li>Enables scalability, resilience, and real-time processing</li>
+                                <li>Common patterns: Event Sourcing, CQRS, Event Notification</li>
+                                <li>Requires careful design for consistency and debugging</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Event-Driven Architecture Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>How events flow through the system</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Producer</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Order Service</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 100px; height: 50px; background: #28a745; color: white; border-radius: 8px; line-height: 50px; font-size: 14px;">Event Bus</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Kafka/RabbitMQ</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #ffc107; border-radius: 5px; line-height: 40px; font-size: 12px;">Consumers</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Multiple Services</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 11px; color: #666; margin-top: 10px;">
+                                            Event: OrderPlaced → Notification, Inventory, Analytics services
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Event Sourcing Pattern</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-history"></i>
+                                    <p>How event sourcing stores state changes</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="text-align: left; padding: 20px;">
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Event Stream:</div>
+                                            <div style="font-family: monospace; font-size: 11px; line-height: 1.6;">
+                                                [1] OrderCreated {orderId: 123, amount: $100}<br>
+                                                [2] PaymentProcessed {orderId: 123, paymentId: 456}<br>
+                                                [3] OrderShipped {orderId: 123, trackingId: 789}<br>
+                                                [4] OrderDelivered {orderId: 123, timestamp: 2024-01-01}
+                                            </div>
+                                            <div style="margin-top: 15px; font-size: 10px; color: #666;">
+                                                Current state can be reconstructed by replaying events
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is event-driven architecture and when would you use it?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Event-driven architecture is a pattern where services communicate through events rather than direct calls. Use it when:</p>
+                                    <ul>
+                                        <li><strong>Loose coupling needed:</strong> Services should operate independently</li>
+                                        <li><strong>High scalability required:</strong> Handle many concurrent operations</li>
+                                        <li><strong>Real-time processing:</strong> React immediately to events</li>
+                                        <li><strong>Multiple consumers:</strong> Different services need to react to same events</li>
+                                        <li><strong>Asynchronous processing:</strong> Operations don't need immediate response</li>
+                                    </ul>
+                                    <p>Examples: Order processing, IoT systems, real-time analytics, notification systems.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between event-driven and request-response architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Request-Response:</strong></p>
+                                    <ul>
+                                        <li>Synchronous communication</li>
+                                        <li>Tight coupling between services</li>
+                                        <li>Immediate response expected</li>
+                                        <li>Simple to understand and debug</li>
+                                        <li>Harder to scale for high volume</li>
+                                    </ul>
+                                    <p><strong>Event-Driven:</strong></p>
+                                    <ul>
+                                        <li>Asynchronous communication</li>
+                                        <li>Loose coupling between services</li>
+                                        <li>No immediate response required</li>
+                                        <li>More complex to debug and trace</li>
+                                        <li>Highly scalable and resilient</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is event sourcing and what are its benefits?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Event sourcing is a pattern where state changes are stored as a sequence of events. Benefits include:</p>
+                                    <ul>
+                                        <li><strong>Complete Audit Trail:</strong> Every state change is recorded</li>
+                                        <li><strong>Temporal Queries:</strong> Query state at any point in time</li>
+                                        <li><strong>Debugging:</strong> Replay events to reproduce issues</li>
+                                        <li><strong>Scalability:</strong> Read and write concerns are separated</li>
+                                        <li><strong>Resilience:</strong> Rebuild state from event stream</li>
+                                    </ul>
+                                    <p>Challenges: Event versioning, schema evolution, storage size, query complexity.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle event ordering and duplicates in event-driven systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Event Ordering:</strong></p>
+                                    <ul>
+                                        <li><strong>Sequence Numbers:</strong> Include sequence numbers in events</li>
+                                        <li><strong>Timestamps:</strong> Use timestamps for ordering (with care for clock sync)</li>
+                                        <li><strong>Partitions:</strong> Use single partition per entity to maintain order</li>
+                                        <li><strong>Idempotent Processing:</strong> Design consumers to handle out-of-order events</li>
+                                    </ul>
+                                    <p><strong>Handling Duplicates:</strong></p>
+                                    <ul>
+                                        <li><strong>Event IDs:</strong> Unique identifiers for each event</li>
+                                        <li><strong>Deduplication:</strong> Check if event already processed</li>
+                                        <li><strong>Idempotent Operations:</strong> Make processing idempotent</li>
+                                        <li><strong>Exactly-Once Semantics:</strong> Use message brokers with exactly-once delivery</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Event-Driven Architecture</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is a key benefit of event-driven architecture?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Tight coupling between services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Loose coupling between services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Synchronous communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Direct method calls</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. What is event sourcing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Creating events from scratch</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Deleting old events</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Storing state changes as events</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Processing events in order</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. Which component routes events to consumers?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Event bus/broker</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Event producer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Event consumer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Database</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a common challenge in event-driven systems?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Too much coupling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Synchronous processing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Simple debugging</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Eventual consistency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which pattern separates read and write operations?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Event Notification</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>CQRS</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Event Sourcing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Event Carried State</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Building scalable systems with microservices</p>
+                        </div>
+                    </a>
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication patterns</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

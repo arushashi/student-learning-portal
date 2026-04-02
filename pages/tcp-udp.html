@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP & UDP - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">TCP & UDP</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>TCP & UDP</h1>
+                    <p class="topic-description">Transport layer protocols for reliable and unreliable communication</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 14 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="tcp-udp">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are TCP and UDP?</h3>
+                                <p>TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are two core transport layer protocols that define how data is transmitted over networks. TCP provides reliable, ordered delivery while UDP offers fast, connectionless communication.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> TCP is like registered mail with tracking and confirmation, while UDP is like regular mail - faster but no delivery guarantees.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you need to send important documents to someone. You have two options:</p>
+                                
+                                <p><strong>TCP - The Courier Service:</strong></p>
+                                <ul>
+                                    <li>You establish a connection first (call the courier)</li>
+                                    <li>Package is tracked every step of the way</li>
+                                    <li>Recipient signs for delivery</li>
+                                    <li>If package is lost, it's resent</li>
+                                    <li>Packages arrive in the order sent</li>
+                                    <li>Reliable but slower and more expensive</li>
+                                </ul>
+                                
+                                <p><strong>UDP - The Postal Service:</strong></p>
+                                <ul>
+                                    <li>You just drop the letter in a mailbox</li>
+                                    <li>No tracking or delivery confirmation</li>
+                                    <li>Letters might arrive out of order</li>
+                                    <li>Some letters might get lost</li>
+                                    <li>Fast and cheap but no guarantees</li>
+                                </ul>
+                                
+                                <h4>TCP (Transmission Control Protocol)</h4>
+                                
+                                <p><strong>Key Features:</strong></p>
+                                <ul>
+                                    <li><strong>Connection-oriented:</strong> Establishes connection before data transfer</li>
+                                    <li><strong>Reliable:</strong> Guarantees delivery through acknowledgments and retransmission</li>
+                                    <li><strong>Ordered:</strong> Data arrives in the same order it was sent</li>
+                                    <li><strong>Error Checking:</strong> Checks for corrupted data</li>
+                                    <li><strong>Flow Control:</strong> Prevents sender from overwhelming receiver</li>
+                                    <li><strong>Congestion Control:</strong> Prevents network overload</li>
+                                </ul>
+                                
+                                <p><strong>Three-Way Handshake:</strong></p>
+                                <ul>
+                                    <li>SYN: Client requests connection</li>
+                                    <li>SYN-ACK: Server acknowledges and requests connection</li>
+                                    <li>ACK: Client acknowledges, connection established</li>
+                                </ul>
+                                
+                                <h4>UDP (User Datagram Protocol)</h4>
+                                
+                                <p><strong>Key Features:</strong></p>
+                                <ul>
+                                    <li><strong>Connectionless:</strong> No connection establishment</li>
+                                    <li><strong>Unreliable:</strong> No delivery guarantees</li>
+                                    <li><strong>No Order:</strong> Packets may arrive out of order</li>
+                                    <li><strong>Fast:</strong> Minimal overhead</li>
+                                    <li><strong>No Flow Control:</strong> Can overwhelm receiver</li>
+                                    <li><strong>No Congestion Control:</strong> Can cause network issues</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-video"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Video Streaming</h5>
+                                        <p>Video streaming services like Netflix use UDP for streaming video. Losing a few frames is acceptable, but maintaining speed is crucial. For account login and payment, they switch to TCP to ensure reliability.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-handshake"></i> TCP Use Cases</h4>
+                                <p>Web browsing, email, file transfer, database connections - where reliability is critical.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tachometer-alt"></i> UDP Use Cases</h4>
+                                <p>Video streaming, gaming, DNS, VoIP - where speed is more important than reliability.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Port Numbers</h4>
+                                <p>Both protocols use ports to identify applications; TCP ports are separate from UDP ports.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-line"></i> Performance</h4>
+                                <p>UDP is faster due to lower overhead; TCP is slower but more reliable.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>TCP: Reliable, ordered, connection-oriented communication</li>
+                                <li>UDP: Fast, connectionless, unreliable communication</li>
+                                <li>TCP uses three-way handshake to establish connections</li>
+                                <li>UDP has minimal overhead for better performance</li>
+                                <li>Choose based on reliability vs speed requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>TCP vs UDP Comparison</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <p>Comparing TCP and UDP characteristics</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+                                            <div style="text-align: center;">
+                                                <div style="font-weight: bold; color: #28a745; margin-bottom: 10px;">TCP</div>
+                                                <div style="text-align: left; font-size: 12px;">
+                                                    <div>✓ Reliable</div>
+                                                    <div>✓ Ordered</div>
+                                                    <div>✓ Connection</div>
+                                                    <div>✓ Error checking</div>
+                                                    <div>✗ Slower</div>
+                                                    <div>✗ More overhead</div>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="font-weight: bold; color: #ffc107; margin-bottom: 10px;">UDP</div>
+                                                <div style="text-align: left; font-size: 12px;">
+                                                    <div>✗ Unreliable</div>
+                                                    <div>✗ No order</div>
+                                                    <div>✗ Connectionless</div>
+                                                    <div>✗ No error checking</div>
+                                                    <div>✓ Faster</div>
+                                                    <div>✓ Less overhead</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>TCP Three-Way Handshake</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-handshake"></i>
+                                    <p>How TCP establishes connections</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 11px;">Client</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 10px; margin-bottom: 5px;">SYN →</div>
+                                                <div style="font-size: 10px; margin: 5px 0;">← SYN-ACK</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">ACK →</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 11px;">Server</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 11px; color: #666;">
+                                            Connection established after three steps
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between TCP and UDP?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>TCP (Transmission Control Protocol):</strong></p>
+                                    <ul>
+                                        <li>Connection-oriented with three-way handshake</li>
+                                        <li>Reliable delivery with acknowledgments and retransmission</li>
+                                        <li>Ordered data delivery</li>
+                                        <li>Error checking and flow control</li>
+                                        <li>Slower due to overhead</li>
+                                    </ul>
+                                    <p><strong>UDP (User Datagram Protocol):</strong></p>
+                                    <ul>
+                                        <li>Connectionless - no handshake</li>
+                                        <li>Unreliable - no delivery guarantees</li>
+                                        <li>No ordering guarantees</li>
+                                        <li>No error checking or flow control</li>
+                                        <li>Faster due to minimal overhead</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When would you choose TCP over UDP?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Choose TCP when:</p>
+                                    <ul>
+                                        <li><strong>Reliability is critical:</strong> File transfers, email, database connections</li>
+                                        <li><strong>Data integrity matters:</strong> Financial transactions, authentication</li>
+                                        <li><strong>Order is important:</strong> Web pages, document streaming</li>
+                                        <li><strong>Error recovery needed:</strong> Important business communications</li>
+                                    </ul>
+                                    <p>Examples: HTTP/HTTPS, SMTP, FTP, SSH, database connections</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When would you choose UDP over TCP?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Choose UDP when:</p>
+                                    <ul>
+                                        <li><strong>Speed is priority:</strong> Real-time applications</li>
+                                        <li><strong>Some data loss is acceptable:</strong> Video/audio streaming</li>
+                                        <li><strong>Low latency required:</strong> Online gaming, live broadcasts</li>
+                                        <li><strong>Broadcast/multicast needed:</strong> Sending to multiple recipients</li>
+                                        <li><strong>Simple request-response:</strong> DNS queries</li>
+                                    </ul>
+                                    <p>Examples: Video streaming, VoIP, online gaming, DNS, live broadcasts</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does TCP ensure reliable data delivery?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>TCP ensures reliability through:</p>
+                                    <ul>
+                                        <li><strong>Sequence Numbers:</strong> Track packet order</li>
+                                        <li><strong>Acknowledgments:</strong> Receiver confirms received packets</li>
+                                        <li><strong>Retransmission:</strong> Resend lost or corrupted packets</li>
+                                        <li><strong>Checksums:</strong> Detect data corruption</li>
+                                        <li><strong>Flow Control:</strong> Prevent sender overload</li>
+                                        <li><strong>Congestion Control:</strong> Prevent network overload</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of TCP & UDP</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. Which protocol is connection-oriented?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>UDP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>TCP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Both TCP and UDP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Neither</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. Which protocol is faster?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>UDP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>TCP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Both are equal</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Depends on the network</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What does TCP use to establish connection?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Two-way handshake</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Four-way handshake</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Three-way handshake</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>No handshake needed</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which application typically uses UDP?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Email (SMTP)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Web browsing (HTTP)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>File transfer (FTP)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Video streaming</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What is a key disadvantage of UDP?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Too slow</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>No delivery guarantees</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Too much overhead</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Requires connection</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/dns.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>DNS</h4>
+                            <p>Domain Name System for name resolution</p>
+                        </div>
+                    </a>
+                    <a href="../pages/http.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>HTTP Protocol</h4>
+                            <p>The backbone of web communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design Principles</h4>
+                            <p>RESTful API design and best practices</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

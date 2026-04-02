@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Design Principles - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">API Design Principles</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>API Design Principles</h1>
+                    <p class="topic-description">RESTful API design and best practices for building robust interfaces</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 22 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="api-design">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is API Design?</h3>
+                                <p>API (Application Programming Interface) design is the process of creating interfaces that allow different software applications to communicate with each other. Good API design follows principles and best practices to ensure the interface is intuitive, efficient, and maintainable.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of APIs as contracts between different software systems - they define how requests and responses should be formatted, just like a language that both systems understand.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're at a restaurant. The menu is the API - it tells you what dishes are available (endpoints), how to order them (HTTP methods), and what you'll get back (responses). A well-designed menu makes ordering easy and predictable, just like a well-designed API!</p>
+                                
+                                <h4>Key API Design Principles</h4>
+                                
+                                <p><strong>1. Consistency</strong></p>
+                                <ul>
+                                    <li>Use consistent naming conventions</li>
+                                    <li>Follow similar patterns across all endpoints</li>
+                                    <li>Maintain consistent response formats</li>
+                                </ul>
+                                
+                                <p><strong>2. Simplicity</strong></p>
+                                <ul>
+                                    <li>Keep APIs intuitive and easy to understand</li>
+                                    <li>Use clear, descriptive names</li>
+                                    <li>Avoid unnecessary complexity</li>
+                                </ul>
+                                
+                                <p><strong>3. Statelessness</strong></p>
+                                <ul>
+                                    <li>Each request should contain all needed information</li>
+                                    <li>Don't rely on previous requests</li>
+                                    <li>Makes scaling easier and more reliable</li>
+                                </ul>
+                                
+                                <p><strong>4. Proper HTTP Methods</strong></p>
+                                <ul>
+                                    <li><strong>GET:</strong> Retrieve data</li>
+                                    <li><strong>POST:</strong> Create new data</li>
+                                    <li><strong>PUT/PATCH:</strong> Update existing data</li>
+                                    <li><strong>DELETE:</strong> Remove data</li>
+                                </ul>
+                                
+                                <p><strong>5. Versioning</strong></p>
+                                <ul>
+                                    <li>Include version in URLs (e.g., /api/v1/users)</li>
+                                    <li>Allows for backward compatibility</li>
+                                    <li>Enables gradual migration</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Twitter API</h5>
+                                        <p>Twitter's API allows developers to access tweets, user information, and more. It follows REST principles with clear endpoints like /2/tweets/search to search for tweets and /2/users/{id} to get user information.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-route"></i> RESTful Design</h4>
+                                <p>Follow REST principles: stateless communication, proper HTTP methods, and resource-based URLs.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-code"></i> Status Codes</h4>
+                                <p>Use appropriate HTTP status codes: 200 for success, 404 for not found, 500 for server errors.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security</h4>
+                                <p>Implement authentication, authorization, rate limiting, and input validation.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-file-alt"></i> Documentation</h4>
+                                <p>Provide clear documentation with examples, error codes, and usage patterns.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>APIs are contracts for software communication</li>
+                                <li>Follow REST principles for consistency</li>
+                                <li>Use proper HTTP methods and status codes</li>
+                                <li>Implement security and validation</li>
+                                <li>Provide comprehensive documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>REST API Request-Response Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>How REST APIs handle requests and responses</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 12px;">Client</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 12px;">API Server</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 12px;">Database</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 12px; color: #666;">
+                                            Request: GET /api/v1/users → Response: JSON with user data
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>HTTP Methods and Their Uses</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-cogs"></i>
+                                    <p>Common HTTP methods and their purposes</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #28a745; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">GET</span>
+                                            <span style="margin-left: 10px;">Retrieve data (safe, idempotent)</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #007bff; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">POST</span>
+                                            <span style="margin-left: 10px;">Create new resource</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #ffc107; color: black; padding: 3px 8px; border-radius: 3px; font-size: 11px;">PUT</span>
+                                            <span style="margin-left: 10px;">Replace entire resource</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #fd7e14; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">PATCH</span>
+                                            <span style="margin-left: 10px;">Partial update of resource</span>
+                                        </div>
+                                        <div>
+                                            <span style="background: #dc3545; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">DELETE</span>
+                                            <span style="margin-left: 10px;">Remove resource</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the key principles of REST API design?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Key REST principles include:</p>
+                                    <ul>
+                                        <li><strong>Statelessness:</strong> Each request contains all information needed</li>
+                                        <li><strong>Client-Server Architecture:</strong> Clear separation of concerns</li>
+                                        <li><strong>Uniform Interface:</strong> Consistent conventions across endpoints</li>
+                                        <li><strong>Cacheability:</strong> Responses should indicate if they can be cached</li>
+                                        <li><strong>Layered System:</strong> Architecture can have multiple layers</li>
+                                        <li><strong>Code on Demand:</strong> Servers can temporarily extend functionality</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between PUT and PATCH?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>PUT:</strong></p>
+                                    <ul>
+                                        <li>Replaces the entire resource</li>
+                                        <li>Idempotent (multiple requests have same effect)</li>
+                                        <li>Requires complete resource representation</li>
+                                        <li>Use when you have the complete updated resource</li>
+                                    </ul>
+                                    <p><strong>PATCH:</strong></p>
+                                    <ul>
+                                        <li>Partially updates a resource</li>
+                                        <li>Not necessarily idempotent</li>
+                                        <li>Requires only the fields to be updated</li>
+                                        <li>Use when you're making partial changes</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle API versioning?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common API versioning strategies:</p>
+                                    <ul>
+                                        <li><strong>URL Path Versioning:</strong> /api/v1/users, /api/v2/users</li>
+                                        <li><strong>Query Parameter:</strong> /api/users?version=1</li>
+                                        <li><strong>Header Versioning:</strong> Accept: application/vnd.api+json;version=1</li>
+                                        <li><strong>Subdomain Versioning:</strong> v1.api.example.com</li>
+                                    </ul>
+                                    <p>URL path versioning is most common and clear for developers.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the best practices for API security?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Security best practices include:</p>
+                                    <ul>
+                                        <li><strong>Authentication:</strong> Verify user identity (OAuth, JWT, API keys)</li>
+                                        <li><strong>Authorization:</strong> Check permissions (RBAC, scopes)</li>
+                                        <li><strong>Rate Limiting:</strong> Prevent abuse and DoS attacks</li>
+                                        <li><strong>Input Validation:</strong> Validate and sanitize all inputs</li>
+                                        <li><strong>HTTPS:</strong> Encrypt all communications</li>
+                                        <li><strong>Sensitive Data:</strong> Never expose passwords, tokens in URLs</li>
+                                        <li><strong>CORS:</strong> Configure proper cross-origin policies</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of API Design Principles</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. Which HTTP method is used to retrieve data?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>POST</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>PUT</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>GET</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>DELETE</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. What does stateless mean in REST API context?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>API doesn't maintain any state</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Each request contains all needed information</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>API is always offline</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>API doesn't use databases</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. Which HTTP status code indicates successful request?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>200 OK</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>404 Not Found</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>500 Internal Server Error</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>301 Redirect</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is the main difference between PUT and PATCH?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>PUT is faster than PATCH</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>PATCH is more secure than PUT</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>PUT creates resources, PATCH updates them</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>PUT replaces entire resource, PATCH partially updates</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which is a common API versioning approach?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Random version numbers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>URL path versioning (/api/v1/users)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>File-based versioning</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>No versioning needed</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Building scalable systems with microservices</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

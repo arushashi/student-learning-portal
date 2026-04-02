@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Balancing - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Load Balancing</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Load Balancing</h1>
+                    <p class="topic-description">Distribute incoming traffic across multiple servers to ensure high availability and reliability</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 15 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="load-balancing">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Load Balancing?</h3>
+                                <p>Load balancing is the process of distributing incoming network traffic across multiple servers to ensure that no single server bears too much demand. This helps prevent any single server from becoming a bottleneck, improving overall application performance, reliability, and availability.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Load balancing acts like a traffic cop for your servers, directing requests to the least busy server to optimize performance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're running a popular restaurant with multiple chefs. If all customers go to one chef, that chef gets overwhelmed while others are idle. A load balancer is like a host who directs customers to the chef who can serve them best.</p>
+                                
+                                <p>In web applications, when thousands of users request the same website simultaneously, a single server would struggle to handle all requests. Load balancing solves this by:</p>
+                                
+                                <ul>
+                                    <li><strong>Distributing traffic:</strong> Spreading requests across multiple servers</li>
+                                    <li><strong>Preventing overload:</strong> Ensuring no single server gets too many requests</li>
+                                    <li><strong>Improving response time:</strong> Users get faster responses from less busy servers</li>
+                                    <li><strong>Ensuring availability:</strong> If one server fails, traffic is redirected to healthy servers</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-amazon"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon Website</h5>
+                                        <p>When millions of users visit Amazon during Prime Day, load balancers distribute requests across thousands of servers worldwide, ensuring the site remains fast and available even during peak traffic.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-cogs"></i> Load Balancing Algorithms</h4>
+                                <p>Different methods to distribute traffic: Round Robin, Least Connections, IP Hash, and Weighted Round Robin.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Health Checks</h4>
+                                <p>Load balancers continuously monitor server health to ensure traffic is only sent to functioning servers.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Layers of Load Balancing</h4>
+                                <p>Can be implemented at Layer 4 (transport) or Layer 7 (application) of the OSI model.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Session Persistence</h4>
+                                <p>Some applications require users to stay connected to the same server for the duration of their session.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Load balancing distributes traffic across multiple servers</li>
+                                <li>Improves performance, reliability, and availability</li>
+                                <li>Prevents server overload and bottlenecks</li>
+                                <li>Enables horizontal scaling of applications</li>
+                                <li>Essential for high-traffic websites and applications</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Load Balancing Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Load Balancer distributing requests to multiple backend servers</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 120px; height: 60px; background: #667eea; color: white; border-radius: 10px; line-height: 60px; margin-bottom: 20px;">
+                                            Load Balancer
+                                        </div>
+                                        <br>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px;">Server 1</div>
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px;">Server 2</div>
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px;">Server 3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Load Balancing Algorithms Comparison</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <p>Comparison of different load balancing algorithms</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 10px;"><strong>Round Robin:</strong> Sequential distribution</div>
+                                        <div style="margin-bottom: 10px;"><strong>Least Connections:</strong> Server with fewest active connections</div>
+                                        <div style="margin-bottom: 10px;"><strong>IP Hash:</strong> Based on client IP address</div>
+                                        <div><strong>Weighted:</strong> Based on server capacity</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is load balancing and why is it important?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Load balancing is the process of distributing incoming network traffic across multiple servers. It's important because it:</p>
+                                    <ul>
+                                        <li>Prevents server overload and improves performance</li>
+                                        <li>Ensures high availability and reliability</li>
+                                        <li>Enables horizontal scaling</li>
+                                        <li>Provides fault tolerance by redirecting traffic from failed servers</li>
+                                        <li>Optimizes resource utilization</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the different load balancing algorithms?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common load balancing algorithms include:</p>
+                                    <ul>
+                                        <li><strong>Round Robin:</strong> Distributes requests sequentially across servers</li>
+                                        <li><strong>Least Connections:</strong> Sends requests to the server with fewest active connections</li>
+                                        <li><strong>IP Hash:</strong> Uses client IP address to determine server</li>
+                                        <li><strong>Weighted Round Robin:</strong> Assigns weights to servers based on capacity</li>
+                                        <li><strong>Least Response Time:</strong> Routes to server with fastest response time</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between Layer 4 and Layer 7 load balancing?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Layer 4 (Transport Layer):</strong></p>
+                                    <ul>
+                                        <li>Operates at transport level (TCP/UDP)</li>
+                                        <li>Makes decisions based on IP address and port</li>
+                                        <li>Faster but less intelligent</li>
+                                        <li>Cannot inspect content of requests</li>
+                                    </ul>
+                                    <p><strong>Layer 7 (Application Layer):</strong></p>
+                                    <ul>
+                                        <li>Operates at application level (HTTP/HTTPS)</li>
+                                        <li>Can inspect content of requests</li>
+                                        <li>More intelligent routing based on content</li>
+                                        <li>Slower but more flexible</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does a load balancer handle server failures?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Load balancers handle server failures through:</p>
+                                    <ul>
+                                        <li><strong>Health Checks:</strong> Regularly monitoring server status</li>
+                                        <li><strong>Automatic Removal:</strong> Removing failed servers from rotation</li>
+                                        <li><strong>Traffic Redirection:</strong> Redirecting traffic to healthy servers</li>
+                                        <li><strong>Graceful Degradation:</strong> Maintaining service with reduced capacity</li>
+                                        <li><strong>Auto-recovery:</strong> Automatically re-adding recovered servers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Load Balancing</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the primary purpose of load balancing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>To encrypt data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>To distribute traffic across multiple servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>To compress images</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>To store user data</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. Which load balancing algorithm distributes requests sequentially?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Least Connections</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>IP Hash</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Round Robin</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Weighted</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. What happens when a server fails in a load-balanced system?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>The entire system goes down</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Traffic is redirected to healthy servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Users must manually reconnect</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>The load balancer stops working</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which layer operates at the application level (HTTP/HTTPS)?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Layer 3</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Layer 4</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Layer 5</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Layer 7</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. What is session persistence?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Keeping users connected to the same server</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Storing session data on client</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Load balancing based on sessions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Creating new sessions for each request</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cdn.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Content Delivery Networks</h4>
+                            <p>Global content distribution for low latency</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical vs Horizontal scaling techniques</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

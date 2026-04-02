@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoscaling - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Autoscaling</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Autoscaling</h1>
+                    <p class="topic-description">Dynamic resource scaling based on demand</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 20 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="autoscaling">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Autoscaling?</h3>
+                                <p>Autoscaling automatically adjusts the number of compute resources based on actual load to optimize performance and cost.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of autoscaling like a smart thermostat that adjusts heating/cooling based on room temperature.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding Autoscaling</h3>
+                                <p>Autoscaling helps applications handle varying loads by automatically adding or removing resources.</p>
+                                
+                                <h4>Scaling Types</h4>
+                                <ul>
+                                    <li><strong>Horizontal Scaling:</strong> Add/remove instances</li>
+                                    <li><strong>Vertical Scaling:</strong> Increase/decrease resources</li>
+                                    <li><strong>Manual Scaling:</strong> User-controlled</li>
+                                    <li><strong>Automatic Scaling:</strong> System-controlled</li>
+                                </ul>
+                                
+                                <h4>Scaling Metrics</h4>
+                                <ul>
+                                    <li>CPU utilization</li>
+                                    <li>Memory usage</li>
+                                    <li>Network traffic</li>
+                                    <li>Request count</li>
+                                    <li>Custom metrics</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-aws"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>AWS Auto Scaling</h5>
+                                        <p>Amazon's Auto Scaling Groups automatically adjust EC2 instances based on demand, ensuring optimal performance and cost.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-h"></i> Horizontal Scaling</h4>
+                                <p>Adds or removes instances to handle load changes.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-v"></i> Vertical Scaling</h4>
+                                <p>Increases or decreases resources for existing instances.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-line"></i> Metrics</h4>
+                                <p>Uses CPU, memory, network, and custom metrics for decisions.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-dollar-sign"></i> Cost Optimization</h4>
+                                <p>Reduces costs by scaling down during low demand periods.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Automatically adjusts resources based on demand</li>
+                                <li>Optimizes performance and cost</li>
+                                <li>Essential for cloud-native applications</li>
+                                <li>Supports both horizontal and vertical scaling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is autoscaling and why is it important?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Autoscaling automatically adjusts compute resources based on demand. It's important for optimizing performance during high traffic and reducing costs during low traffic periods.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What metrics are commonly used for autoscaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common metrics include CPU utilization, memory usage, network traffic, request count, and custom application-specific metrics. These help determine when to scale up or down.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the different types of autoscaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Types include: 1) Horizontal scaling (add/remove instances), 2) Vertical scaling (increase/decrease resources), 3) Manual scaling (user-controlled), 4) Scheduled scaling (time-based), and 5) Predictive scaling (AI-based forecasting).</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the challenges of autoscaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Challenges include determining appropriate thresholds, dealing with scaling delays, handling stateful applications, preventing thrashing (rapid scale up/down), and ensuring database capacity matches application scaling.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does autoscaling work in cloud environments?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Cloud autoscaling uses auto-scaling groups that monitor metrics, compare against thresholds, and automatically launch or terminate instances. It integrates with load balancers to distribute traffic and uses health checks to ensure instance availability.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Autoscaling</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">3</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">1. What does autoscaling optimize?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Performance and cost</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Security only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Database only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>User interface</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which scaling adds more instances?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Vertical scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Horizontal scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Manual scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Scheduled scaling</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What is a common autoscaling metric?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Color scheme</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Font size</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>CPU utilization</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Page views</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a major challenge in autoscaling?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Too much automation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Cost reduction</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Performance improvement</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Scaling delays</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which scaling increases resources of existing instances?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Horizontal scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Vertical scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Manual scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Predictive scaling</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

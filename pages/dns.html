@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">DNS</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>DNS (Domain Name System)</h1>
+                    <p class="topic-description">The internet's phonebook that translates domain names to IP addresses</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 18 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="dns">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is DNS?</h3>
+                                <p>DNS (Domain Name System) is a hierarchical, decentralized naming system that translates human-readable domain names (like www.google.com) into machine-readable IP addresses (like 172.217.14.238). It's often called the "phonebook of the internet."</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> DNS makes the internet usable by allowing us to remember simple names instead of complex IP addresses, just like we remember names instead of phone numbers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you want to call your friend "John" but only know his phone number is "555-1234". You'd have to remember that number every time. DNS is like having a contact list that lets you just remember "John" while your phone automatically looks up the number.</p>
+                                
+                                <h4>How DNS Works</h4>
+                                
+                                <p><strong>1. DNS Query Process</strong></p>
+                                <ul>
+                                    <li>You type www.example.com in your browser</li>
+                                    <li>Your computer asks a DNS resolver for the IP address</li>
+                                    <li>The resolver checks its cache first</li>
+                                    <li>If not found, it queries other DNS servers</li>
+                                    <li>The IP address is returned and cached</li>
+                                    <li>Your browser connects to the IP address</li>
+                                </ul>
+                                
+                                <p><strong>2. DNS Hierarchy</strong></p>
+                                <ul>
+                                    <li><strong>Root Servers:</strong> Top level, know about TLD servers</li>
+                                    <li><strong>TLD Servers:</strong> Top-level domains (.com, .org, .net)</li>
+                                    <li><strong>Authoritative Servers:</strong> Hold actual domain records</li>
+                                    <li><strong>Resolvers:</strong> Local servers that cache responses</li>
+                                </ul>
+                                
+                                <h4>DNS Record Types</h4>
+                                
+                                <p><strong>A Records:</strong> Maps domain name to IPv4 address</p>
+                                <p><strong>AAAA Records:</strong> Maps domain name to IPv6 address</p>
+                                <p><strong>CNAME Records:</strong> Alias of one domain to another</p>
+                                <p><strong>MX Records:</strong> Mail exchange servers for email</p>
+                                <p><strong>NS Records:</strong> Name servers for the domain</p>
+                                <p><strong>TXT Records:</strong> Text information for various purposes</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-google"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Google's DNS Infrastructure</h5>
+                                        <p>Google operates public DNS servers (8.8.8.8 and 8.8.4.4) that anyone can use. These servers handle billions of DNS queries daily, making the internet faster and more reliable for millions of users.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-server"></i> DNS Caching</h4>
+                                <p>DNS responses are cached at multiple levels (browser, OS, resolver) to improve performance and reduce load.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-project-diagram"></i> Hierarchical Structure</h4>
+                                <p>DNS uses a tree-like structure from root to TLD to authoritative servers for efficient resolution.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-history"></i> TTL (Time To Live)</h4>
+                                <p>DNS records have TTL values that determine how long they should be cached before refresh.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security</h4>
+                                <p>DNSSEC provides authentication to prevent DNS spoofing and cache poisoning attacks.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>DNS translates domain names to IP addresses</li>
+                                <li>Uses hierarchical distributed database</li>
+                                <li>Employs caching for performance optimization</li>
+                                <li>Supports multiple record types for different purposes</li>
+                                <li>Essential infrastructure for internet functionality</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>DNS Resolution Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>How DNS queries are resolved</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                            <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">User</div>
+                                            <span>→</span>
+                                            <div style="width: 80px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 10px;">Resolver</div>
+                                            <span>→</span>
+                                            <div style="width: 70px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Root</div>
+                                            <span>→</span>
+                                            <div style="width: 70px; height: 30px; background: #17a2b8; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">TLD</div>
+                                            <span>→</span>
+                                            <div style="width: 80px; height: 30px; background: #dc3545; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Authoritative</div>
+                                        </div>
+                                        <div style="font-size: 11px; color: #666;">
+                                            Query flow: User → Resolver → Root → TLD → Authoritative → Back to User
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>DNS Hierarchy Structure</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-tree"></i>
+                                    <p>Tree structure of DNS namespace</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 15px;">
+                                            <div style="display: inline-block; width: 60px; height: 25px; background: #667eea; color: white; border-radius: 5px; line-height: 25px; font-size: 11px;">Root (.)</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                                            <div style="width: 50px; height: 25px; background: #28a745; color: white; border-radius: 5px; line-height: 25px; font-size: 10px;">.com</div>
+                                            <div style="width: 50px; height: 25px; background: #28a745; color: white; border-radius: 5px; line-height: 25px; font-size: 10px;">.org</div>
+                                            <div style="width: 50px; height: 25px; background: #28a745; color: white; border-radius: 5px; line-height: 25px; font-size: 10px;">.net</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="width: 60px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 9px;">google</div>
+                                            <div style="width: 60px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 9px;">facebook</div>
+                                            <div style="width: 60px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 9px;">amazon</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is DNS and how does it work?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>DNS (Domain Name System) is a hierarchical distributed database that translates human-readable domain names to IP addresses. It works through:</p>
+                                    <ul>
+                                        <li><strong>User Query:</strong> Browser requests domain resolution</li>
+                                        <li><strong>Resolver Check:</strong> Local resolver checks cache first</li>
+                                        <li><strong>Hierarchical Query:</strong> If not cached, queries root → TLD → authoritative servers</li>
+                                        <li><strong>Response:</strong> IP address returned and cached</li>
+                                        <li><strong>Connection:</strong> Browser connects to the IP address</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the different types of DNS records?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common DNS record types include:</p>
+                                    <ul>
+                                        <li><strong>A Record:</strong> IPv4 address mapping (example.com → 192.0.2.1)</li>
+                                        <li><strong>AAAA Record:</strong> IPv6 address mapping</li>
+                                        <li><strong>CNAME Record:</strong> Canonical name alias (www.example.com → example.com)</li>
+                                        <li><strong>MX Record:</strong> Mail exchange servers for email</li>
+                                        <li><strong>NS Record:</strong> Name servers for the domain</li>
+                                        <li><strong>TXT Record:</strong> Text information (SPF, DKIM, verification)</li>
+                                        <li><strong>SOA Record:</strong> Start of Authority with domain info</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is DNS caching and why is it important?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>DNS caching stores DNS query results locally to:</p>
+                                    <ul>
+                                        <li><strong>Improve Performance:</strong> Faster responses for repeated queries</li>
+                                        <li><strong>Reduce Load:</strong> Decrease traffic to DNS servers</li>
+                                        <li><strong>Increase Reliability:</strong> Work even if DNS servers are down</li>
+                                        <li><strong>Save Bandwidth:</strong> Reduce network traffic</li>
+                                    </ul>
+                                    <p>Caching happens at multiple levels: browser cache, OS cache, resolver cache, with TTL controlling cache duration.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is DNSSEC and why is it needed?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>DNSSEC (DNS Security Extensions) adds security to DNS by:</p>
+                                    <ul>
+                                        <li><strong>Digital Signatures:</strong> Cryptographically sign DNS records</li>
+                                        <li><strong>Authentication:</strong> Verify DNS responses are authentic</li>
+                                        <li><strong>Integrity:</strong> Ensure responses haven't been tampered with</li>
+                                        <li><strong>Prevent Attacks:</strong> Stop DNS spoofing and cache poisoning</li>
+                                    </ul>
+                                    <p>It addresses DNS security vulnerabilities but adds complexity and overhead.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of DNS</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What does DNS primarily do?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Encrypts internet traffic</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Routes network packets</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Translates domain names to IP addresses</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Manages email delivery</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which record type maps a domain to an IPv4 address?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>AAAA record</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>A record</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>MX record</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>CNAME record</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What does TTL stand for in DNS?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Time To Live</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Time To Load</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Total Transfer Limit</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Transmission Time Log</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which level is at the top of DNS hierarchy?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>TLD servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Authoritative servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Local resolvers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Root servers</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. What is the main benefit of DNS caching?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Improved security</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Better encryption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Faster response times</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>More IP addresses</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/tcp-udp.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>TCP & UDP</h4>
+                            <p>Transport layer protocols for reliable and unreliable communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/http.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>HTTP Protocol</h4>
+                            <p>The backbone of web communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cdn.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Content Delivery Networks</h4>
+                            <p>Global content distribution for low latency</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

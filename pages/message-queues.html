@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Queues - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Message Queues</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Message Queues</h1>
+                    <p class="topic-description">Asynchronous communication patterns for decoupled systems</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 28 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="message-queues">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are Message Queues?</h3>
+                                <p>Message queues are communication mechanisms that allow different parts of a system to communicate asynchronously. They enable applications to send messages to each other without being directly connected, providing decoupling, reliability, and scalability.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Message queues are like a postal service for software - one application drops off a message and another picks it up later, without needing to be available at the same time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're running a busy restaurant kitchen. Instead of chefs yelling orders to each other, you use order tickets. One chef writes an order on a ticket and puts it on a queue. When another chef is free, they pick up the next ticket and prepare that dish. That's exactly how message queues work!</p>
+                                
+                                <h4>How Message Queues Work</h4>
+                                
+                                <p><strong>1. Producer (Sender)</strong></p>
+                                <ul>
+                                    <li>Creates and sends messages to the queue</li>
+                                    <li>Doesn't wait for the message to be processed</li>
+                                    <li>Can continue with other tasks immediately</li>
+                                </ul>
+                                
+                                <p><strong>2. Queue (Buffer)</strong></p>
+                                <ul>
+                                    <li>Stores messages until they're processed</li>
+                                    <li>Ensures messages aren't lost</li>
+                                    <li>Can handle multiple producers and consumers</li>
+                                </ul>
+                                
+                                <p><strong>3. Consumer (Receiver)</strong></p>
+                                <ul>
+                                    <li>Pulls messages from the queue when ready</li>
+                                    <li>Processes messages at its own pace</li>
+                                    <li>Acknowledges successful processing</li>
+                                </ul>
+                                
+                                <h4>Key Benefits</h4>
+                                <ul>
+                                    <li><strong>Decoupling:</strong> Services don't need to know about each other</li>
+                                    <li><strong>Reliability:</strong> Messages aren't lost if services are down</li>
+                                    <li><strong>Scalability:</strong> Add more consumers to handle increased load</li>
+                                    <li><strong>Resilience:</strong> System continues working if parts fail</li>
+                                    <li><strong>Load Balancing:</strong> Distribute work across multiple workers</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-amazon"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon Order Processing</h5>
+                                        <p>When you place an order on Amazon, it goes through a message queue system. The order is placed in a queue, and separate services handle payment processing, inventory updates, shipping, and notification - all working independently through message queues.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-inbox"></i> Queue Types</h4>
+                                <p>FIFO (First In, First Out), priority queues, dead letter queues for failed messages.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-check-circle"></i> Message Acknowledgment</h4>
+                                <p>Consumers acknowledge successful processing; unacknowledged messages are re-queued.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-redo"></i> Message Patterns</h4>
+                                <p>Point-to-point, publish-subscribe, request-reply, and competing consumers patterns.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Persistence</h4>
+                                <p>Durable queues store messages on disk to survive system restarts and failures.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Message queues enable asynchronous communication</li>
+                                <li>Provide decoupling between services</li>
+                                <li>Improve reliability and scalability</li>
+                                <li>Support various messaging patterns</li>
+                                <li>Essential for microservices architecture</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Message Queue Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>How message queues connect producers and consumers</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Producer</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 100px; height: 50px; background: #28a745; color: white; border-radius: 8px; line-height: 50px; font-size: 14px;">Message Queue</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #ffc107; border-radius: 5px; line-height: 40px; font-size: 12px;">Consumer</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 12px; color: #666;">
+                                            Async communication with message buffering
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Competing Consumers Pattern</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-users"></i>
+                                    <p>Multiple consumers processing messages from the same queue</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
+                                            <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Producer</div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="width: 100px; height: 50px; background: #28a745; color: white; border-radius: 8px; line-height: 50px; font-size: 14px;">Queue</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="width: 60px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 10px;">Worker 1</div>
+                                            <div style="width: 60px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 10px;">Worker 2</div>
+                                            <div style="width: 60px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 10px;">Worker 3</div>
+                                        </div>
+                                        <div style="margin-top: 10px; font-size: 11px; color: #666;">
+                                            Messages distributed among available workers
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are message queues and why are they used?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Message queues are asynchronous communication systems that allow applications to exchange messages without being directly connected. They're used for:</p>
+                                    <ul>
+                                        <li><strong>Decoupling:</strong> Services don't need to know about each other</li>
+                                        <li><strong>Reliability:</strong> Messages persist until processed</li>
+                                        <li><strong>Scalability:</strong> Handle varying loads by adding consumers</li>
+                                        <li><strong>Resilience:</strong> System continues during failures</li>
+                                        <li><strong>Load Balancing:</strong> Distribute work across workers</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between queues and topics?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Queues (Point-to-Point):</strong></p>
+                                    <ul>
+                                        <li>Each message consumed by only one consumer</li>
+                                        <li>One-to-one or one-to-many (competing consumers)</li>
+                                        <li>Used for task distribution</li>
+                                        <li>Example: Order processing queue</li>
+                                    </ul>
+                                    <p><strong>Topics (Publish-Subscribe):</strong></p>
+                                    <ul>
+                                        <li>Each message delivered to all subscribers</li>
+                                        <li>One-to-many broadcast</li>
+                                        <li>Used for notifications and events</li>
+                                        <li>Example: Stock price updates to all traders</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is a dead letter queue?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A dead letter queue (DLQ) is a secondary queue where messages that cannot be processed are sent. Reasons include:</p>
+                                    <ul>
+                                        <li><strong>Processing Failures:</strong> Consumer crashes or errors</li>
+                                        <li><strong>Message Format Issues:</strong> Invalid or corrupted messages</li>
+                                        <li><strong>Timeouts:</strong> Messages not processed within time limit</li>
+                                        <li><strong>Exceeded Retries:</strong> Failed after multiple attempts</li>
+                                    </ul>
+                                    <p>DLQs help in debugging, monitoring, and manual intervention for problematic messages.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you ensure message reliability in queues?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Reliability techniques include:</p>
+                                    <ul>
+                                        <li><strong>Persistence:</strong> Store messages on disk</li>
+                                        <li><strong>Acknowledgments:</strong> Confirm successful processing</li>
+                                        <li><strong>Retries:</strong> Retry failed messages with backoff</li>
+                                        <li><strong>Duplication:</strong> Handle duplicate message processing</li>
+                                        <li><strong>Dead Letter Queues:</strong> Capture failed messages</li>
+                                        <li><strong>Monitoring:</strong> Track queue depth and processing times</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Message Queues</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the primary benefit of message queues?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Faster synchronous communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Reduced code complexity</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Asynchronous decoupled communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Better data encryption</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. In message queuing, what does FIFO stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Fast Input Fast Output</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>First In First Out</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>File Input File Output</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>First In Final Out</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What happens when a consumer acknowledges a message?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>The message is removed from the queue</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>The message is sent to another consumer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>The message is duplicated</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>The message is ignored</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a dead letter queue used for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Storing high priority messages</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Temporary message storage</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Message compression</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Storing messages that failed processing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which pattern allows multiple consumers to receive the same message?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Point-to-point</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Publish-subscribe</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Request-reply</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Competing consumers</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Building scalable systems with microservices</p>
+                        </div>
+                    </a>
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical vs Horizontal scaling techniques</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

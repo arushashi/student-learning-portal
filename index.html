@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design Learning Portal</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <main class="main">
+        <div class="container">
+            <header class="header">
+                <h1>System Design Learning Portal</h1>
+                <p>Learn core system design concepts</p>
+            </header>
+
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for system design topics..." class="search-input">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section class="topics">
+                <div class="topics-grid">
+                    <!-- Networking Fundamentals -->
+                    <div class="topic-card" data-topic="dns">
+                        <div class="topic-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>DNS</h3>
+                            <p>Domain Name System resolution</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="tcp-udp">
+                        <div class="topic-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>TCP & UDP</h3>
+                            <p>Transport layer protocols</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="http">
+                        <div class="topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>HTTP Protocol</h3>
+                            <p>Web communication protocol</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="client-server">
+                        <div class="topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Client-Server Model</h3>
+                            <p>Network architecture pattern</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="proxy">
+                        <div class="topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Forward & Reverse Proxy</h3>
+                            <p>Proxy server concepts</p>
+                        </div>
+                    </div>
+
+                    <!-- Architectural Patterns -->
+                    <div class="topic-card" data-topic="load-balancing">
+                        <div class="topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Load Balancing</h3>
+                            <p>Distribute traffic across servers</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="api-gateway">
+                        <div class="topic-icon">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>API Gateway</h3>
+                            <p>Single entry point for APIs</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="cdn">
+                        <div class="topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>CDN</h3>
+                            <p>Content Delivery Networks</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="microservices">
+                        <div class="topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Microservices</h3>
+                            <p>Distributed architecture</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="event-driven">
+                        <div class="topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Event-Driven Architecture</h3>
+                            <p>Event-based systems</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="multi-tier">
+                        <div class="topic-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Multi-Tier Architecture</h3>
+                            <p>Layered system design</p>
+                        </div>
+                    </div>
+
+                    <!-- Web Concepts -->
+                    <div class="topic-card" data-topic="sessions">
+                        <div class="topic-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Web Sessions</h3>
+                            <p>Managing user state</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="serialization">
+                        <div class="topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Serialization</h3>
+                            <p>Data exchange formats</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="cors">
+                        <div class="topic-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>CORS</h3>
+                            <p>Cross-origin resource sharing</p>
+                        </div>
+                    </div>
+
+                    <!-- Performance & Scalability -->
+                    <div class="topic-card" data-topic="caching">
+                        <div class="topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Caching</h3>
+                            <p>Performance optimization</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="database-scaling">
+                        <div class="topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Database Scaling</h3>
+                            <p>Vertical & horizontal scaling</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="autoscaling">
+                        <div class="topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Autoscaling</h3>
+                            <p>Dynamic resource scaling</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="performance">
+                        <div class="topic-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>System Performance</h3>
+                            <p>Performance optimization</p>
+                        </div>
+                    </div>
+
+                    <!-- Storage & Databases -->
+                    <div class="topic-card" data-topic="cap-theorem">
+                        <div class="topic-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>CAP Theorem</h3>
+                            <p>Database consistency</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="sql-nosql">
+                        <div class="topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>SQL vs NoSQL</h3>
+                            <p>Database models comparison</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="sharding">
+                        <div class="topic-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Database Sharding</h3>
+                            <p>Horizontal partitioning</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="replication">
+                        <div class="topic-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Database Replication</h3>
+                            <p>Data redundancy</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="object-storage">
+                        <div class="topic-icon">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Object Storage</h3>
+                            <p>Scalable storage systems</p>
+                        </div>
+                    </div>
+
+                    <!-- API & Communication -->
+                    <div class="topic-card" data-topic="api-design">
+                        <div class="topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>API Design</h3>
+                            <p>RESTful principles</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="rest">
+                        <div class="topic-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>REST & RESTfulness</h3>
+                            <p>API design principles</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="real-time">
+                        <div class="topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Real-Time Communication</h3>
+                            <p>WebSockets & WebRTC</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="modern-apis">
+                        <div class="topic-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Modern API Protocols</h3>
+                            <p>GraphQL, gRPC, etc.</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="message-queues">
+                        <div class="topic-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Message Queues</h3>
+                            <p>Asynchronous messaging</p>
+                        </div>
+                    </div>
+
+                    <!-- Reliability & Security -->
+                    <div class="topic-card" data-topic="reliability">
+                        <div class="topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>System Reliability</h3>
+                            <p>High availability</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="high-availability">
+                        <div class="topic-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>High Availability</h3>
+                            <p>Fault tolerance</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="backup-recovery">
+                        <div class="topic-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Backup & Recovery</h3>
+                            <p>Data protection</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="security">
+                        <div class="topic-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>System Security</h3>
+                            <p>Security fundamentals</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="auth">
+                        <div class="topic-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Authentication</h3>
+                            <p>User verification</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic="rate-limiting">
+                        <div class="topic-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="topic-content">
+                            <h3>Rate Limiting</h3>
+                            <p>API protection</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

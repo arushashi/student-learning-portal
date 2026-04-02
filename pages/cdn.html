@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Delivery Networks - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Content Delivery Networks</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Content Delivery Networks</h1>
+                    <p class="topic-description">Global content distribution for low latency and high availability</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 18 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="cdn">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is a Content Delivery Network?</h3>
+                                <p>A Content Delivery Network (CDN) is a geographically distributed network of servers that caches content closer to end-users. When a user requests content, the CDN delivers it from the nearest server, reducing latency and improving performance.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> CDNs are like having local warehouses for your content - users get served from the nearest location instead of waiting for shipments from a central warehouse.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you run a popular pizza restaurant in New York, but customers worldwide want your pizza. If you ship every pizza from New York, customers in Tokyo would wait days. Instead, you open pizza restaurants in major cities worldwide - that's exactly how CDNs work!</p>
+                                
+                                <p>CDNs work through a simple process:</p>
+                                
+                                <ul>
+                                    <li><strong>Content Caching:</strong> Your content (images, videos, CSS, JS) is copied to CDN servers worldwide</li>
+                                    <li><strong>Geographic Distribution:</strong> CDN servers are strategically placed near population centers</li>
+                                    <li><strong>Smart Routing:</strong> When users request content, they're directed to the nearest CDN server</li>
+                                    <li><strong>Fast Delivery:</strong> Content travels shorter distances, reducing latency</li>
+                                    <li><strong>Automatic Updates:</strong> When you update content, CDN servers refresh their cache</li>
+                                </ul>
+                                
+                                <h4>Benefits of CDNs</h4>
+                                <ul>
+                                    <li><strong>Faster Load Times:</strong> Reduced latency means content loads quicker</li>
+                                    <li><strong>Better User Experience:</strong> Users get faster, more responsive websites</li>
+                                    <li><strong>Reduced Server Load:</strong> Your main server handles fewer requests</li>
+                                    <li><strong>Higher Availability:</strong> If one CDN server fails, others take over</li>
+                                    <li><strong>Scalability:</strong> Handle traffic spikes without upgrading your infrastructure</li>
+                                    <li><strong>Security:</strong> Many CDNs offer DDoS protection and security features</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-netflix"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Netflix Streaming</h5>
+                                        <p>Netflix uses CDNs extensively to stream movies and TV shows. When you watch Netflix, you're actually streaming from a CDN server near you, not from Netflix's main servers. This ensures smooth playback even during peak hours.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-map-marked-alt"></i> Edge Servers</h4>
+                                <p>CDN servers located at the "edge" of the network, close to users for faster content delivery.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync"></i> Cache Invalidation</h4>
+                                <p>Process of updating CDN servers when original content changes to ensure users get the latest version.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-route"></i> DNS Resolution</h4>
+                                <p>CDNs use DNS to direct users to the nearest server based on geographic location and network conditions.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security Features</h4>
+                                <p>Many CDNs provide DDoS protection, Web Application Firewall (WAF), and other security services.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>CDNs distribute content globally for faster access</li>
+                                <li>Reduce latency by serving from nearby servers</li>
+                                <li>Improve user experience and website performance</li>
+                                <li>Provide scalability and reliability</li>
+                                <li>Offer additional security and DDoS protection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>CDN Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>How CDN distributes content globally</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 120px; height: 40px; background: #667eea; color: white; border-radius: 10px; line-height: 40px; margin-bottom: 20px;">
+                                            Origin Server
+                                        </div>
+                                        <br>
+                                        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">CDN</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">USA</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">CDN</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Europe</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">CDN</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Asia</div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="width: 40px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 10px;">User</div>
+                                            <div style="width: 40px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 10px;">User</div>
+                                            <div style="width: 40px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 10px;">User</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Request Flow Comparison</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>Without CDN vs With CDN</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Without CDN</div>
+                                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                                <div style="width: 40px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 10px;">User</div>
+                                                <span>→</span>
+                                                <div style="width: 80px; height: 30px; background: #dc3545; color: white; border-radius: 5px; line-height: 30px; font-size: 12px;">Origin (Slow)</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: bold; margin-bottom: 10px;">With CDN</div>
+                                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                                <div style="width: 40px; height: 20px; background: #ffc107; border-radius: 3px; line-height: 20px; font-size: 10px;">User</div>
+                                                <span>→</span>
+                                                <div style="width: 60px; height: 25px; background: #28a745; color: white; border-radius: 5px; line-height: 25px; font-size: 11px;">CDN (Fast)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is a CDN and how does it work?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A CDN (Content Delivery Network) is a distributed network of servers that delivers web content to users based on their geographic location. It works by:</p>
+                                    <ul>
+                                        <li><strong>Content Caching:</strong> Storing copies of content on edge servers worldwide</li>
+                                        <li><strong>Geographic Routing:</strong> Directing users to the nearest server</li>
+                                        <li><strong>Reduced Latency:</strong> Content travels shorter distances</li>
+                                        <li><strong>Load Distribution:</strong> Spreading traffic across multiple servers</li>
+                                        <li><strong>Automatic Failover:</strong> Redirecting traffic if servers fail</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the benefits of using a CDN?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Key benefits include:</p>
+                                    <ul>
+                                        <li><strong>Performance:</strong> Faster content delivery and reduced latency</li>
+                                        <li><strong>Scalability:</strong> Handle traffic spikes without infrastructure upgrades</li>
+                                        <li><strong>Reliability:</strong> High availability with redundant servers</li>
+                                        <li><strong>Cost Savings:</strong> Reduced bandwidth costs and server load</li>
+                                        <li><strong>Security:</strong> DDoS protection and WAF features</li>
+                                        <li><strong>SEO Benefits:</strong> Faster sites rank better in search engines</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do CDNs handle cache invalidation?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CDNs handle cache invalidation through several methods:</p>
+                                    <ul>
+                                        <li><strong>Time-Based Expiration:</strong> Content expires after specified TTL (Time To Live)</li>
+                                        <li><strong>Purge Requests:</strong> Manual invalidation when content is updated</li>
+                                        <li><strong>Version Control:</strong> Using different URLs for different content versions</li>
+                                        <li><strong>Cache Busting:</strong> Adding query parameters or version numbers to URLs</li>
+                                        <li><strong>API-Based Invalidation:</strong> Programmatic cache clearing through APIs</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What types of content are typically served through CDNs?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CDNs typically serve:</p>
+                                    <ul>
+                                        <li><strong>Static Assets:</strong> Images, CSS, JavaScript files</li>
+                                        <li><strong>Media Files:</strong> Videos, audio files, streaming content</li>
+                                        <li><strong>Documents:</strong> PDFs, text files, downloads</li>
+                                        <li><strong>API Responses:</strong> Cached API responses for faster delivery</li>
+                                        <li><strong>Websites:</strong> Entire websites for static site hosting</li>
+                                        <li><strong>Software Updates:</strong> Application updates and patches</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Content Delivery Networks</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What does CDN stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Content Distribution Network</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Central Data Network</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Content Delivery Network</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Cache Data Network</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. What is the primary benefit of using a CDN?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Increased security</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Reduced latency and faster content delivery</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Better data encryption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Reduced storage requirements</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. How do CDNs determine which server to use?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Based on user's geographic location</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Random selection</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Based on server load only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Based on content type</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is cache invalidation in CDNs?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Building new CDN servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Increasing cache size</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Backing up cache data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Updating CDN servers when content changes</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which type of content is most suitable for CDN caching?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Real-time database queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Static assets like images and CSS</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>User-specific data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Dynamic API responses</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical vs Horizontal scaling techniques</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

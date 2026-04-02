@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Scaling - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Database Scaling</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Database Scaling</h1>
+                    <p class="topic-description">Vertical vs Horizontal scaling techniques for handling growing data demands</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 25 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="database-scaling">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Database Scaling?</h3>
+                                <p>Database scaling is the process of increasing database capacity to handle growing amounts of data and increasing traffic. It involves strategies to improve performance, availability, and reliability of database systems as application demands increase.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Database scaling is like expanding a library - you can either build bigger shelves (vertical) or open more branches (horizontal).</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine your database is a restaurant. As more customers come, you need to serve them faster. You have two options:</p>
+                                
+                                <p><strong>Vertical Scaling (Scale Up):</strong> Make your restaurant bigger - add more tables, hire more staff, get a bigger kitchen. This means upgrading your single server with more CPU, RAM, and storage.</p>
+                                
+                                <p><strong>Horizontal Scaling (Scale Out):</strong> Open more restaurant branches - each branch serves customers in its area. This means adding more servers to share the load.</p>
+                                
+                                <h4>Vertical Scaling (Scale Up)</h4>
+                                <ul>
+                                    <li><strong>Simple Implementation:</strong> Just upgrade hardware</li>
+                                    <li><strong>No Code Changes:</strong> Application remains the same</li>
+                                    <li><strong>Limited Growth:</strong> Hardware has physical limits</li>
+                                    <li><strong>Single Point of Failure:</strong> If server fails, everything stops</li>
+                                    <li><strong>Higher Cost:</strong> Premium hardware is expensive</li>
+                                </ul>
+                                
+                                <h4>Horizontal Scaling (Scale Out)</h4>
+                                <ul>
+                                    <li><strong>Unlimited Growth:</strong> Add more servers as needed</li>
+                                    <li><strong>Better Reliability:</strong> If one server fails, others continue</li>
+                                    <li><strong>Cost Effective:</strong> Use commodity hardware</li>
+                                    <li><strong>Complex Implementation:</strong> Requires distributed architecture</li>
+                                    <li><strong>Code Changes:</strong> Application must handle multiple servers</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-facebook"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Facebook's Database Strategy</h5>
+                                        <p>Facebook uses horizontal scaling with thousands of database servers. They developed custom database solutions like Cassandra to handle massive amounts of user data across multiple data centers worldwide.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrow-up"></i> Vertical Scaling</h4>
+                                <p>Upgrading single server resources (CPU, RAM, storage). Simple but limited by hardware constraints.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-h"></i> Horizontal Scaling</h4>
+                                <p>Adding more servers to distribute load. Complex but offers unlimited scalability and better fault tolerance.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-code-branch"></i> Database Sharding</h4>
+                                <p>Partitioning data across multiple servers. Each shard handles a subset of the data.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-copy"></i> Database Replication</h4>
+                                <p>Creating copies of database across multiple servers for read scaling and fault tolerance.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Vertical scaling: Upgrade single server (scale up)</li>
+                                <li>Horizontal scaling: Add more servers (scale out)</li>
+                                <li>Sharding: Partition data across servers</li>
+                                <li>Replication: Copy data for read scaling</li>
+                                <li>Choice depends on use case, budget, and complexity requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Vertical vs Horizontal Scaling</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Comparison of scaling approaches</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Vertical Scaling</div>
+                                            <div style="display: inline-block; width: 60px; height: 80px; background: #667eea; color: white; border-radius: 5px; line-height: 80px;">Small</div>
+                                            <span style="margin: 0 10px;">→</span>
+                                            <div style="display: inline-block; width: 100px; height: 120px; background: #667eea; color: white; border-radius: 5px; line-height: 120px;">Big</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Horizontal Scaling</div>
+                                            <div style="display: flex; justify-content: center; gap: 5px;">
+                                                <div style="width: 40px; height: 60px; background: #28a745; color: white; border-radius: 5px; line-height: 60px;">DB1</div>
+                                                <span>→</span>
+                                                <div style="width: 40px; height: 60px; background: #28a745; color: white; border-radius: 5px; line-height: 60px;">DB1</div>
+                                                <div style="width: 40px; height: 60px; background: #28a745; color: white; border-radius: 5px; line-height: 60px;">DB2</div>
+                                                <div style="width: 40px; height: 60px; background: #28a745; color: white; border-radius: 5px; line-height: 60px;">DB3</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Database Sharding Example</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-code-branch"></i>
+                                    <p>Data partitioning strategy</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 120px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; margin-bottom: 20px;">
+                                            Application
+                                        </div>
+                                        <br>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">Shard 1</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Users A-F</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">Shard 2</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Users G-M</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">Shard 3</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Users N-Z</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between vertical and horizontal scaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Vertical Scaling (Scale Up):</strong></p>
+                                    <ul>
+                                        <li>Increasing resources of a single server (CPU, RAM, storage)</li>
+                                        <li>Simple to implement - no application changes needed</li>
+                                        <li>Limited by hardware constraints</li>
+                                        <li>Single point of failure</li>
+                                        <li>Higher cost for high-end hardware</li>
+                                    </ul>
+                                    <p><strong>Horizontal Scaling (Scale Out):</strong></p>
+                                    <ul>
+                                        <li>Adding more servers to distribute load</li>
+                                        <li>Complex implementation requiring distributed architecture</li>
+                                        <li>Virtually unlimited scalability</li>
+                                        <li>Better fault tolerance and reliability</li>
+                                        <li>Cost-effective using commodity hardware</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is database sharding and when would you use it?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Database sharding is partitioning data across multiple servers where each server contains a subset of the total data. Use it when:</p>
+                                    <ul>
+                                        <li>Single database can't handle the load</li>
+                                        <li>Write operations are too frequent for replication</li>
+                                        <li>Data can be naturally partitioned (by geography, user ID, etc.)</li>
+                                        <li>You need to scale beyond what a single server can handle</li>
+                                        <li>Read/write patterns don't require cross-shard queries</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the challenges of horizontal scaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Challenges include:</p>
+                                    <ul>
+                                        <li><strong>Data Consistency:</strong> Keeping data synchronized across servers</li>
+                                        <li><strong>Complex Queries:</strong> Cross-server joins are difficult</li>
+                                        <li><strong>Operational Complexity:</strong> Managing multiple servers</li>
+                                        <li><strong>Network Latency:</strong> Communication between servers</li>
+                                        <li><strong>Load Balancing:</strong> Distributing requests evenly</li>
+                                        <li><strong>Failure Handling:</strong> Dealing with server failures</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is database replication and how does it help with scaling?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Database replication creates and maintains copies of database data across multiple servers. It helps with scaling by:</p>
+                                    <ul>
+                                        <li><strong>Read Scaling:</strong> Direct read queries to replica servers</li>
+                                        <li><strong>High Availability:</strong> If master fails, replica can take over</li>
+                                        <li><strong>Geographic Distribution:</strong> Serve users from nearby replicas</li>
+                                        <li><strong>Backup and Recovery:</strong> Replicas serve as backups</li>
+                                        <li><strong>Load Distribution:</strong> Spread read load across multiple servers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Database Scaling</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is vertical scaling also known as?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Scale out</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Scale up</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Scale across</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Scale down</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. What is database sharding?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Creating database backups</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Compressing database data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Partitioning data across multiple servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Encrypting database data</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. Which scaling approach has better fault tolerance?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Horizontal scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Vertical scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Both are equal</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Neither has fault tolerance</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a major advantage of vertical scaling?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Unlimited growth potential</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Better fault tolerance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Lower cost</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Simple implementation</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Database replication primarily helps with what type of scaling?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Write scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Read scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Storage scaling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Network scaling</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Building scalable systems with microservices</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Protocol - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">HTTP Protocol</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>HTTP Protocol</h1>
+                    <p class="topic-description">The backbone of web communication and RESTful APIs</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 19 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="http">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is HTTP?</h3>
+                                <p>HTTP (Hypertext Transfer Protocol) is the foundation of data communication on the World Wide Web. It's a request-response protocol that enables clients (browsers) to request resources from servers and receive responses. HTTP is the protocol that powers virtually all web browsing and API interactions.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> HTTP is like the language of the internet - it defines how web browsers and servers talk to each other to deliver web pages, images, videos, and API data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of HTTP like ordering food at a restaurant. You (the client) look at the menu (web page), decide what you want, and tell the waiter (HTTP request) your order. The waiter goes to the kitchen (server), brings back your food (HTTP response), and you enjoy your meal!</p>
+                                
+                                <h4>HTTP Request-Response Cycle</h4>
+                                
+                                <p><strong>1. Client Makes Request</strong></p>
+                                <ul>
+                                    <li>Browser creates HTTP request with method, URL, headers, and optional body</li>
+                                    <li>Request sent over TCP connection to server</li>
+                                    <li>Server receives and processes the request</li>
+                                </ul>
+                                
+                                <p><strong>2. Server Sends Response</strong></p>
+                                <ul>
+                                    <li>Server processes request and generates response</li>
+                                    <li>Response includes status code, headers, and body</li>
+                                    <li>Response sent back to client over TCP</li>
+                                    <li>Client processes response and displays content</li>
+                                </ul>
+                                
+                                <h4>HTTP Methods</h4>
+                                
+                                <p><strong>GET:</strong> Retrieve data (safe, idempotent)</p>
+                                <p><strong>POST:</strong> Create new resource</p>
+                                <p><strong>PUT:</strong> Replace entire resource (idempotent)</p>
+                                <p><strong>PATCH:</strong> Partial update of resource</p>
+                                <p><strong>DELETE:</strong> Remove resource (idempotent)</p>
+                                <p><strong>HEAD:</strong> Get headers only (like GET but no body)</p>
+                                <p><strong>OPTIONS:</strong> Get allowed methods for resource</p>
+                                
+                                <h4>HTTP Status Codes</h4>
+                                
+                                <p><strong>2xx Success:</strong></p>
+                                <ul>
+                                    <li>200 OK - Request successful</li>
+                                    <li>201 Created - Resource created successfully</li>
+                                    <li>204 No Content - Success but no content to return</li>
+                                </ul>
+                                
+                                <p><strong>3xx Redirection:</strong></p>
+                                <ul>
+                                    <li>301 Moved Permanently - Resource permanently moved</li>
+                                    <li>302 Found - Resource temporarily moved</li>
+                                    <li>304 Not Modified - Use cached version</li>
+                                </ul>
+                                
+                                <p><strong>4xx Client Error:</strong></p>
+                                <ul>
+                                    <li>400 Bad Request - Invalid request</li>
+                                    <li>401 Unauthorized - Authentication required</li>
+                                    <li>403 Forbidden - Access denied</li>
+                                    <li>404 Not Found - Resource doesn't exist</li>
+                                    <li>429 Too Many Requests - Rate limited</li>
+                                </ul>
+                                
+                                <p><strong>5xx Server Error:</strong></p>
+                                <ul>
+                                    <li>500 Internal Server Error - Generic server error</li>
+                                    <li>502 Bad Gateway - Invalid response from upstream</li>
+                                    <li>503 Service Unavailable - Server temporarily down</li>
+                                </ul>
+                                
+                                <h4>HTTP Headers</h4>
+                                
+                                <p><strong>Request Headers:</strong></p>
+                                <ul>
+                                    <li>Host - Domain name of server</li>
+                                    <li>User-Agent - Client information</li>
+                                    <li>Accept - Content types client can handle</li>
+                                    <li>Authorization - Authentication credentials</li>
+                                    <li>Content-Type - Format of request body</li>
+                                </ul>
+                                
+                                <p><strong>Response Headers:</strong></p>
+                                <ul>
+                                    <li>Content-Type - Format of response body</li>
+                                    <li>Content-Length - Size of response body</li>
+                                    <li>Cache-Control - Caching instructions</li>
+                                    <li>Set-Cookie - Set cookies for client</li>
+                                    <li>Location - URL for redirection</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-chrome"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Web Browser Request</h5>
+                                        <p>When you visit google.com, your browser sends: GET / HTTP/1.1 with headers like User-Agent and Accept. Google responds with status 200, headers including Content-Type: text/html, and the HTML content that renders the page.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Stateless Protocol</h4>
+                                <p>Each request is independent; servers don't maintain client state between requests.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> HTTP Versions</h4>
+                                <p>HTTP/1.0, HTTP/1.1, HTTP/2, and HTTP/3 with improvements in performance and features.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> HTTPS</h4>
+                                <p>HTTP over TLS/SSL for encrypted communication, ensuring data privacy and integrity.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-cookie"></i> Cookies</h4>
+                                <p>HTTP cookies enable state management by storing data on client for session tracking.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>HTTP is request-response protocol for web communication</li>
+                                <li>Uses methods like GET, POST, PUT, DELETE for operations</li>
+                                <li>Status codes indicate request success or failure</li>
+                                <li>Headers provide metadata about requests and responses</li>
+                                <li>Stateless but can maintain state via cookies and sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>HTTP Request-Response Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>How HTTP requests and responses work</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Client</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Browser</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 12px; margin-bottom: 5px;">HTTP Request</div>
+                                                <div style="font-size: 10px;">GET /page.html</div>
+                                                <div style="font-size: 10px;">Headers</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Server</div>
+                                                <div style="font-size: 10px; margin-top: 5px;">Web Server</div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 12px; margin-top: 5px;">HTTP Response</div>
+                                                <div style="font-size: 10px;">200 OK</div>
+                                                <div style="font-size: 10px;">Headers + Body</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>HTTP Methods and Their Uses</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-cogs"></i>
+                                    <p>Common HTTP methods and what they do</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #28a745; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">GET</span>
+                                            <span style="margin-left: 10px;">Retrieve data (safe, cacheable)</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #007bff; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">POST</span>
+                                            <span style="margin-left: 10px;">Create new resource</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #ffc107; color: black; padding: 3px 8px; border-radius: 3px; font-size: 11px;">PUT</span>
+                                            <span style="margin-left: 10px;">Replace entire resource</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="background: #fd7e14; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">PATCH</span>
+                                            <span style="margin-left: 10px;">Partial update</span>
+                                        </div>
+                                        <div>
+                                            <span style="background: #dc3545; color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px;">DELETE</span>
+                                            <span style="margin-left: 10px;">Remove resource</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is HTTP and how does it work?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>HTTP (Hypertext Transfer Protocol) is the foundation of web communication. It works through:</p>
+                                    <ul>
+                                        <li><strong>Request-Response Model:</strong> Client sends request, server responds</li>
+                                        <li><strong>Stateless Protocol:</strong> Each request is independent</li>
+                                        <li><strong>TCP-based:</strong> Reliable transport layer</li>
+                                        <li><strong>Text-based:</strong> Human-readable protocol</li>
+                                        <li><strong>Application Layer:</strong> Layer 7 in OSI model</li>
+                                    </ul>
+                                    <p>Typical flow: Client creates HTTP request → Server processes → Server sends response → Client processes response.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between HTTP and HTTPS?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>HTTP (Hypertext Transfer Protocol):</strong></p>
+                                    <ul>
+                                        <li>Unencrypted communication</li>
+                                        <li>Data sent in plain text</li>
+                                        <li>Vulnerable to eavesdropping</li>
+                                        <li>Uses port 80 by default</li>
+                                        <li>Faster due to no encryption overhead</li>
+                                    </ul>
+                                    <p><strong>HTTPS (HTTP Secure):</strong></p>
+                                    <ul>
+                                        <li>Encrypted with TLS/SSL</li>
+                                        <li>Data protected from interception</li>
+                                        <li>Authentication via certificates</li>
+                                        <li>Uses port 443 by default</li>
+                                        <li>Slower due to encryption overhead</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are idempotent HTTP methods?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Idempotent methods produce the same result regardless of how many times they're called:</p>
+                                    <p><strong>Idempotent Methods:</strong></p>
+                                    <ul>
+                                        <li><strong>GET:</strong> Always returns same resource</li>
+                                        <li><strong>PUT:</strong> Replacing resource with same content</li>
+                                        <li><strong>DELETE:</strong> Deleting same resource twice has same effect</li>
+                                        <li><strong>HEAD:</strong> Same as GET but no body</li>
+                                        <li><strong>OPTIONS:</strong> Same options returned</li>
+                                    </ul>
+                                    <p><strong>Non-Idempotent Methods:</strong></p>
+                                    <ul>
+                                        <li><strong>POST:</strong> Creates new resource each time</li>
+                                        <li><strong>PATCH:</strong> May have different effects based on current state</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What's the difference between PUT and PATCH?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>PUT:</strong></p>
+                                    <ul>
+                                        <li>Replaces entire resource</li>
+                                        <li>Idempotent operation</li>
+                                        <li>Requires complete resource representation</li>
+                                        <li>Client must send all fields</li>
+                                        <li>Use when updating entire resource</li>
+                                    </ul>
+                                    <p><strong>PATCH:</strong></p>
+                                    <ul>
+                                        <li>Partially updates resource</li>
+                                        <li>Not necessarily idempotent</li>
+                                        <li>Requires only changed fields</li>
+                                        <li>Client sends only what changed</li>
+                                        <li>Use for partial modifications</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of HTTP Protocol</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What does HTTP stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>HyperText Transfer Program</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>High Tech Transfer Protocol</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Hypertext Transfer Protocol</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Hyper Text Transaction Protocol</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which HTTP method is used to retrieve data?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>POST</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>GET</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>PUT</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>DELETE</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What status code indicates "Not Found"?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>404</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>200</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>500</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>301</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What makes HTTPS different from HTTP?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>It's faster</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>It uses UDP instead of TCP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>It has different methods</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>It encrypts communication</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which HTTP method is idempotent?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>POST</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>PUT</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>PATCH</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>None of the above</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/tcp-udp.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>TCP & UDP</h4>
+                            <p>Transport layer protocols for reliable and unreliable communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/rest-api.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>REST & RESTfulness</h4>
+                            <p>API design principles and best practices</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cors.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>CORS</h4>
+                            <p>Cross-Origin Resource Sharing and web security</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

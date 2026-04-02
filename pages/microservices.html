@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices Architecture - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Microservices Architecture</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Microservices Architecture</h1>
+                    <p class="topic-description">Building scalable systems with independently deployable services</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 30 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="microservices">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Microservices Architecture?</h3>
+                                <p>Microservices architecture is an approach to software development where a large application is built as a collection of small, independent services. Each service is self-contained, runs in its own process, and communicates with other services through well-defined APIs.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Instead of building one giant application, think of microservices as building a city with many specialized buildings - each has its own purpose but they work together as a complete system.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're building a large shopping mall. Instead of constructing one massive building that does everything, you build separate specialized stores: a grocery store, clothing store, electronics store, restaurant, etc. Each store operates independently but together they create a complete shopping experience. That's exactly how microservices work!</p>
+                                
+                                <p><strong>Traditional Monolithic Approach:</strong></p>
+                                <ul>
+                                    <li>Single, large application with all functionality</li>
+                                    <li>All code in one codebase</li>
+                                    <li>Changes require updating the entire application</li>
+                                    <li>Difficult to scale individual components</li>
+                                    <li>Single point of failure affects everything</li>
+                                </ul>
+                                
+                                <p><strong>Microservices Approach:</strong></p>
+                                <ul>
+                                    <li>Multiple small, independent services</li>
+                                    <li>Each service has its own codebase and database</li>
+                                    <li>Services can be updated independently</li>
+                                    <li>Each service can be scaled based on demand</li>
+                                    <li>Failure of one service doesn't affect others</li>
+                                </ul>
+                                
+                                <h4>Key Characteristics of Microservices</h4>
+                                <ul>
+                                    <li><strong>Single Responsibility:</strong> Each service does one thing well</li>
+                                    <li><strong>Independent:</strong> Services can be developed, deployed, and scaled independently</li>
+                                    <li><strong>Decentralized:</strong> Each service manages its own data</li>
+                                    <li><strong>Fault Isolation:</strong> Failure in one service doesn't cascade to others</li>
+                                    <li><strong>Technology Diversity:</strong> Different services can use different technologies</li>
+                                    <li><strong>API Communication:</strong> Services communicate through APIs</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-amazon"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon's Microservices</h5>
+                                        <p>Amazon was one of the pioneers of microservices. They broke their monolithic application into hundreds of microservices including user authentication, product catalog, payment processing, inventory management, and recommendation engine. This allows them to handle millions of transactions daily.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Service Communication</h4>
+                                <p>Services communicate through REST APIs, gRPC, or message queues like RabbitMQ and Kafka.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Data Management</h4>
+                                <p>Each service manages its own database, ensuring loose coupling and independent scaling.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-cogs"></i> Service Discovery</h4>
+                                <p>Services need to find and communicate with each other using service discovery mechanisms.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security</h4>
+                                <p>Implementing authentication, authorization, and secure communication between services.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Microservices break applications into small, independent services</li>
+                                <li>Each service has single responsibility and can be deployed independently</li>
+                                <li>Services communicate through APIs and message queues</li>
+                                <li>Offers better scalability, fault tolerance, and development speed</li>
+                                <li>Introduces complexity in service management and communication</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Monolithic vs Microservices Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Comparison of architectural approaches</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Monolithic</div>
+                                            <div style="display: inline-block; width: 120px; height: 80px; background: #dc3545; color: white; border-radius: 10px; line-height: 80px; font-size: 12px;">
+                                                All Features
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: bold; margin-bottom: 10px;">Microservices</div>
+                                            <div style="display: flex; justify-content: center; gap: 10px;">
+                                                <div style="width: 60px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 10px;">Auth</div>
+                                                <div style="width: 60px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 10px;">Orders</div>
+                                                <div style="width: 60px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 10px;">Users</div>
+                                                <div style="width: 60px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 10px;">Payment</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Microservices Communication Pattern</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>How services interact with each other</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                                            <div style="width: 70px; height: 35px; background: #667eea; color: white; border-radius: 5px; line-height: 35px; font-size: 11px;">API Gateway</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 50px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 9px;">Service 1</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 50px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 9px;">Service 2</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 50px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 9px;">Service 3</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 10px; margin-top: 10px; color: #666;">
+                                            Services communicate through APIs and Message Queues
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between monolithic and microservices architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Monolithic Architecture:</strong></p>
+                                    <ul>
+                                        <li>Single application with all functionality</li>
+                                        <li>Unified codebase and database</li>
+                                        <li>Easy to develop and test initially</li>
+                                        <li>Difficult to scale individual components</li>
+                                        <li>Single point of failure</li>
+                                        <li>Technology lock-in</li>
+                                    </ul>
+                                    <p><strong>Microservices Architecture:</strong></p>
+                                    <ul>
+                                        <li>Multiple independent services</li>
+                                        <li>Separate codebases and databases</li>
+                                        <li>Complex to manage initially</li>
+                                        <li>Individual service scaling</li>
+                                        <li>Fault isolation</li>
+                                        <li>Technology diversity</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the advantages of microservices?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Key advantages include:</p>
+                                    <ul>
+                                        <li><strong>Independent Deployment:</strong> Services can be deployed independently</li>
+                                        <li><strong>Technology Diversity:</strong> Different services can use different technologies</li>
+                                        <li><strong>Scalability:</strong> Scale individual services based on demand</li>
+                                        <li><strong>Fault Isolation:</strong> Failure of one service doesn't affect others</li>
+                                        <li><strong>Team Autonomy:</strong> Teams can work independently on different services</li>
+                                        <li><strong>Faster Development:</strong> Smaller codebases are easier to understand and modify</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the challenges of microservices architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Challenges include:</p>
+                                    <ul>
+                                        <li><strong>Complexity:</strong> Managing multiple services is complex</li>
+                                        <li><strong>Network Latency:</strong> Service communication adds latency</li>
+                                        <li><strong>Data Consistency:</strong> Maintaining consistency across services</li>
+                                        <li><strong>Testing:</strong> End-to-end testing is difficult</li>
+                                        <li><strong>Deployment:</strong> Complex deployment pipelines</li>
+                                        <li><strong>Monitoring:</strong> Tracking issues across distributed services</li>
+                                        <li><strong>Service Discovery:</strong> Services need to find each other</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do microservices communicate with each other?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Communication methods include:</p>
+                                    <ul>
+                                        <li><strong>REST APIs:</strong> HTTP-based synchronous communication</li>
+                                        <li><strong>gRPC:</strong> High-performance RPC framework</li>
+                                        <li><strong>Message Queues:</strong> Asynchronous communication (RabbitMQ, Kafka)</li>
+                                        <li><strong>Event Streaming:</strong> Event-driven architecture</li>
+                                        <li><strong>Service Mesh:</strong> Infrastructure layer for service communication</li>
+                                    </ul>
+                                    <p>Choice depends on requirements like latency, reliability, and complexity.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Microservices Architecture</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is a key characteristic of microservices?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Single large codebase</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Independent, deployable services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Shared database for all services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Centralized deployment</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. How do microservices typically communicate?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Direct database access</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Shared memory</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>APIs and message queues</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>File system sharing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is a major advantage of microservices?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Independent scaling and deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Simpler development process</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Lower infrastructure costs</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Easier testing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a challenge of microservices architecture?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Better performance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Easier debugging</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Simpler deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Increased complexity</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What pattern helps manage communication between microservices?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Monolithic pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>API Gateway pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Database pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Single service pattern</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical vs Horizontal scaling techniques</p>
+                        </div>
+                    </a>
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication patterns</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

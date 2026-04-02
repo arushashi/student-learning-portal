@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caching Strategies - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Caching Strategies</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-memory"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Caching Strategies</h1>
+                    <p class="topic-description">Improve performance by storing frequently accessed data in fast storage</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 20 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="caching">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Caching?</h3>
+                                <p>Caching is the process of storing frequently accessed data in a high-speed storage layer (cache) to serve future requests faster. Instead of repeatedly fetching data from slower storage like databases or APIs, the system retrieves it from the much faster cache, significantly improving response times and reducing load on backend systems.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Caching is like keeping frequently used items on your desk instead of going to the filing cabinet every time you need them.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of caching like your brain's short-term memory. When you learn something new, your brain stores it temporarily for quick access. Similarly, when a computer system frequently accesses the same data, it stores that data in a cache for rapid retrieval.</p>
+                                
+                                <p>Caching works by following a simple principle:</p>
+                                
+                                <ul>
+                                    <li><strong>First Request:</strong> Data is fetched from the original source (database, API, etc.)</li>
+                                    <li><strong>Storage:</strong> The data is stored in the cache for future use</li>
+                                    <li><strong>Subsequent Requests:</strong> Data is served directly from the cache</li>
+                                    <li><strong>Cache Miss:</strong> If data is not in cache, it's fetched from source and cached</li>
+                                    <li><strong>Cache Invalidation:</strong> Old data is removed when it becomes stale</li>
+                                </ul>
+                                
+                                <p>The benefits of caching include:</p>
+                                <ul>
+                                    <li><strong>Faster Response Times:</strong> Data retrieval from cache is much faster</li>
+                                    <li><strong>Reduced Database Load:</strong> Fewer queries hit the database</li>
+                                    <li><strong>Lower Costs:</strong> Reduced compute and database resources</li>
+                                    <li><strong>Better User Experience:</strong> Faster page loads and interactions</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>YouTube Video Streaming</h5>
+                                        <p>When you watch a popular YouTube video, it's cached at multiple levels - in your browser, at CDN edge locations, and on YouTube's servers. This ensures millions of viewers can stream the same video simultaneously without overwhelming YouTube's infrastructure.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Cache Types</h4>
+                                <p>Browser cache, CDN cache, database cache, application cache, and distributed cache systems like Redis.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Cache Invalidation</h4>
+                                <p>Strategies to remove outdated cache: Time-based expiration, event-based invalidation, and write-through patterns.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-line"></i> Cache Hit Ratio</h4>
+                                <p>The percentage of requests served from cache. Higher hit ratios indicate better caching performance.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exclamation-triangle"></i> Cache Challenges</h4>
+                                <p>Managing stale data, cache consistency, memory limitations, and cache warming strategies.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Caching stores frequently accessed data for faster retrieval</li>
+                                <li>Improves performance and reduces system load</li>
+                                <li>Multiple cache types: browser, CDN, database, application</li>
+                                <li>Cache invalidation is crucial for data consistency</li>
+                                <li>Trade-offs between speed and data freshness</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Cache Architecture Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Request flow with caching layers</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 100px; height: 40px; background: #667eea; color: white; border-radius: 10px; line-height: 40px; margin-bottom: 10px;">
+                                            User Request
+                                        </div>
+                                        <br>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                                            <div style="width: 80px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px;">Cache</div>
+                                            <div style="width: 80px; height: 30px; background: #ffc107; color: black; border-radius: 5px; line-height: 30px;">Database</div>
+                                        </div>
+                                        <div style="font-size: 12px; color: #666;">
+                                            Cache Hit: Fast Response | Cache Miss: Database Query
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Cache Invalidation Strategies</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <p>Different approaches to cache invalidation</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 10px;"><strong>Time-based:</strong> Expire after X minutes</div>
+                                        <div style="margin-bottom: 10px;"><strong>Event-based:</strong> Invalidate on data changes</div>
+                                        <div style="margin-bottom: 10px;"><strong>Write-through:</strong> Update cache and database</div>
+                                        <div><strong>Write-behind:</strong> Update cache, then database</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is caching and why is it important in system design?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Caching is storing frequently accessed data in fast storage to improve performance. It's important because it:</p>
+                                    <ul>
+                                        <li>Reduces latency and improves response times</li>
+                                        <li>Decreases load on databases and backend services</li>
+                                        <li>Lowers infrastructure costs</li>
+                                        <li>Improves user experience</li>
+                                        <li>Enables handling of high traffic volumes</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the different types of caching?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common cache types include:</p>
+                                    <ul>
+                                        <li><strong>Browser Cache:</strong> Stores static assets on user's browser</li>
+                                        <li><strong>CDN Cache:</strong> Edge servers distributed globally</li>
+                                        <li><strong>Database Cache:</strong> Query results and frequently accessed data</li>
+                                        <li><strong>Application Cache:</strong> In-memory caching within applications</li>
+                                        <li><strong>Distributed Cache:</strong> Redis, Memcached for multi-server systems</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is cache invalidation and why is it challenging?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Cache invalidation is removing outdated data from cache. It's challenging because:</p>
+                                    <ul>
+                                        <li><strong>Timing Issues:</strong> When to invalidate is critical</li>
+                                        <li><strong>Consistency:</strong> Ensuring all cache instances are updated</li>
+                                        <li><strong>Performance Impact:</strong> Frequent invalidation reduces cache benefits</li>
+                                        <li><strong>Complexity:</strong> Multiple invalidation strategies with different trade-offs</li>
+                                    </ul>
+                                    <p>Common strategies: TTL (Time To Live), event-driven, manual invalidation.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between cache-aside and write-through caching?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Cache-Aside (Lazy Loading):</strong></p>
+                                    <ul>
+                                        <li>Application manages cache</li>
+                                        <li>Data loaded into cache on first request</li>
+                                        <li>Cache miss triggers database query</li>
+                                        <li>Simpler to implement</li>
+                                    </ul>
+                                    <p><strong>Write-Through:</strong></p>
+                                    <ul>
+                                        <li>Cache updated whenever database is updated</li>
+                                        <li>Ensures cache always contains latest data</li>
+                                        <li>Higher write latency</li>
+                                        <li>More consistent data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Caching Strategies</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the primary benefit of caching?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Increased security</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Better data encryption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Faster data access</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Reduced storage requirements</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. Which cache type stores data on the user's browser?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Browser cache</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Database cache</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>CDN cache</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Application cache</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. What is cache invalidation?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Building new cache servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Removing outdated data from cache</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Increasing cache size</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Backing up cache data</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which is a popular distributed cache system?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>MySQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>PostgreSQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>MongoDB</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Redis</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What does a cache hit mean?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Cache server failure</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Data found in cache</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Cache is full</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Data not in cache</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cdn.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Content Delivery Networks</h4>
+                            <p>Global content distribution for low latency</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical vs Horizontal scaling techniques</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

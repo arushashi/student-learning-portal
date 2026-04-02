@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limiting - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Rate Limiting</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Rate Limiting</h1>
+                    <p class="topic-description">Protect your services from abuse and ensure fair resource usage</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">⏱ 20 min</span>
+                        <span class="last-updated">📅 April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="rate-limiting">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Rate Limiting?</h3>
+                                <p>Rate limiting is a technique used to control the rate of incoming requests to a server or API. It prevents abuse, ensures fair resource usage, and protects services from being overwhelmed by too many requests in a short period.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Rate limiting is like a traffic controller for your API - it ensures everyone gets their turn and prevents gridlock from too many requests at once.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a popular coffee shop that can only serve 100 customers per hour. If 200 people show up in one hour, the shop would be overwhelmed. Rate limiting is like the shop putting up a sign: "Maximum 100 customers per hour" - it ensures fair service and prevents chaos.</p>
+                                
+                                <h4>Why Rate Limiting is Important</h4>
+                                
+                                <p><strong>1. Prevent Abuse</strong></p>
+                                <ul>
+                                    <li>Stop malicious users from overwhelming your system</li>
+                                    <li>Prevent DDoS (Distributed Denial of Service) attacks</li>
+                                    <li>Block automated bots and scrapers</li>
+                                </ul>
+                                
+                                <p><strong>2. Ensure Fair Usage</strong></p>
+                                <ul>
+                                    <li>All users get equal access to resources</li>
+                                    <li>Prevent power users from monopolizing resources</li>
+                                    <li>Maintain quality of service for everyone</li>
+                                </ul>
+                                
+                                <p><strong>3. Cost Management</strong></p>
+                                <ul>
+                                    <li>Control infrastructure costs</li>
+                                    <li>Prevent unexpected traffic spikes</li>
+                                    <li>Manage third-party API costs</li>
+                                </ul>
+                                
+                                <h4>Common Rate Limiting Strategies</h4>
+                                
+                                <p><strong>Token Bucket Algorithm:</strong></p>
+                                <ul>
+                                    <li>Users get tokens at a fixed rate</li>
+                                    <li>Each request consumes one token</li>
+                                    <li>Requests are rejected when no tokens available</li>
+                                    <li>Allows burst traffic within limits</li>
+                                </ul>
+                                
+                                <p><strong>Leaky Bucket Algorithm:</strong></p>
+                                <ul>
+                                    <li>Requests go into a bucket with fixed capacity</li>
+                                    <li>Bucket leaks at a constant rate</li>
+                                    <li>Requests are processed at the leak rate</li>
+                                    <li>Smooths out traffic spikes</li>
+                                </ul>
+                                
+                                <p><strong>Fixed Window Counter:</strong></p>
+                                <ul>
+                                    <li>Count requests in fixed time windows</li>
+                                    <li>Reset counter at window boundary</li>
+                                    <li>Simple but can have edge issues</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Twitter API Rate Limits</h5>
+                                        <p>Twitter limits API requests to prevent abuse. Free accounts get 500,000 tweets per month, while premium tiers get higher limits. This ensures the platform remains stable and accessible to all users.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-coins"></i> Token Bucket</h4>
+                                <p>Flexible algorithm allowing burst traffic within token limits, refilling tokens at a steady rate.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tint"></i> Leaky Bucket</h4>
+                                <p>Smooths traffic by processing requests at a constant rate, regardless of input spikes.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-window-maximize"></i> Sliding Window</h4>
+                                <p>More accurate counting using sliding time windows instead of fixed intervals.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-user-shield"></i> User Identification</h4>
+                                <p>Rate limiting by IP address, user ID, API key, or combination of identifiers.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Rate limiting controls request frequency to prevent abuse</li>
+                                <li>Protects services from overload and DDoS attacks</li>
+                                <li>Ensures fair resource allocation among users</li>
+                                <li>Multiple algorithms: token bucket, leaky bucket, sliding window</li>
+                                <li>Essential for API stability and cost management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Rate Limiting Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>How rate limiting fits into API architecture</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Client</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 100px; height: 50px; background: #ffc107; color: black; border-radius: 8px; line-height: 50px; font-size: 14px;">Rate Limiter</div>
+                                            </div>
+                                            <span style="font-size: 20px;">→</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">API</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 12px; color: #666;">
+                                            Requests checked against limits before reaching API
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-card">
+                                <h4>Token Bucket Algorithm</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-coins"></i>
+                                    <p>How token bucket rate limiting works</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 15px;">
+                                            <div style="display: inline-block; width: 80px; height: 60px; background: #ffc107; color: black; border-radius: 8px; line-height: 60px; font-size: 14px;">
+                                                Token Bucket<br>
+                                                <span style="font-size: 10px;">(10 tokens)</span>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Request 1</div>
+                                                <div style="font-size: 9px; color: #28a745;">✓</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Request 2</div>
+                                                <div style="font-size: 9px; color: #28a745;">✓</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Request 3</div>
+                                                <div style="font-size: 9px; color: #dc3545;">✗</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 11px; color: #666;">
+                                            Tokens refilled at 1 token/second
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is rate limiting and why is it important?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Rate limiting controls the number of requests a client can make within a time period. It's important because it:</p>
+                                    <ul>
+                                        <li><strong>Prevents Abuse:</strong> Stops malicious users and DDoS attacks</li>
+                                        <li><strong>Ensures Fairness:</strong> All users get equal access</li>
+                                        <li><strong>Controls Costs:</strong> Manages infrastructure and API costs</li>
+                                        <li><strong>Protects Resources:</strong> Prevents system overload</li>
+                                        <li><strong>Maintains Quality:</strong> Ensures consistent performance</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the common rate limiting algorithms?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Token Bucket:</strong></p>
+                                    <ul>
+                                        <li>Fixed token capacity, refilled at constant rate</li>
+                                        <li>Allows burst traffic within token limits</li>
+                                        <li>Flexible and widely used</li>
+                                    </ul>
+                                    <p><strong>Leaky Bucket:</strong></p>
+                                    <ul>
+                                        <li>Requests processed at constant rate</li>
+                                    <li>Smooths out traffic spikes</li>
+                                    <li>Good for steady output rate</li>
+                                    </ul>
+                                    <p><strong>Fixed Window:</strong></p>
+                                    <ul>
+                                        <li>Count requests in fixed time windows</li>
+                                        <li>Simple but has edge issues</li>
+                                        <li>Can allow double the limit at window boundaries</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you implement rate limiting in a distributed system?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Implementation strategies:</p>
+                                    <ul>
+                                        <li><strong>Centralized Redis:</strong> Use Redis with atomic operations for counters</li>
+                                        <li><strong>Distributed Cache:</strong> Memcached or similar for shared state</li>
+                                        <li><strong>Database:</strong> Store counters in database (slower but consistent)</li>
+                                        <li><strong>API Gateway:</strong> Implement at gateway level</li>
+                                        <li><strong>Client-side:</strong> Rate limit at client (less secure)</li>
+                                    </ul>
+                                    <p>Redis is popular due to its atomic operations and speed.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the challenges of rate limiting?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Challenges include:</p>
+                                    <ul>
+                                        <li><strong>Distributed Systems:</strong> Synchronizing limits across servers</li>
+                                        <li><strong>User Identification:</strong> Accurately identifying unique users</li>
+                                        <li><strong>Performance:</strong> Rate limiting shouldn't slow down requests</li>
+                                        <li><strong>Burst Traffic:</strong> Handling legitimate spikes vs abuse</li>
+                                        <li><strong>Granularity:</strong> Different limits for different endpoints</li>
+                                        <li><strong>Edge Cases:</strong> Time window boundaries and clock sync</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Rate Limiting</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the primary purpose of rate limiting?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>To speed up API responses</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>To encrypt data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>To control request frequency and prevent abuse</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>To compress responses</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which rate limiting algorithm allows burst traffic?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Fixed Window</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Token Bucket</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Leaky Bucket</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Sliding Window</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is a common way to identify users for rate limiting?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>IP address, API key, or user ID</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Random numbers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>User agent string</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>No identification needed</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What happens when rate limit is exceeded?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Request is processed faster</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Request is ignored silently</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>User is banned permanently</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Request is rejected with HTTP 429 status</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which technology is commonly used for distributed rate limiting?</h4>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>MySQL database</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Redis</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>File system</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Email notifications</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design Principles</h4>
+                            <p>RESTful API design and best practices</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js.js"></script>
+</body>
+</html>

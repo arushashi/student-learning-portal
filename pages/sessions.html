@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Sessions - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Web Sessions</h1>
+                    <p>Managing user state and authentication in web applications</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span class="duration">⏱ 15 min</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Definition</h2>
+                <p>Web sessions are mechanisms to maintain user state across multiple HTTP requests, as HTTP itself is stateless.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Session Management Methods</h2>
+                <ul>
+                    <li><strong>Cookie-based Sessions:</strong> Store session ID in cookies</li>
+                    <li><strong>URL Rewriting:</strong> Include session ID in URLs</li>
+                    <li><strong>Hidden Fields:</strong> Store session data in hidden form fields</li>
+                    <li><strong>Local Storage:</strong> Browser-based storage for session data</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Session Storage</h2>
+                <ul>
+                    <li><strong>In-Memory:</strong> Fast but not scalable</li>
+                    <li><strong>Database:</strong> Persistent but slower</li>
+                    <li><strong>Redis/Memcached:</strong> Fast and scalable</li>
+                    <li><strong>Distributed Cache:</strong> For load-balanced applications</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

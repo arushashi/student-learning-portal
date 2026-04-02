@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAP Theorem - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>CAP Theorem</h1>
+                    <p>Fundamental trade-offs in distributed database systems</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">⏱ 25 min</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Definition</h2>
+                <p>CAP theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>The Three Properties</h2>
+                <ul>
+                    <li><strong>Consistency:</strong> All nodes see the same data simultaneously</li>
+                    <li><strong>Availability:</strong> System remains operational despite failures</li>
+                    <li><strong>Partition Tolerance:</strong> System continues operating despite network partitions</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Trade-offs</h2>
+                <ul>
+                    <li><strong>CP:</strong> Consistency + Partition Tolerance (sacrifice availability)</li>
+                    <li><strong>AP:</strong> Availability + Partition Tolerance (sacrifice consistency)</li>
+                    <li><strong>CA:</strong> Consistency + Availability (no partition tolerance)</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>
