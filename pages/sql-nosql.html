@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL vs NoSQL - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">SQL vs NoSQL</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>SQL vs NoSQL</h1>
+                    <p class="topic-description">Database models comparison for different use cases</p>
+                    <div class="topic-meta">
+                        <span class="difficulty">Intermediate</span>
+                        <span class="duration">15 min read</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary share-btn">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Definition</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Comparison</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Use Cases</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Quiz</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon expand-btn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="btn-icon collapse-btn">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are SQL and NoSQL databases?</h3>
+                                <p>SQL databases are relational databases that use structured query language and predefined schemas, while NoSQL databases are non-relational databases that provide flexible schemas and are designed for horizontal scaling.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Key Insight</h4>
+                                <p>Choose SQL for structured data and ACID compliance, NoSQL for flexible data and horizontal scaling.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Comparison Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-balance-scale"></i> Comparison</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon expand-btn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="btn-icon collapse-btn">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="comparison-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>SQL Databases</th>
+                                        <th>NoSQL Databases</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Data Model</td>
+                                        <td>Relational (tables)</td>
+                                        <td>Non-relational (documents, key-value, etc.)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Schema</td>
+                                        <td>Fixed schema</td>
+                                        <td>Dynamic schema</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Scalability</td>
+                                        <td>Vertical scaling</td>
+                                        <td>Horizontal scaling</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Consistency</td>
+                                        <td>ACID compliance</td>
+                                        <td>Eventually consistent</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions & Answers -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon expand-btn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="btn-icon collapse-btn">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When would you choose SQL over NoSQL?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Choose SQL when you need ACID compliance, complex transactions, structured data, and when your data relationships are well-defined. SQL is ideal for financial systems, e-commerce platforms, and applications requiring data integrity.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the advantages of NoSQL databases?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>NoSQL databases offer flexible schemas, horizontal scalability, high performance for large datasets, and are designed for distributed systems. They're ideal for big data applications, real-time systems, and applications with evolving data requirements.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is CAP theorem and how does it relate to SQL vs NoSQL?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CAP theorem states that a distributed system can only provide two out of three guarantees: Consistency, Availability, and Partition Tolerance. SQL databases typically prioritize consistency (CP), while NoSQL databases often prioritize availability (AP).</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the different types of NoSQL databases?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>NoSQL databases include: Document databases (MongoDB), Key-value stores (Redis), Column-family stores (Cassandra), and Graph databases (Neo4j). Each type is optimized for specific use cases and data models.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you migrate from SQL to NoSQL?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Migration involves data modeling changes, schema transformation, application code updates, and careful testing. Strategies include gradual migration, data synchronization, and using migration tools. Consider the impact on queries, transactions, and data consistency.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Test Your Knowledge -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon expand-btn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="btn-icon collapse-btn">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of SQL vs NoSQL</p>
+                            </div>
+                            
+                            <div class="quiz-questions">
+                                <div class="question-container">
+                                    <div class="question-text">
+                                        <h4>1. Which database type is best for financial transactions requiring ACID compliance?</h4>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>NoSQL databases</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>SQL databases</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Both SQL and NoSQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Neither</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-container">
+                                    <div class="question-text">
+                                        <h4>2. Which type of database is designed for horizontal scaling?</h4>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>SQL databases only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>NoSQL databases only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Both types</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Neither type</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-container">
+                                    <div class="question-text">
+                                        <h4>3. What does ACID stand for in SQL databases?</h4>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Atomicity, Consistency, Isolation, Durability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Availability, Consistency, Isolation, Durability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Atomicity, Consistency, Availability, Durability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Atomicity, Consistency, Isolation, Performance</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-container">
+                                    <div class="question-text">
+                                        <h4>4. Which NoSQL database type is best for social networks?</h4>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Document database</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Key-value store</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Graph database</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Column-family store</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-container">
+                                    <div class="question-text">
+                                        <h4>5. Which database type provides flexible schemas?</h4>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>SQL databases</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>NoSQL databases</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Both types</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Neither type</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-actions">
+                                <div class="quiz-info">
+                                    <span id="currentQuestion">1</span> / <span id="totalQuestions">5</span>
+                                </div>
+                                <div class="quiz-score">
+                                    Score: <span id="quizScore">0</span>
+                                </div>
+                                <div class="quiz-buttons">
+                                    <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                    <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>
