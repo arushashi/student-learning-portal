@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete System Design Knowledge Base - Enhanced Navigation</title>
+    <title>Complete System Design Knowledge Base - Comprehensive Interview Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -45,7 +45,7 @@
             min-height: 100vh;
         }
 
-        /* Enhanced Header */
+        /* Header */
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -100,7 +100,7 @@
             color: var(--light-color);
         }
 
-        /* Enhanced Hero Section */
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--light-color) 0%, var(--gray-50) 100%);
             padding: 4rem 2rem;
@@ -147,171 +147,47 @@
             color: var(--primary-color);
         }
 
-        /* Enhanced Navigation Controls */
-        .nav-controls {
-            background: var(--light-color);
-            border: 1px solid var(--gray-200);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-toggle {
-            background: var(--primary-color);
-            color: var(--light-color);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-toggle:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .progress-bar-container {
-            width: 200px;
-            height: 8px;
-            background: var(--gray-200);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        /* Enhanced Main Content Layout */
+        /* Main Content Layout */
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 300px 1fr;
             gap: 2rem;
-            transition: grid-template-columns 0.3s ease;
         }
 
-        .main-content.toc-hidden {
-            grid-template-columns: 1fr;
-        }
-
-        /* Enhanced Table of Contents */
-        .toc-sidebar {
+        /* Table of Contents */
+        .toc {
             background: var(--light-color);
             border-radius: 1rem;
             padding: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--gray-200);
             position: sticky;
-            top: 120px;
-            max-height: calc(100vh - 140px);
+            top: 100px;
+            max-height: calc(100vh - 120px);
             overflow-y: auto;
-            transition: all 0.3s ease;
         }
 
-        .toc-sidebar.hidden {
-            display: none;
-        }
-
-        .toc-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .toc-title {
+        .toc h2 {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--gray-900);
-        }
-
-        .toc-close {
-            background: none;
-            border: none;
-            color: var(--gray-500);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0.25rem;
-            border-radius: 0.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .toc-close:hover {
-            background: var(--gray-100);
-            color: var(--gray-700);
-        }
-
-        .toc-search {
             margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
         }
 
-        .toc-search input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .toc-search input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .toc-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .toc-section-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            background: var(--gray-50);
-            border-radius: 0.25rem;
-        }
-
-        .toc-list {
+        .toc ul {
             list-style: none;
         }
 
-        .toc-item {
+        .toc li {
             margin-bottom: 0.25rem;
         }
 
-        .toc-link {
+        .toc a {
             color: var(--gray-700);
             text-decoration: none;
             font-weight: 500;
@@ -320,95 +196,36 @@
             border-radius: 0.25rem;
             transition: all 0.3s ease;
             font-size: 0.9rem;
-            position: relative;
         }
 
-        .toc-link:hover {
+        .toc a:hover {
             background: var(--gray-50);
             color: var(--primary-color);
             padding-left: 1rem;
         }
 
-        .toc-link.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--light-color);
-            font-weight: 600;
+        .toc .toc-level-2 {
+            margin-left: 0.5rem;
         }
 
-        .toc-link.active::before {
-            content: '▶';
-            position: absolute;
-            left: 0.5rem;
-            font-size: 0.7rem;
-        }
-
-        .toc-sub-list {
+        .toc .toc-level-3 {
             margin-left: 1rem;
-            margin-top: 0.25rem;
         }
 
-        .toc-sub-link {
-            font-size: 0.85rem;
-            color: var(--gray-600);
-            padding: 0.4rem 0.5rem;
+        .toc .toc-level-4 {
+            margin-left: 1.5rem;
         }
 
-        .toc-sub-link:hover {
-            color: var(--primary-color);
-            background: var(--gray-50);
-        }
-
-        /* Enhanced Content Area */
+        /* Content Area */
         .content-area {
             background: var(--light-color);
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--gray-200);
-            position: relative;
         }
 
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--gray-200);
-        }
-
-        .content-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gray-900);
-        }
-
-        .content-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .action-btn {
-            background: var(--gray-100);
-            border: 1px solid var(--gray-300);
-            color: var(--gray-700);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .action-btn:hover {
-            background: var(--primary-color);
-            color: var(--light-color);
-            border-color: var(--primary-color);
-        }
-
-        /* Enhanced Markdown Content */
+        /* Markdown Content Styling */
         .markdown-body {
             font-size: 1rem;
             line-height: 1.8;
@@ -431,18 +248,6 @@
             margin: 2rem 0 1rem 0;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--gray-300);
-            position: relative;
-        }
-
-        .markdown-body h2::before {
-            content: '';
-            position: absolute;
-            left: -2rem;
-            top: 0;
-            bottom: 0.5rem;
-            width: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
         }
 
         .markdown-body h3 {
@@ -585,7 +390,22 @@
             border-radius: 0.5rem;
         }
 
-        /* Enhanced Footer */
+        /* Progress Indicator */
+        .progress-container {
+            background: var(--gray-200);
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            height: 0.5rem;
+            border-radius: 0.25rem;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
         .footer {
             background: var(--dark-color);
             color: var(--light-color);
@@ -623,7 +443,7 @@
             font-size: 0.9rem;
         }
 
-        /* Enhanced Back to Top */
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -654,67 +474,16 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Reading Progress */
-        .reading-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            z-index: 9999;
-            transition: width 0.3s ease;
-        }
-
-        /* Mobile Navigation */
-        .mobile-nav-toggle {
-            display: none;
-            background: var(--primary-color);
-            color: var(--light-color);
-            border: none;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
         /* Mobile Responsive */
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
 
-            .toc-sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 300px;
-                height: 100vh;
-                z-index: 1001;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .toc-sidebar.mobile-open {
-                transform: translateX(0);
-            }
-
-            .toc-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 1000;
-            }
-
-            .toc-overlay.active {
-                display: block;
-            }
-
-            .mobile-nav-toggle {
-                display: block;
+            .toc {
+                position: static;
+                max-height: none;
+                margin-bottom: 2rem;
             }
         }
 
@@ -744,44 +513,44 @@
                 flex-direction: column;
                 gap: 1rem;
             }
-
-            .nav-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .progress-info {
-                justify-content: center;
-            }
         }
 
-        /* Enhanced Animations */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        /* Section Navigation */
+        .section-nav {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .toc-item {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
+        .section-nav button {
             background: var(--primary-color);
             color: var(--light-color);
-            padding: 0.25rem 0.5rem;
+            border: none;
+            padding: 0.5rem 1rem;
             border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .section-nav button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Reading Progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 9999;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
@@ -789,7 +558,7 @@
     <!-- Reading Progress Bar -->
     <div class="reading-progress" id="readingProgress"></div>
 
-    <!-- Enhanced Header -->
+    <!-- Header -->
     <header class="header">
         <div class="header-container">
             <a href="#" class="logo">
@@ -805,13 +574,10 @@
                     <li><a href="#networking" class="nav-link">Networking</a></li>
                 </ul>
             </nav>
-            <button class="mobile-nav-toggle" id="mobileNavToggle">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
-    <!-- Enhanced Hero Section -->
+    <!-- Hero Section -->
     <section class="hero" id="overview">
         <h1>Complete System Design Knowledge Base</h1>
         <p class="subtitle">Master system design interviews with comprehensive coverage of 66 topics, 14 case studies, and 50+ interview questions. Designed for DevOps, SRE, and Cloud Engineers.</p>
@@ -840,151 +606,33 @@
         </div>
     </section>
 
-    <!-- Enhanced Navigation Controls -->
-    <div class="nav-controls">
-        <button class="nav-toggle" id="navToggle">
-            <i class="fas fa-bars"></i>
-            <span>Toggle Navigation</span>
-        </button>
-        
-        <div class="progress-info">
-            <span>Reading Progress:</span>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBarFill"></div>
-            </div>
-            <span id="progressText">0%</span>
-        </div>
-        
-        <div class="content-actions">
-            <button class="action-btn" onclick="expandAll()">
-                <i class="fas fa-expand"></i>
-                Expand All
-            </button>
-            <button class="action-btn" onclick="collapseAll()">
-                <i class="fas fa-compress"></i>
-                Collapse All
-            </button>
-        </div>
-    </div>
-
-    <!-- Enhanced Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Enhanced Table of Contents Sidebar -->
-        <aside class="toc-sidebar" id="tocSidebar">
-            <div class="toc-header">
-                <h2 class="toc-title">📚 Navigation</h2>
-                <button class="toc-close" id="tocClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="toc-search">
-                <input type="text" id="tocSearch" placeholder="Search topics...">
-            </div>
-            
-            <div class="toc-section">
-                <div class="toc-section-title">Getting Started</div>
-                <ul class="toc-list">
-                    <li class="toc-item">
-                        <a href="#overview" class="toc-link">🚀 Overview</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#roadmap" class="toc-link">📚 Course Roadmap</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#study-plan" class="toc-link">🎯 90-Day Study Plan</a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="toc-section">
-                <div class="toc-section-title">Core Topics</div>
-                <ul class="toc-list">
-                    <li class="toc-item">
-                        <a href="#foundations" class="toc-link">🚀 Section 1: Foundations</a>
-                        <ul class="toc-sub-list">
-                            <li><a href="#what-is-system-design" class="toc-sub-link">What is System Design?</a></li>
-                            <li><a href="#evolution-of-system-design" class="toc-sub-link">Evolution of System Design</a></li>
-                            <li><a href="#course-navigation-strategy" class="toc-sub-link">Course Navigation Strategy</a></li>
-                        </ul>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#networking" class="toc-link">🌐 Section 2: Networking</a>
-                        <ul class="toc-sub-list">
-                            <li><a href="#introduction-to-networking" class="toc-sub-link">Introduction to Networking</a></li>
-                            <li><a href="#ip-addresses" class="toc-sub-link">IP Addresses</a></li>
-                            <li><a href="#dns" class="toc-sub-link">DNS Resolution</a></li>
-                            <li><a href="#client-server-model" class="toc-sub-link">Client-Server Model</a></li>
-                            <li><a href="#proxies" class="toc-sub-link">Forward vs Reverse Proxy</a></li>
-                            <li><a href="#load-balancing" class="toc-sub-link">Load Balancing</a></li>
-                            <li><a href="#api-gateway" class="toc-sub-link">API Gateway</a></li>
-                            <li><a href="#cdn" class="toc-sub-link">Content Delivery Networks</a></li>
-                        </ul>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#protocols" class="toc-link">📡 Section 3: Protocols</a>
-                        <ul class="toc-sub-list">
-                            <li><a href="#tcp-vs-udp" class="toc-sub-link">TCP vs UDP</a></li>
-                            <li><a href="#http-https" class="toc-sub-link">HTTP/HTTPS</a></li>
-                            <li><a href="#websocket" class="toc-sub-link">WebSocket</a></li>
-                            <li><a href="#rest-vs-graphql" class="toc-sub-link">REST vs GraphQL</a></li>
-                        </ul>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#architecture" class="toc-link">🏗️ Section 4: Architecture</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#web-concepts" class="toc-link">🌍 Section 5: Web Concepts</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#scalability" class="toc-link">📈 Section 6: Scalability</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#storage" class="toc-link">💾 Section 7: Storage & CAP</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#performance" class="toc-link">⚡ Section 8: Performance</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#reliability" class="toc-link">🔒 Section 9: Reliability</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#security" class="toc-link">🛡️ Section 10: Security</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#design-approach" class="toc-link">🎯 Section 11: Design Approach</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#case-studies" class="toc-link">🏢 Section 12: Case Studies</a>
-                    </li>
-                    <li class="toc-item">
-                        <a href="#final-prep" class="toc-link">🎉 Section 13: Final Preparation</a>
-                    </li>
-                </ul>
-            </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Table of Contents -->
+        <aside class="toc">
+            <h2>📚 Table of Contents</h2>
+            <ul>
+                <li><a href="#overview">🚀 Overview</a></li>
+                <li><a href="#roadmap">📚 Course Roadmap</a></li>
+                <li><a href="#study-plan">🎯 90-Day Study Plan</a></li>
+                <li><a href="#foundations">🚀 Section 1: Foundations</a></li>
+                <li><a href="#networking">🌐 Section 2: Networking</a></li>
+                <li><a href="#protocols">📡 Section 3: Protocols</a></li>
+                <li><a href="#architecture">🏗️ Section 4: Architecture</a></li>
+                <li><a href="#web-concepts">🌍 Section 5: Web Concepts</a></li>
+                <li><a href="#scalability">📈 Section 6: Scalability</a></li>
+                <li><a href="#storage">💾 Section 7: Storage & CAP</a></li>
+                <li><a href="#performance">⚡ Section 8: Performance</a></li>
+                <li><a href="#reliability">🔒 Section 9: Reliability</a></li>
+                <li><a href="#security">🛡️ Section 10: Security</a></li>
+                <li><a href="#design-approach">🎯 Section 11: Design Approach</a></li>
+                <li><a href="#case-studies">🏢 Section 12: Case Studies</a></li>
+                <li><a href="#final-prep">🎉 Section 13: Final Preparation</a></li>
+            </ul>
         </aside>
 
-        <!-- Overlay for mobile -->
-        <div class="toc-overlay" id="tocOverlay"></div>
-
-        <!-- Enhanced Content Area -->
+        <!-- Content Area -->
         <main class="content-area">
-            <div class="content-header">
-                <h1 class="content-title">System Design Knowledge Base</h1>
-                <div class="content-actions">
-                    <button class="action-btn" onclick="printContent()">
-                        <i class="fas fa-print"></i>
-                        Print
-                    </button>
-                    <button class="action-btn" onclick="shareContent()">
-                        <i class="fas fa-share"></i>
-                        Share
-                    </button>
-                </div>
-            </div>
-            
-            <div class="scroll-indicator" id="scrollIndicator">Scrolling...</div>
-            
             <div class="markdown-body">
                 <!-- Course Information -->
                 <div style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; border: 1px solid #e5e7eb;">
@@ -1067,7 +715,7 @@
                 <section id="foundations">
                     <h2>SECTION 1: FOUNDATIONS</h2>
                     
-                    <h3 id="what-is-system-design">🚀 What is System Design?</h3>
+                    <h3>🚀 What is System Design?</h3>
                     <h4>Definition</h4>
                     <p>System Design is the process of defining the architecture, components, modules, interfaces, and data for a system to satisfy specified requirements.</p>
 
@@ -1090,7 +738,7 @@
                         <li><strong>Capacity Planning</strong>: Design for predictable scaling patterns</li>
                     </ul>
 
-                    <h3 id="evolution-of-system-design">📈 Evolution of System Design (25 Years)</h3>
+                    <h3>📈 Evolution of System Design (25 Years)</h3>
                     <table>
                         <thead>
                             <tr>
@@ -1135,7 +783,7 @@
                         <li><strong>From Manual to Automated</strong>: Infrastructure as Code, GitOps</li>
                     </ul>
 
-                    <h3 id="course-navigation-strategy">🎯 Course Navigation Strategy</h3>
+                    <h3>🎯 Course Navigation Strategy</h3>
                     <h4>Effective Learning Approach</h4>
                     <ol>
                         <li><strong>Theory First</strong>: Understand concepts before implementations</li>
@@ -1157,7 +805,7 @@
                 <section id="networking">
                     <h2>SECTION 2: NETWORKING IN SYSTEM DESIGN</h2>
                     
-                    <h3 id="introduction-to-networking">🌐 Introduction to Networking in System Design</h3>
+                    <h3>🌐 Introduction to Networking in System Design</h3>
                     <h4>Why Networking Matters</h4>
                     <ul>
                         <li><strong>Foundation</strong>: All distributed systems rely on networking</li>
@@ -1172,7 +820,7 @@
                         <li><strong>Redundancy</strong>: Multiple network paths for high availability</li>
                     </ul>
 
-                    <h3 id="ip-addresses">🏠 Understanding IP Addresses</h3>
+                    <h3>🏠 Understanding IP Addresses</h3>
                     <h4>Key Concepts</h4>
                     <ul>
                         <li><strong>IPv4 vs IPv6</strong>: Address space exhaustion and transition</li>
@@ -1201,7 +849,7 @@
                         <li>❌ Hardcoding IP addresses in configuration</li>
                     </ul>
 
-                    <h3 id="dns">🔍 How DNS Works</h3>
+                    <h3>🔍 How DNS Works</h3>
                     <h4>DNS Resolution Process</h4>
                     <div class="mermaid">
                         sequenceDiagram
@@ -1276,7 +924,7 @@
                     <h4>Interview Answer in 30 Seconds</h4>
                     <p>"DNS translates domain names to IP addresses through a hierarchical system of servers. When a user requests a domain, the browser queries DNS recursively from root servers to authoritative name servers. Caching at multiple levels improves performance."</p>
 
-                    <h3 id="client-server-model">🖥️ Client-Server Model Explained</h3>
+                    <h3>🖥️ Client-Server Model Explained</h3>
                     <h4>Architecture Overview</h4>
                     <div class="mermaid">
                         graph TD
@@ -1316,7 +964,7 @@
                         <li><strong>Load Balancing</strong>: Distribute requests across servers</li>
                     </ul>
 
-                    <h3 id="proxies">🛡️ Forward Proxy vs Reverse Proxy</h3>
+                    <h3>🛡️ Forward Proxy vs Reverse Proxy</h3>
                     <h4>Forward Proxy</h4>
                     <div class="mermaid">
                         graph LR
@@ -1386,7 +1034,7 @@
                     <h4>Interview Answer in 30 Seconds</h4>
                     <p>"Forward proxy sits in front of clients, managing their internet requests, while reverse proxy sits in front of servers, distributing incoming requests. Forward proxy is for client protection, reverse proxy is for server protection and load balancing."</p>
 
-                    <h3 id="load-balancing">⚖️ Introduction to Load Balancing</h3>
+                    <h3>⚖️ Introduction to Load Balancing</h3>
                     <h4>Load Balancer Types</h4>
                     <div class="mermaid">
                         graph TD
@@ -1451,7 +1099,7 @@
                     <h4>Interview Answer in 30 Seconds</h4>
                     <p>"Load balancing distributes incoming requests across multiple servers to improve reliability and performance. Common algorithms include round robin for equal distribution and least connections for varying request loads. Health checks ensure failed servers are removed from rotation."</p>
 
-                    <h3 id="api-gateway">🚪 What is an API Gateway?</h3>
+                    <h3>🚪 What is an API Gateway?</h3>
                     <h4>Architecture Overview</h4>
                     <div class="mermaid">
                         graph TD
@@ -1502,7 +1150,7 @@
                         <li><strong>Deployment</strong>: Blue-green, canary deployments</li>
                     </ul>
 
-                    <h3 id="cdn">🌍 Content Delivery Networks (CDN)</h3>
+                    <h3>🌍 Content Delivery Networks (CDN)</h3>
                     <h4>CDN Architecture</h4>
                     <div class="mermaid">
                         graph TD
@@ -1582,7 +1230,7 @@
                 <section id="protocols">
                     <h2>SECTION 3: PROTOCOLS IN SYSTEM DESIGN</h2>
                     
-                    <h3 id="tcp-vs-udp">📡 Introduction to Protocols</h3>
+                    <h3>📡 Introduction to Protocols</h3>
                     <h4>Why Protocols Matter</h4>
                     <ul>
                         <li><strong>Communication</strong>: Foundation of all network communication</li>
@@ -1590,7 +1238,7 @@
                         <li><strong>Reliability</strong>: Different reliability guarantees</li>
                     </ul>
 
-                    <h3 id="tcp-vs-udp-2">🔗 TCP vs UDP</h3>
+                    <h3>🔗 TCP vs UDP</h3>
                     <h4>TCP (Transmission Control Protocol)</h4>
                     <div class="success-box">
                         <h5>Key Characteristics</h5>
@@ -1656,7 +1304,7 @@
                     <h4>Interview Answer in 30 Seconds</h4>
                     <p>"TCP provides reliable, ordered delivery with flow control, making it ideal for applications where data integrity is critical. UDP is faster but unreliable, perfect for real-time applications like video streaming or DNS where speed matters more than guaranteed delivery."</p>
 
-                    <h3 id="http-https">🌐 HTTP/HTTPS</h3>
+                    <h3>🌐 HTTP/HTTPS</h3>
                     <h4>HTTP Evolution</h4>
                     <div class="info-box">
                         <h5>HTTP/1.0</h5>
@@ -1718,7 +1366,7 @@
                         <li><strong>Security</strong>: HTTPS enforcement</li>
                     </ul>
 
-                    <h3 id="websocket">🔄 WebSocket</h3>
+                    <h3>🔄 WebSocket</h3>
                     <h4>WebSocket Overview</h4>
                     <div class="mermaid">
                         sequenceDiagram
@@ -1766,7 +1414,7 @@
                     <h4>Interview Answer in 30 Seconds</h4>
                     <p>"WebSocket provides full-duplex, low-latency communication over a single TCP connection. It starts with HTTP upgrade and then maintains a persistent connection for real-time bidirectional communication. Perfect for chat apps, live updates, and real-time features."</p>
 
-                    <h3 id="rest-vs-graphql">📝 REST vs GraphQL</h3>
+                    <h3>📝 REST vs GraphQL</h3>
                     <h4>REST (Representational State Transfer)</h4>
                     <div class="success-box">
                         <h5>Key Principles</h5>
@@ -1966,7 +1614,7 @@
         </main>
     </div>
 
-    <!-- Enhanced Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
@@ -1981,7 +1629,7 @@
         </div>
     </footer>
 
-    <!-- Enhanced Back to Top -->
+    <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -2005,76 +1653,15 @@
             }
         });
 
-        // Enhanced Navigation Functions
-        function toggleNavigation() {
-            const mainContent = document.getElementById('mainContent');
-            const tocSidebar = document.getElementById('tocSidebar');
-            const tocOverlay = document.getElementById('tocOverlay');
-            
-            mainContent.classList.toggle('toc-hidden');
-            tocSidebar.classList.toggle('hidden');
-            
-            if (window.innerWidth <= 1024) {
-                tocSidebar.classList.toggle('mobile-open');
-                tocOverlay.classList.toggle('active');
-            }
-        }
-
-        function closeNavigation() {
-            const mainContent = document.getElementById('mainContent');
-            const tocSidebar = document.getElementById('tocSidebar');
-            const tocOverlay = document.getElementById('tocOverlay');
-            
-            mainContent.classList.remove('toc-hidden');
-            tocSidebar.classList.add('hidden');
-            tocSidebar.classList.remove('mobile-open');
-            tocOverlay.classList.remove('active');
-        }
-
-        function expandAll() {
-            const subLists = document.querySelectorAll('.toc-sub-list');
-            subLists.forEach(list => {
-                list.style.display = 'block';
-            });
-        }
-
-        function collapseAll() {
-            const subLists = document.querySelectorAll('.toc-sub-list');
-            subLists.forEach(list => {
-                list.style.display = 'none';
-            });
-        }
-
-        function printContent() {
-            window.print();
-        }
-
-        function shareContent() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'System Design Knowledge Base',
-                    url: window.location.href,
-                    text: 'Complete System Design Interview Preparation Guide'
-                });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                navigator.clipboard.writeText(window.location.href);
-                alert('Link copied to clipboard!');
-            }
-        }
-
-        // Enhanced Reading Progress
+        // Reading progress
         function updateReadingProgress() {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
-            
             document.getElementById('readingProgress').style.width = scrollPercent + '%';
-            document.getElementById('progressBarFill').style.width = scrollPercent + '%';
-            document.getElementById('progressText').textContent = Math.round(scrollPercent) + '%';
         }
 
-        // Enhanced Smooth Scrolling
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -2088,7 +1675,7 @@
             });
         });
 
-        // Enhanced Back to Top
+        // Back to top functionality
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -2099,28 +1686,18 @@
         // Show/hide back to top button
         window.addEventListener('scroll', function() {
             const backToTop = document.getElementById('backToTop');
-            const scrollIndicator = document.getElementById('scrollIndicator');
-            
             if (window.scrollY > 500) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
             }
-            
-            // Show scroll indicator when scrolling
-            if (window.scrollY > 100) {
-                scrollIndicator.style.display = 'block';
-            } else {
-                scrollIndicator.style.display = 'none';
-            }
-            
             updateReadingProgress();
         });
 
-        // Enhanced Section Highlighting
-        function highlightCurrentSection() {
+        // Highlight current section in TOC
+        window.addEventListener('scroll', function() {
             const sections = document.querySelectorAll('section[id]');
-            const tocLinks = document.querySelectorAll('.toc-link');
+            const tocLinks = document.querySelectorAll('.toc a');
             
             let current = '';
             sections.forEach(section => {
@@ -2132,119 +1709,40 @@
             });
 
             tocLinks.forEach(link => {
-                link.classList.remove('active');
+                link.style.background = '';
+                link.style.color = '';
                 if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // Enhanced TOC Search
-        function initTOCSearch() {
-            const searchInput = document.getElementById('tocSearch');
-            const tocLinks = document.querySelectorAll('.toc-link');
-            
-            searchInput.addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                
-                tocLinks.forEach(link => {
-                    const text = link.textContent.toLowerCase();
-                    const parent = link.parentElement;
-                    
-                    if (text.includes(searchTerm)) {
-                        parent.style.display = 'block';
-                    } else {
-                        parent.style.display = 'none';
-                    }
-                });
-            });
-        }
-
-        // Enhanced Mobile Navigation
-        function initMobileNavigation() {
-            const mobileNavToggle = document.getElementById('mobileNavToggle');
-            const tocClose = document.getElementById('tocClose');
-            const tocOverlay = document.getElementById('tocOverlay');
-            
-            mobileNavToggle.addEventListener('click', function() {
-                const tocSidebar = document.getElementById('tocSidebar');
-                tocSidebar.classList.add('mobile-open');
-                tocOverlay.classList.add('active');
-            });
-            
-            tocClose.addEventListener('click', closeNavigation);
-            tocOverlay.addEventListener('click', closeNavigation);
-        }
-
-        // Enhanced Intersection Observer
-        function initScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all sections
-            document.querySelectorAll('section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
-            });
-        }
-
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Event listeners
-            document.getElementById('navToggle').addEventListener('click', toggleNavigation);
-            document.getElementById('tocClose').addEventListener('click', closeNavigation);
-            
-            // Initialize features
-            initTOCSearch();
-            initMobileNavigation();
-            initScrollAnimations();
-            
-            // Initial progress update
-            updateReadingProgress();
-            
-            // Update section highlighting on scroll
-            window.addEventListener('scroll', highlightCurrentSection);
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 1024) {
-                    closeNavigation();
+                    link.style.background = 'var(--gray-50)';
+                    link.style.color = 'var(--primary-color)';
                 }
             });
         });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + K to focus search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                document.getElementById('tocSearch').focus();
-            }
-            
-            // Escape to close navigation
-            if (e.key === 'Escape') {
-                closeNavigation();
-            }
-            
-            // Ctrl/Cmd + P to print
-            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-                e.preventDefault();
-                printContent();
-            }
+        // Add fade-in animation to sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
         });
+
+        // Initialize reading progress
+        updateReadingProgress();
     </script>
 </body>
 </html>
