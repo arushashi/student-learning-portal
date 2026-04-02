@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate System Design Knowledge Base</title>
+    <title>System Design Interview Prep - Professional Learning Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,370 +14,573 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --light-color: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f8fafc;
+            color: var(--gray-900);
+            background: var(--gray-50);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2563eb, #7c3aed, #06b6d4, #10b981);
-            background-size: 300% 100%;
-            animation: gradientShift 3s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
+        /* Header */
         .header {
+            background: var(--light-color);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--light-color);
+            padding: 4rem 2rem;
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e1e4e8;
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 12px;
-            margin: -40px -40px 40px -40px;
-            position: relative;
-            overflow: hidden;
+            border-bottom: 1px solid var(--gray-200);
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header h1 {
+        .hero h1 {
             font-size: 3rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 1;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
         }
 
-        .header p {
-            font-size: 1.3rem;
-            opacity: 0.95;
-            position: relative;
-            z-index: 1;
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .stats-bar {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .stat-item {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 20px;
-            border-radius: 8px;
+        .stat-card {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--gray-200);
             text-align: center;
-            border: 1px solid #dee2e6;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        .stat-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
         }
 
         .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0366d6;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
             display: block;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 0.9rem;
-            color: #495057;
-            margin-top: 5px;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
-        .feature-grid {
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            background: var(--light-color);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            flex: 1;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        /* Grid Layouts */
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .feature-card {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+        .card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #2563eb, #7c3aed, #06b6d4, #10b981);
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            background: var(--light-color);
         }
 
-        .feature-card:hover::before {
-            opacity: 1;
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.2rem;
         }
 
-        .feature-card i {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
         }
 
-        .feature-card h3 {
-            margin: 0 0 15px 0;
-            font-size: 1.4rem;
-        }
-
-        .feature-card p {
-            margin: 0;
-            opacity: 0.9;
+        .card-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
             line-height: 1.5;
+            margin-bottom: 1rem;
         }
 
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--light-color);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .calculator-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+            background: var(--light-color);
+        }
+
+        .calculator-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .calculator-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .calculator-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--light-color);
+            border-top: 1px solid var(--gray-200);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-text {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--success-color);
+            color: var(--light-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-warning {
+            background: var(--warning-color);
+        }
+
+        .badge-error {
+            background: var(--error-color);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .section,
+            .calculator-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .grid,
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Tab System */
         .tabs {
             display: flex;
-            border-bottom: 3px solid #e1e4e8;
-            margin-bottom: 25px;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-            padding: 10px 10px 0 10px;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 2rem;
+            background: var(--gray-50);
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 0.5rem;
         }
 
         .tab {
-            padding: 15px 25px;
+            padding: 0.75rem 1.5rem;
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
-            color: #586069;
+            color: var(--gray-600);
             transition: all 0.3s ease;
-            border-radius: 8px 8px 0 0;
-            position: relative;
+            border-radius: 0.25rem;
         }
 
         .tab:hover {
-            color: #0366d6;
-            background: rgba(3, 102, 214, 0.1);
+            color: var(--primary-color);
+            background: var(--light-color);
         }
 
         .tab.active {
-            color: #0366d6;
-            background: white;
-            border-bottom: 3px solid #0366d6;
-            margin-bottom: -3px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            color: var(--primary-color);
+            background: var(--light-color);
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: -2px;
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease;
         }
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .calculator-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 35px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border: 2px solid #e9ecef;
-            position: relative;
-            overflow: hidden;
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
         }
 
-        .calculator-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .calculator-section h3 {
-            color: #0366d6;
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .calculator-form {
+        .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 1rem;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #495057;
-            font-size: 0.95rem;
-        }
-
-        .form-group input {
-            padding: 12px 15px;
-            border: 2px solid #e1e4e8;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #0366d6;
-            box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .btn:active {
-            transform: translateY(-1px);
-        }
-
+        /* Results */
         .results {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-            margin-top: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .results h4 {
-            color: #0366d6;
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .result-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f3f4;
-            transition: background 0.3s ease;
-        }
-
-        .result-item:hover {
-            background: #f8f9fa;
-            padding-left: 10px;
-            padding-right: 10px;
-            margin: 0 -10px;
-            border-radius: 6px;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
         }
 
         .result-item:last-child {
@@ -386,636 +589,462 @@
 
         .result-label {
             font-weight: 600;
-            color: #495057;
+            color: var(--gray-700);
         }
 
         .result-value {
-            color: #0366d6;
+            color: var(--primary-color);
             font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .markdown-body {
-            box-sizing: border-box;
-            min-width: 200px;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        .markdown-body h1,
-        .markdown-body h2,
-        .markdown-body h3 {
-            color: #0366d6;
-            border-bottom: 1px solid #e1e4e8;
-            padding-bottom: 0.3em;
-        }
-
-        .markdown-body h1 {
-            font-size: 2.2rem;
-        }
-
-        .markdown-body h2 {
-            font-size: 1.7rem;
-        }
-
-        .markdown-body h3 {
-            font-size: 1.3rem;
-            border-bottom: none;
-        }
-
-        .progress-container {
-            margin: 30px 0;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-        }
-
-        .progress-bar {
-            background: #e9ecef;
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            height: 100%;
-            width: 0%;
-            transition: width 2s ease;
-            border-radius: 6px;
-        }
-
-        .progress-text {
-            text-align: center;
-            font-weight: 600;
-            color: #495057;
-            margin-top: 10px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 30px;
-            border-top: 2px solid #e1e4e8;
-            color: #586069;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .enhancement-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-left: 15px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .quick-action-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .quick-action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .search-container {
-            position: relative;
-            margin: 30px 0;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #e1e4e8;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #0366d6;
-            box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #586069;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs {
-                flex-wrap: wrap;
-            }
-            
-            .tab {
-                flex: 1 1 50%;
-                min-width: 120px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="container">
-            <div class="header">
-                <h1>🚀 Ultimate System Design Knowledge Base</h1>
-                <p>Complete Interview & Production Guide with Advanced Interactive Tools</p>
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressBar"></div>
-                    </div>
-                    <div class="progress-text" id="progressText">Loading enhanced features...</div>
-                </div>
-            </div>
-            
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <span class="stat-number" id="topicCount">100+</span>
-                    <span class="stat-label">Topics Covered</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="caseCount">14</span>
-                    <span class="stat-label">Case Studies</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="codeCount">20+</span>
-                    <span class="stat-label">Code Examples</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="calcCount">3</span>
-                    <span class="stat-label">Interactive Tools</span>
-                </div>
-            </div>
-            
-            <div class="search-container">
-                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search topics, concepts, or case studies...">
-                <i class="fas fa-search search-icon"></i>
-            </div>
-            
-            <div class="quick-actions">
-                <button class="quick-action-btn" onclick="startInterviewMode()">
-                    <i class="fas fa-user-tie"></i> Interview Mode
-                </button>
-                <button class="quick-action-btn" onclick="startQuickStudy()">
-                    <i class="fas fa-clock"></i> Quick Study
-                </button>
-                <button class="quick-action-btn" onclick="showProgress()">
-                    <i class="fas fa-chart-line"></i> My Progress
-                </button>
-                <button class="quick-action-btn" onclick="exportNotes()">
-                    <i class="fas fa-download"></i> Export Notes
-                </button>
-            </div>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-calculator"></i>
-                    <h3>Advanced Calculators</h3>
-                    <p>Real-time capacity planning, database sizing, cost estimation with cloud provider comparisons</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-building"></i>
-                    <h3>Company Case Studies</h3>
-                    <p>Netflix, Uber, Twitter, Airbnb, Spotify deep dives with actual architecture decisions</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-cloud"></i>
-                    <h3>Cloud Provider Guides</h3>
-                    <p>AWS, GCP, Azure specific patterns with production-ready templates and best practices</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Production Code</h3>
-                    <p>Circuit breakers, rate limiters, distributed locks, monitoring, and deployment scripts</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-vial"></i>
-                    <h3>Testing Frameworks</h3>
-                    <p>Load testing, chaos engineering, performance benchmarking, and automated validation</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-exchange-alt"></i>
-                    <h3>Migration Playbooks</h3>
-                    <p>Step-by-step migration strategies with risk assessment and rollback procedures</p>
-                </div>
-            </div>
-            
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('calculators')">
-                    <i class="fas fa-calculator"></i> Calculators
-                </button>
-                <button class="tab" onclick="switchTab('content')">
-                    <i class="fas fa-book"></i> Knowledge Base
-                </button>
-                <button class="tab" onclick="switchTab('cases')">
-                    <i class="fas fa-building"></i> Case Studies
-                </button>
-                <button class="tab" onclick="switchTab('code')">
-                    <i class="fas fa-code"></i> Code Examples
-                </button>
-                <button class="tab" onclick="switchTab('interview')">
-                    <i class="fas fa-user-tie"></i> Interview Prep
-                </button>
-            </div>
-            
-            <div id="calculators" class="tab-content active">
-                <div class="calculator-section">
-                    <h3><i class="fas fa-chart-line"></i> Advanced Load Calculator</h3>
-                    <div class="calculator-form">
-                        <div class="form-group">
-                            <label for="users">Number of Users</label>
-                            <input type="number" id="users" value="1000000" placeholder="Enter users">
-                        </div>
-                        <div class="form-group">
-                            <label for="requestsPerUser">Requests per User (daily)</label>
-                            <input type="number" id="requestsPerUser" value="10" placeholder="Enter requests">
-                        </div>
-                        <div class="form-group">
-                            <label for="peakMultiplier">Peak Multiplier</label>
-                            <input type="number" id="peakMultiplier" value="3" placeholder="Enter multiplier">
-                        </div>
-                        <div class="form-group">
-                            <label for="avgResponseSize">Avg Response Size (KB)</label>
-                            <input type="number" id="avgResponseSize" value="10" placeholder="Enter KB">
-                        </div>
-                        <div class="form-group">
-                            <button class="btn" onclick="calculateAdvancedLoad()">
-                                <i class="fas fa-calculator"></i> Calculate
-                            </button>
-                        </div>
-                    </div>
-                    <div class="results" id="loadResults" style="display: none;">
-                        <h4><i class="fas fa-chart-bar"></i> Advanced Load Analysis</h4>
-                        <div class="result-item">
-                            <span class="result-label">Average QPS:</span>
-                            <span class="result-value" id="avgQPS">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Peak QPS:</span>
-                            <span class="result-value" id="peakQPS">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Servers Needed:</span>
-                            <span class="result-value" id="serversNeeded">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Peak Bandwidth:</span>
-                            <span class="result-value" id="bandwidth">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Monthly Data Transfer:</span>
-                            <span class="result-value" id="monthlyData">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Estimated Monthly Cost:</span>
-                            <span class="result-value" id="monthlyCost">-</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="calculator-section">
-                    <h3><i class="fas fa-database"></i> Cloud Database Calculator</h3>
-                    <div class="calculator-form">
-                        <div class="form-group">
-                            <label for="readQPS">Read QPS</label>
-                            <input type="number" id="readQPS" value="10000" placeholder="Enter read QPS">
-                        </div>
-                        <div class="form-group">
-                            <label for="writeQPS">Write QPS</label>
-                            <input type="number" id="writeQPS" value="1000" placeholder="Enter write QPS">
-                        </div>
-                        <div class="form-group">
-                            <label for="avgRecordSize">Avg Record Size (KB)</label>
-                            <input type="number" id="avgRecordSize" value="10" placeholder="Enter KB">
-                        </div>
-                        <div class="form-group">
-                            <label for="dbRetentionDays">Retention Days</label>
-                            <input type="number" id="dbRetentionDays" value="365" placeholder="Enter days">
-                        </div>
-                        <div class="form-group">
-                            <label for="cloudProvider">Cloud Provider</label>
-                            <select id="cloudProvider" style="padding: 12px; border: 2px solid #e1e4e8; border-radius: 8px;">
-                                <option value="aws">AWS</option>
-                                <option value="gcp">GCP</option>
-                                <option value="azure">Azure</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn" onclick="calculateCloudDatabase()">
-                                <i class="fas fa-calculator"></i> Calculate
-                            </button>
-                        </div>
-                    </div>
-                    <div class="results" id="databaseResults" style="display: none;">
-                        <h4><i class="fas fa-database"></i> Cloud Database Analysis</h4>
-                        <div class="result-item">
-                            <span class="result-label">Total Records:</span>
-                            <span class="result-value" id="totalRecords">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Data Size:</span>
-                            <span class="result-value" id="dataSize">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Recommended DB:</span>
-                            <span class="result-value" id="recommendedDB">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">IOPS Required:</span>
-                            <span class="result-value" id="iopsRequired">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Storage Cost:</span>
-                            <span class="result-value" id="storageCost">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">Compute Cost:</span>
-                            <span class="result-value" id="computeCost">-</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="content" class="tab-content">
-                <div class="markdown-body" id="markdownContent">
-                    <!-- Content will be loaded here -->
-                </div>
-            </div>
-            
-            <div id="cases" class="tab-content">
-                <div class="markdown-body">
-                    <h2>🏢 Advanced Company Case Studies</h2>
-                    
-                    <h3>🎬 Netflix Microservices Architecture</h3>
-                    <p><strong>Scale:</strong> 200+ million subscribers worldwide</p>
-                    <p><strong>Architecture:</strong> Microservices with chaos engineering</p>
-                    <ul>
-                        <li><strong>Zuul API Gateway</strong>: 50K+ requests/second routing</li>
-                        <li><strong>Eureka Service Discovery</strong>: 3000+ services</li>
-                        <li><strong>Hystrix Circuit Breaker</strong>: 100% failure isolation</li>
-                        <li><strong>Chaos Monkey</strong>: 1000+ failures/day for testing</li>
-                        <li><strong>S3 + CloudFront</strong>: Petabyte-scale video storage</li>
-                    </ul>
-                    
-                    <h3>🚗 Uber Real-time Architecture</h3>
-                    <p><strong>Scale:</strong> 100+ million trips per month</p>
-                    <p><strong>Architecture:</strong> Real-time location matching</p>
-                    <ul>
-                        <li><strong>Redis Pub/Sub</strong>: 1M+ events/second</li>
-                        <li><strong>Geospatial Indexing</strong>: Sub-50ms driver matching</li>
-                        <li><strong>Dynamic Pricing</strong>: Real-time surge algorithm</li>
-                        <li><strong>Flink Processing</strong>: Real-time data pipelines</li>
-                    </ul>
-                    
-                    <h3>🐦 Twitter Timeline Architecture</h3>
-                    <p><strong>Scale:</strong> 500M+ tweets per day</p>
-                    <p><strong>Architecture:</strong> Fan-out on write pattern</p>
-                    <ul>
-                        <li><strong>Redis Timeline Cache</strong>: 100K+ timelines/second</li>
-                        <li><strong>Snowflake ID Generator</strong>: 20K+ IDs/second</li>
-                        <li><strong>Manhattan Service</strong>: Graph database for social graph</li>
-                        <li><strong>Heron Stream Processing</strong>: Real-time analytics</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div id="code" class="tab-content">
-                <div class="markdown-body">
-                    <h2>💻 Advanced Production Code Examples</h2>
-                    
-                    <h3>🔧 Advanced Circuit Breaker with Metrics</h3>
-                    <pre><code>import time
-import functools
-from prometheus_client import Counter, Histogram
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-rocket"></i>
+                System Design Pro
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#overview" class="nav-link">Overview</a></li>
+                    <li><a href="#topics" class="nav-link">Topics</a></li>
+                    <li><a href="#tools" class="nav-link">Tools</a></li>
+                    <li><a href="#resources" class="nav-link">Resources</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-class AdvancedCircuitBreaker:
-    def __init__(self, failure_threshold=5, timeout=60, expected_exception=Exception):
-        self.failure_threshold = failure_threshold
-        self.timeout = timeout
-        self.expected_exception = expected_exception
-        self.failure_count = 0
-        self.last_failure_time = None
-        self.state = 'CLOSED'
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+        <h1>Master System Design Interviews</h1>
+        <p class="subtitle">Comprehensive interview preparation guide for DevOps, SRE, and Cloud Engineers. Learn from real-world case studies and practical examples.</p>
         
-        # Prometheus metrics
-        self.circuit_state = Gauge('circuit_breaker_state', 'Circuit breaker state')
-        self.failure_counter = Counter('circuit_breaker_failures', 'Circuit breaker failures')
-        self.success_counter = Counter('circuit_breaker_successes', 'Circuit breaker successes')
-        self.request_duration = Histogram('circuit_breaker_request_duration', 'Request duration')
-
-    def __call__(self, func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            
-            if self.state == 'OPEN':
-                if time.time() - self.last_failure_time > self.timeout:
-                    self.state = 'HALF_OPEN'
-                    self.circuit_state.set(1)  # HALF_OPEN
-                else:
-                    self.failure_counter.inc()
-                    raise Exception("Circuit breaker is OPEN")
-            
-            try:
-                result = func(*args, **kwargs)
-                self._on_success()
-                self.request_duration.observe(time.time() - start_time)
-                return result
-            except self.expected_exception as e:
-                self._on_failure()
-                self.request_duration.observe(time.time() - start_time)
-                raise e
-        
-        return wrapper</code></pre>
-                    
-                    <h3>🚀 Distributed Rate Limiter with Redis Cluster</h3>
-                    <pre><code>import redis
-import time
-import json
-from typing import Dict, Optional
-
-class ClusteredRateLimiter:
-    def __init__(self, redis_cluster, key_prefix: str, max_requests: int, time_window: int):
-        self.redis = redis_cluster
-        self.key_prefix = key_prefix
-        self.max_requests = max_requests
-        self.time_window = time_window
-        
-    def allow_request(self, identifier: str, custom_window: Optional[int] = None) -> Dict:
-        """Check if request is allowed and return detailed info"""
-        key = f"{self.key_prefix}:{identifier}"
-        current_time = time.time()
-        window = custom_window or self.time_window
-        
-        # Lua script for atomic operations
-        lua_script = """
-        local key = KEYS[1]
-        local current_time = tonumber(ARGV[1])
-        local window = tonumber(ARGV[2])
-        local max_requests = tonumber(ARGV[3])
-        
-        -- Remove old entries
-        redis.call('zremrangebyscore', key, 0, current_time - window)
-        
-        -- Get current count
-        local current_count = redis.call('zcard', key)
-        
-        -- Check if under limit
-        if current_count < max_requests then
-            redis.call('zadd', key, current_time, current_time)
-            redis.call('expire', key, window)
-            return {1, current_count + 1, max_requests - current_count - 1}
-        else
-            local oldest_request = redis.call('zrange', key, 0, 0, 'withscores')
-            return {0, current_count, 0, oldest_request[1]}
-        end
-        """
-        
-        result = self.redis.eval(lua_script, 1, key, current_time, window, self.max_requests)
-        
-        return {
-            'allowed': bool(result[0]),
-            'current_count': result[1],
-            'remaining': result[2],
-            'reset_time': result[3] if len(result) > 3 else None
-        }</code></pre>
-                </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">66</span>
+                <span class="stat-label">Topics Covered</span>
             </div>
-            
-            <div id="interview" class="tab-content">
-                <div class="markdown-body">
-                    <h2>🎯 Advanced Interview Preparation</h2>
-                    
-                    <h3>📋 Interview Question Generator</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <button class="btn" onclick="generateRandomQuestion()" style="margin-bottom: 15px;">
-                            <i class="fas fa-random"></i> Generate Random Question
-                        </button>
-                        <div id="randomQuestion" style="font-size: 1.2rem; font-weight: 600; color: #0366d6; min-height: 50px;">
-                            Click to generate a random interview question
-                        </div>
-                    </div>
-                    
-                    <h3>⏱️ 30-Second Answer Templates</h3>
-                    <div class="quick-actions">
-                        <button class="quick-action-btn" onclick="showAnswerTemplate('scalability')">
-                            <i class="fas fa-chart-line"></i> Scalability
-                        </button>
-                        <button class="quick-action-btn" onclick="showAnswerTemplate('database')">
-                            <i class="fas fa-database"></i> Database
-                        </button>
-                        <button class="quick-action-btn" onclick="showAnswerTemplate('security')">
-                            <i class="fas fa-lock"></i> Security
-                        </button>
-                        <button class="quick-action-btn" onclick="showAnswerTemplate('performance')">
-                            <i class="fas fa-tachometer-alt"></i> Performance
-                        </button>
-                    </div>
-                    
-                    <h3>📊 Interview Simulator</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <h4>Mock Interview Timer</h4>
-                        <button class="btn" onclick="startMockInterview()">
-                            <i class="fas fa-play"></i> Start 45-Minute Mock Interview
-                        </button>
-                        <div id="interviewTimer" style="margin-top: 15px; font-size: 1.5rem; font-weight: 700; color: #0366d6; display: none;">
-                            45:00
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <span class="stat-number">14</span>
+                <span class="stat-label">Case Studies</span>
             </div>
-            
-            <div class="footer">
-                <p>💡 <strong>Ultimate Features:</strong> Advanced calculators, company case studies, production code, interview simulator</p>
-                <p>📖 <strong>Created for:</strong> DevOps/SRE Engineers & Cloud Architects</p>
-                <p>🚀 <strong>Status:</strong> Interview-Ready & Production-Ready</p>
-                <p>⭐ <span class="enhancement-badge">ULTIMATE</span> Now with 60% more advanced features!</p>
+            <div class="stat-card">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Interview Questions</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Course Coverage</span>
             </div>
         </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Course Topics -->
+        <section class="section" id="topics">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Course Topics</h2>
+                    <p>Complete coverage of system design concepts from basics to advanced topics</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="card-title">Foundations</div>
+                    </div>
+                    <div class="card-description">
+                        System design fundamentals, evolution, and core concepts every engineer should know.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2 hours</span>
+                        <span><i class="fas fa-signal"></i> Beginner</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="card-title">Networking</div>
+                    </div>
+                    <div class="card-description">
+                        DNS, load balancing, CDN, API Gateway, and network architecture patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Intermediate</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="card-title">Protocols</div>
+                    </div>
+                    <div class="card-description">
+                        TCP/UDP, HTTP, REST, GraphQL, WebSocket, and modern API design patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2.5 hours</span>
+                        <span><i class="fas fa-signal"></i> Intermediate</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="card-title">Architecture</div>
+                    </div>
+                    <div class="card-description">
+                        Microservices, event-driven, monolithic, and multi-tier architectural patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-title">Scalability</div>
+                    </div>
+                    <div class="card-description">
+                        Horizontal/vertical scaling, load balancing, auto-scaling, and performance optimization.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2.5 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="card-title">Storage</div>
+                    </div>
+                    <div class="card-description">
+                        SQL vs NoSQL, CAP theorem, sharding, replication, and distributed storage systems.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Tools -->
+        <section class="calculator-section" id="tools">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Interactive Tools</h2>
+                    <p>Practical calculators and tools for system design planning and estimation</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('load')">Load Calculator</button>
+                <button class="tab" onclick="switchTab('database')">Database Sizing</button>
+                <button class="tab" onclick="switchTab('cloud')">Cloud Cost</button>
+            </div>
+
+            <div id="load" class="tab-content active">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Number of Users</label>
+                        <input type="number" class="form-input" id="users" value="1000000" placeholder="Enter users">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Requests per User (daily)</label>
+                        <input type="number" class="form-input" id="requestsPerUser" value="10" placeholder="Enter requests">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Peak Multiplier</label>
+                        <input type="number" class="form-input" id="peakMultiplier" value="3" placeholder="Enter multiplier">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Avg Response Size (KB)</label>
+                        <input type="number" class="form-input" id="avgResponseSize" value="10" placeholder="Enter KB">
+                    </div>
+                </div>
+                <button class="btn" onclick="calculateLoad()">
+                    <i class="fas fa-calculator"></i> Calculate Load
+                </button>
+                <div class="results" id="loadResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Average QPS:</span>
+                        <span class="result-value" id="avgQPS">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Peak QPS:</span>
+                        <span class="result-value" id="peakQPS">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Servers Needed:</span>
+                        <span class="result-value" id="serversNeeded">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Peak Bandwidth:</span>
+                        <span class="result-value" id="bandwidth">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="database" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Read QPS</label>
+                        <input type="number" class="form-input" id="readQPS" value="10000" placeholder="Enter read QPS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Write QPS</label>
+                        <input type="number" class="form-input" id="writeQPS" value="1000" placeholder="Enter write QPS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Avg Record Size (KB)</label>
+                        <input type="number" class="form-input" id="avgRecordSize" value="10" placeholder="Enter KB">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Retention Days</label>
+                        <input type="number" class="form-input" id="retentionDays" value="365" placeholder="Enter days">
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="calculateDatabase()">
+                    <i class="fas fa-database"></i> Calculate Database
+                </button>
+                <div class="results" id="databaseResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Total Records:</span>
+                        <span class="result-value" id="totalRecords">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Data Size:</span>
+                        <span class="result-value" id="dataSize">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Recommended DB:</span>
+                        <span class="result-value" id="recommendedDB">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">IOPS Required:</span>
+                        <span class="result-value" id="iopsRequired">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cloud" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Cloud Provider</label>
+                        <select class="form-input" id="cloudProvider">
+                            <option value="aws">AWS</option>
+                            <option value="gcp">Google Cloud</option>
+                            <option value="azure">Azure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Server Instances</label>
+                        <input type="number" class="form-input" id="serverInstances" value="10" placeholder="Enter instances">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Storage (GB)</label>
+                        <input type="number" class="form-input" id="storageGB" value="1000" placeholder="Enter GB">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data Transfer (GB/month)</label>
+                        <input type="number" class="form-input" id="dataTransfer" value="5000" placeholder="Enter GB">
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="calculateCloud()">
+                    <i class="fas fa-cloud"></i> Calculate Cloud Cost
+                </button>
+                <div class="results" id="cloudResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Compute Cost:</span>
+                        <span class="result-value" id="computeCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Storage Cost:</span>
+                        <span class="result-value" id="storageCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Transfer Cost:</span>
+                        <span class="result-value" id="transferCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Monthly Cost:</span>
+                        <span class="result-value" id="totalCost">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Real-World Case Studies</h2>
+                    <p>Learn from actual implementations at leading tech companies</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="card-title">Netflix Architecture</div>
+                    </div>
+                    <div class="card-description">
+                        Microservices, chaos engineering, and CDN strategies for 200M+ subscribers.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 200M+ users</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="card-title">Uber Real-time System</div>
+                    </div>
+                    <div class="card-description">
+                        Real-time location matching, dynamic pricing, and geospatial indexing.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 100M+ users</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="card-title">Twitter Timeline</div>
+                    </div>
+                    <div class="card-description">
+                        Fan-out on write, timeline caching, and real-time feed generation.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 500M+ tweets/day</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="section" id="resources">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Study Resources</h2>
+                    <p>Comprehensive materials to help you prepare for system design interviews</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="card-title">Complete Knowledge Base</div>
+                    </div>
+                    <div class="card-description">
+                        Comprehensive 300+ page guide covering all system design topics with examples.
+                    </div>
+                    <button class="btn" onclick="openResource('knowledge-base')">
+                        <i class="fas fa-download"></i> View Guide
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="card-title">Interview Questions</div>
+                    </div>
+                    <div class="card-description">
+                        50+ system design interview questions with detailed answers and diagrams.
+                    </div>
+                    <button class="btn btn-secondary" onclick="openResource('questions')">
+                        <i class="fas fa-download"></i> View Questions
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="card-title">Code Examples</div>
+                    </div>
+                    <div class="card-description">
+                        Production-ready code examples for circuit breakers, rate limiters, and more.
+                    </div>
+                    <button class="btn btn-outline" onclick="openResource('code')">
+                        <i class="fas fa-download"></i> View Code
+                    </button>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i> <span id="notificationText">Success!</span>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Contact</a>
+                <a href="#" class="footer-link">Privacy</a>
+            </div>
+            <p class="footer-text">
+                © 2024 System Design Pro. Built for DevOps, SRE, and Cloud Engineers.
+            </p>
+        </div>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <script>
-        // Initialize Mermaid
-        mermaid.initialize({ startOnLoad: true });
-        
-        // Global state
-        let interviewTimer = null;
-        let interviewTime = 45 * 60; // 45 minutes in seconds
-        
-        // Enhanced tab switching
+        // Tab switching
         function switchTab(tabName) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -1032,34 +1061,10 @@ class ClusteredRateLimiter:
             
             // Add active class to clicked tab
             event.target.classList.add('active');
-            
-            // Load content if knowledge base tab
-            if (tabName === 'content') {
-                loadMarkdownContent();
-            }
         }
-        
-        // Load markdown content
-        function loadMarkdownContent() {
-            fetch('COMPLETE_SYSTEM_DESIGN_KNOWLEDGE_BASE.md')
-                .then(response => response.text())
-                .then(markdown => {
-                    const html = marked.parse(markdown);
-                    document.getElementById('markdownContent').innerHTML = html;
-                    mermaid.init();
-                })
-                .catch(error => {
-                    console.error('Error loading markdown:', error);
-                    document.getElementById('markdownContent').innerHTML = 
-                        '<div style="text-align: center; padding: 50px;">' +
-                        '<h2>Error Loading Content</h2>' +
-                        '<p>Could not load the System Design Knowledge Base.</p>' +
-                        '</div>';
-                });
-        }
-        
-        // Advanced load calculator
-        function calculateAdvancedLoad() {
+
+        // Calculator functions
+        function calculateLoad() {
             const users = parseInt(document.getElementById('users').value);
             const requestsPerUser = parseInt(document.getElementById('requestsPerUser').value);
             const peakMultiplier = parseFloat(document.getElementById('peakMultiplier').value);
@@ -1069,27 +1074,20 @@ class ClusteredRateLimiter:
             const peakQPS = baseQPS * peakMultiplier;
             const serversNeeded = Math.ceil(peakQPS / 1000);
             const bandwidthGB = Math.round((peakQPS * avgResponseSize * 1024) / (1024 * 1024 * 1024) * 8 * 1024) / 1024;
-            const monthlyDataGB = Math.round((users * requestsPerUser * avgResponseSize * 1024 * 30) / (1024 * 1024 * 1024));
-            const monthlyCost = Math.round(serversNeeded * 50 + bandwidthGB * 0.09 + monthlyDataGB * 0.023);
             
             document.getElementById('avgQPS').textContent = Math.round(baseQPS).toLocaleString();
             document.getElementById('peakQPS').textContent = Math.round(peakQPS).toLocaleString();
             document.getElementById('serversNeeded').textContent = serversNeeded;
             document.getElementById('bandwidth').textContent = bandwidthGB.toFixed(2) + ' GB/s';
-            document.getElementById('monthlyData').textContent = monthlyDataGB.toLocaleString() + ' GB';
-            document.getElementById('monthlyCost').textContent = '$' + monthlyCost.toLocaleString();
             
             document.getElementById('loadResults').style.display = 'block';
-            showNotification('Load calculation completed successfully!');
         }
-        
-        // Cloud database calculator
-        function calculateCloudDatabase() {
+
+        function calculateDatabase() {
             const readQPS = parseInt(document.getElementById('readQPS').value);
             const writeQPS = parseInt(document.getElementById('writeQPS').value);
             const avgRecordSize = parseInt(document.getElementById('avgRecordSize').value);
-            const retentionDays = parseInt(document.getElementById('dbRetentionDays').value);
-            const cloudProvider = document.getElementById('cloudProvider').value;
+            const retentionDays = parseInt(document.getElementById('retentionDays').value);
             
             const dailyWrites = writeQPS * 86400;
             const totalRecords = dailyWrites * retentionDays;
@@ -1097,156 +1095,83 @@ class ClusteredRateLimiter:
             const recommendedDB = writeQPS > 10000 ? 'NoSQL' : 'SQL';
             const iopsRequired = readQPS + writeQPS;
             
-            // Cloud-specific pricing
-            let storageCost, computeCost;
-            switch(cloudProvider) {
-                case 'aws':
-                    storageCost = (dataSize / (1024 * 1024 * 1024)) * 0.023; // $0.023/GB/month
-                    computeCost = Math.ceil(iopsRequired / 1000) * 0.25 * 730; // $0.25 per 1000 IOPS
-                    break;
-                case 'gcp':
-                    storageCost = (dataSize / (1024 * 1024 * 1024)) * 0.025; // $0.025/GB/month
-                    computeCost = Math.ceil(iopsRequired / 1000) * 0.20 * 730; // $0.20 per 1000 IOPS
-                    break;
-                case 'azure':
-                    storageCost = (dataSize / (1024 * 1024 * 1024)) * 0.022; // $0.022/GB/month
-                    computeCost = Math.ceil(iopsRequired / 1000) * 0.30 * 730; // $0.30 per 1000 IOPS
-                    break;
-            }
-            
             document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
             document.getElementById('dataSize').textContent = (dataSize / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
             document.getElementById('recommendedDB').textContent = recommendedDB;
             document.getElementById('iopsRequired').textContent = iopsRequired.toLocaleString();
-            document.getElementById('storageCost').textContent = '$' + storageCost.toFixed(2) + '/month';
-            document.getElementById('computeCost').textContent = '$' + computeCost.toFixed(2) + '/month';
             
             document.getElementById('databaseResults').style.display = 'block';
-            showNotification('Database calculation completed successfully!');
         }
-        
-        // Interview mode
-        function startInterviewMode() {
-            switchTab('interview');
-            showNotification('Interview mode activated! Good luck! 🍀');
-        }
-        
-        // Quick study
-        function startQuickStudy() {
-            const topics = ['scalability', 'database', 'networking', 'security', 'performance'];
-            const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-            showNotification(`Quick study session: ${randomTopic.toUpperCase()} 📚`);
-        }
-        
-        // Show progress
-        function showProgress() {
-            const progress = Math.floor(Math.random() * 100);
-            showNotification(`Your progress: ${progress}% complete! 📊`);
-        }
-        
-        // Export notes
-        function exportNotes() {
-            showNotification('Notes exported successfully! 📥');
-        }
-        
-        // Generate random question
-        function generateRandomQuestion() {
-            const questions = [
-                "How would you design a URL shortener service?",
-                "Explain the CAP theorem with real-world examples",
-                "How does Twitter handle 500M tweets per day?",
-                "Design a messaging system like WhatsApp",
-                "How does Netflix handle 200M users?",
-                "Explain microservices vs monolithic architecture",
-                "How does Uber's real-time matching work?",
-                "Design a system like Airbnb",
-                "How does CDN improve performance?",
-                "Explain database sharding strategies"
-            ];
-            const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-            document.getElementById('randomQuestion').textContent = randomQuestion;
-        }
-        
-        // Show answer template
-        function showAnswerTemplate(topic) {
-            const templates = {
-                scalability: "Scalability is about handling growth through horizontal/vertical scaling, load balancing, and auto-scaling strategies.",
-                database: "Database choice depends on consistency requirements - SQL for ACID compliance, NoSQL for horizontal scaling.",
-                security: "Security involves authentication, authorization, encryption, and defense-in-depth strategies.",
-                performance: "Performance optimization includes caching, indexing, query optimization, and resource tuning."
+
+        function calculateCloud() {
+            const provider = document.getElementById('cloudProvider').value;
+            const instances = parseInt(document.getElementById('serverInstances').value);
+            const storage = parseInt(document.getElementById('storageGB').value);
+            const transfer = parseInt(document.getElementById('dataTransfer').value);
+            
+            // Simplified pricing model
+            const pricing = {
+                aws: { compute: 50, storage: 0.023, transfer: 0.09 },
+                gcp: { compute: 45, storage: 0.025, transfer: 0.12 },
+                azure: { compute: 55, storage: 0.022, transfer: 0.087 }
             };
-            showNotification(`${topic.toUpperCase()}: ${templates[topic]} 💡`);
+            
+            const rates = pricing[provider];
+            const computeCost = instances * rates.compute;
+            const storageCost = storage * rates.storage;
+            const transferCost = transfer * rates.transfer;
+            const totalCost = computeCost + storageCost + transferCost;
+            
+            document.getElementById('computeCost').textContent = '$' + computeCost.toFixed(2);
+            document.getElementById('storageCost').textContent = '$' + storageCost.toFixed(2);
+            document.getElementById('transferCost').textContent = '$' + transferCost.toFixed(2);
+            document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+            
+            document.getElementById('cloudResults').style.display = 'block';
         }
-        
-        // Mock interview timer
-        function startMockInterview() {
-            interviewTime = 45 * 60;
-            const timerElement = document.getElementById('interviewTimer');
-            timerElement.style.display = 'block';
-            
-            if (interviewTimer) {
-                clearInterval(interviewTimer);
-            }
-            
-            interviewTimer = setInterval(() => {
-                const minutes = Math.floor(interviewTime / 60);
-                const seconds = interviewTime % 60;
-                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (interviewTime <= 0) {
-                    clearInterval(interviewTimer);
-                    timerElement.textContent = "Time's up! ⏰";
-                    showNotification("Mock interview completed! Great job! 🎉");
+
+        // Open resource functions
+        function openResource(type) {
+            const urls = {
+                'knowledge-base': 'knowledge-base.html',
+                'questions': 'COMPLETE_SYSTEM_DESIGN_KNOWLEDGE_BASE.md',
+                'code': 'professional-knowledge-base.html'
+            };
+            window.open(urls[type], '_blank');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-                
-                interviewTime--;
-            }, 1000);
-            
-            showNotification("Mock interview started! You have 45 minutes. Good luck! 🎯");
-        }
-        
-        // Notification system
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
-            notificationText.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            if (searchTerm.length > 2) {
-                showNotification(`Searching for: ${searchTerm}... 🔍`);
-            }
+            });
         });
-        
-        // Progress bar animation
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('progressBar').style.width = '100%';
-                document.getElementById('progressText').textContent = 'All enhanced features loaded successfully!';
-            }, 100);
-            
-            // Animate stats
-            setTimeout(() => {
-                document.getElementById('topicCount').textContent = '150+';
-                document.getElementById('caseCount').textContent = '17';
-                document.getElementById('codeCount').textContent = '30+';
-                document.getElementById('calcCount').textContent = '5';
-            }, 500);
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section, .calculator-section').forEach(section => {
+            observer.observe(section);
         });
-        
-        // Auto-calculate on load
-        setTimeout(() => {
-            calculateAdvancedLoad();
-            calculateCloudDatabase();
-        }, 1000);
     </script>
 </body>
 </html>
