@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design Interview Prep - Professional Learning Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --light-color: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--light-color);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--light-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            background: var(--light-color);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            flex: 1;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            background: var(--light-color);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .card-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--light-color);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .calculator-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+            background: var(--light-color);
+        }
+
+        .calculator-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-color);
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .calculator-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .calculator-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--light-color);
+            border-top: 1px solid var(--gray-200);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-text {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--success-color);
+            color: var(--light-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-warning {
+            background: var(--warning-color);
+        }
+
+        .badge-error {
+            background: var(--error-color);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .section,
+            .calculator-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .grid,
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Tab System */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 2rem;
+            background: var(--gray-50);
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 0.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            transition: all 0.3s ease;
+            border-radius: 0.25rem;
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+            background: var(--light-color);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            background: var(--light-color);
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Results */
+        .results {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .result-value {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-rocket"></i>
+                System Design Pro
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#overview" class="nav-link">Overview</a></li>
+                    <li><a href="#topics" class="nav-link">Topics</a></li>
+                    <li><a href="#tools" class="nav-link">Tools</a></li>
+                    <li><a href="#resources" class="nav-link">Resources</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+        <h1>Master System Design Interviews</h1>
+        <p class="subtitle">Comprehensive interview preparation guide for DevOps, SRE, and Cloud Engineers. Learn from real-world case studies and practical examples.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">66</span>
+                <span class="stat-label">Topics Covered</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">14</span>
+                <span class="stat-label">Case Studies</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Interview Questions</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Course Coverage</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Course Topics -->
+        <section class="section" id="topics">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Course Topics</h2>
+                    <p>Complete coverage of system design concepts from basics to advanced topics</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="card-title">Foundations</div>
+                    </div>
+                    <div class="card-description">
+                        System design fundamentals, evolution, and core concepts every engineer should know.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2 hours</span>
+                        <span><i class="fas fa-signal"></i> Beginner</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="card-title">Networking</div>
+                    </div>
+                    <div class="card-description">
+                        DNS, load balancing, CDN, API Gateway, and network architecture patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Intermediate</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="card-title">Protocols</div>
+                    </div>
+                    <div class="card-description">
+                        TCP/UDP, HTTP, REST, GraphQL, WebSocket, and modern API design patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2.5 hours</span>
+                        <span><i class="fas fa-signal"></i> Intermediate</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="card-title">Architecture</div>
+                    </div>
+                    <div class="card-description">
+                        Microservices, event-driven, monolithic, and multi-tier architectural patterns.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-title">Scalability</div>
+                    </div>
+                    <div class="card-description">
+                        Horizontal/vertical scaling, load balancing, auto-scaling, and performance optimization.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 2.5 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="card-title">Storage</div>
+                    </div>
+                    <div class="card-description">
+                        SQL vs NoSQL, CAP theorem, sharding, replication, and distributed storage systems.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 3 hours</span>
+                        <span><i class="fas fa-signal"></i> Advanced</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Tools -->
+        <section class="calculator-section" id="tools">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Interactive Tools</h2>
+                    <p>Practical calculators and tools for system design planning and estimation</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('load')">Load Calculator</button>
+                <button class="tab" onclick="switchTab('database')">Database Sizing</button>
+                <button class="tab" onclick="switchTab('cloud')">Cloud Cost</button>
+            </div>
+
+            <div id="load" class="tab-content active">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Number of Users</label>
+                        <input type="number" class="form-input" id="users" value="1000000" placeholder="Enter users">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Requests per User (daily)</label>
+                        <input type="number" class="form-input" id="requestsPerUser" value="10" placeholder="Enter requests">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Peak Multiplier</label>
+                        <input type="number" class="form-input" id="peakMultiplier" value="3" placeholder="Enter multiplier">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Avg Response Size (KB)</label>
+                        <input type="number" class="form-input" id="avgResponseSize" value="10" placeholder="Enter KB">
+                    </div>
+                </div>
+                <button class="btn" onclick="calculateLoad()">
+                    <i class="fas fa-calculator"></i> Calculate Load
+                </button>
+                <div class="results" id="loadResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Average QPS:</span>
+                        <span class="result-value" id="avgQPS">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Peak QPS:</span>
+                        <span class="result-value" id="peakQPS">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Servers Needed:</span>
+                        <span class="result-value" id="serversNeeded">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Peak Bandwidth:</span>
+                        <span class="result-value" id="bandwidth">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="database" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Read QPS</label>
+                        <input type="number" class="form-input" id="readQPS" value="10000" placeholder="Enter read QPS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Write QPS</label>
+                        <input type="number" class="form-input" id="writeQPS" value="1000" placeholder="Enter write QPS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Avg Record Size (KB)</label>
+                        <input type="number" class="form-input" id="avgRecordSize" value="10" placeholder="Enter KB">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Retention Days</label>
+                        <input type="number" class="form-input" id="retentionDays" value="365" placeholder="Enter days">
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="calculateDatabase()">
+                    <i class="fas fa-database"></i> Calculate Database
+                </button>
+                <div class="results" id="databaseResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Total Records:</span>
+                        <span class="result-value" id="totalRecords">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Data Size:</span>
+                        <span class="result-value" id="dataSize">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Recommended DB:</span>
+                        <span class="result-value" id="recommendedDB">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">IOPS Required:</span>
+                        <span class="result-value" id="iopsRequired">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cloud" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Cloud Provider</label>
+                        <select class="form-input" id="cloudProvider">
+                            <option value="aws">AWS</option>
+                            <option value="gcp">Google Cloud</option>
+                            <option value="azure">Azure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Server Instances</label>
+                        <input type="number" class="form-input" id="serverInstances" value="10" placeholder="Enter instances">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Storage (GB)</label>
+                        <input type="number" class="form-input" id="storageGB" value="1000" placeholder="Enter GB">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data Transfer (GB/month)</label>
+                        <input type="number" class="form-input" id="dataTransfer" value="5000" placeholder="Enter GB">
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="calculateCloud()">
+                    <i class="fas fa-cloud"></i> Calculate Cloud Cost
+                </button>
+                <div class="results" id="cloudResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Compute Cost:</span>
+                        <span class="result-value" id="computeCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Storage Cost:</span>
+                        <span class="result-value" id="storageCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Transfer Cost:</span>
+                        <span class="result-value" id="transferCost">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Monthly Cost:</span>
+                        <span class="result-value" id="totalCost">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Real-World Case Studies</h2>
+                    <p>Learn from actual implementations at leading tech companies</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="card-title">Netflix Architecture</div>
+                    </div>
+                    <div class="card-description">
+                        Microservices, chaos engineering, and CDN strategies for 200M+ subscribers.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 200M+ users</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="card-title">Uber Real-time System</div>
+                    </div>
+                    <div class="card-description">
+                        Real-time location matching, dynamic pricing, and geospatial indexing.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 100M+ users</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="card-title">Twitter Timeline</div>
+                    </div>
+                    <div class="card-description">
+                        Fan-out on write, timeline caching, and real-time feed generation.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 500M+ tweets/day</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="section" id="resources">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Study Resources</h2>
+                    <p>Comprehensive materials to help you prepare for system design interviews</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="card-title">Complete Knowledge Base</div>
+                    </div>
+                    <div class="card-description">
+                        Comprehensive 300+ page guide covering all system design topics with examples.
+                    </div>
+                    <button class="btn" onclick="openResource('knowledge-base')">
+                        <i class="fas fa-download"></i> View Guide
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="card-title">Interview Questions</div>
+                    </div>
+                    <div class="card-description">
+                        50+ system design interview questions with detailed answers and diagrams.
+                    </div>
+                    <button class="btn btn-secondary" onclick="openResource('questions')">
+                        <i class="fas fa-download"></i> View Questions
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="card-title">Code Examples</div>
+                    </div>
+                    <div class="card-description">
+                        Production-ready code examples for circuit breakers, rate limiters, and more.
+                    </div>
+                    <button class="btn btn-outline" onclick="openResource('code')">
+                        <i class="fas fa-download"></i> View Code
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Contact</a>
+                <a href="#" class="footer-link">Privacy</a>
+            </div>
+            <p class="footer-text">
+                © 2024 System Design Pro. Built for DevOps, SRE, and Cloud Engineers.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Calculator functions
+        function calculateLoad() {
+            const users = parseInt(document.getElementById('users').value);
+            const requestsPerUser = parseInt(document.getElementById('requestsPerUser').value);
+            const peakMultiplier = parseFloat(document.getElementById('peakMultiplier').value);
+            const avgResponseSize = parseInt(document.getElementById('avgResponseSize').value);
+            
+            const baseQPS = (users * requestsPerUser) / 86400;
+            const peakQPS = baseQPS * peakMultiplier;
+            const serversNeeded = Math.ceil(peakQPS / 1000);
+            const bandwidthGB = Math.round((peakQPS * avgResponseSize * 1024) / (1024 * 1024 * 1024) * 8 * 1024) / 1024;
+            
+            document.getElementById('avgQPS').textContent = Math.round(baseQPS).toLocaleString();
+            document.getElementById('peakQPS').textContent = Math.round(peakQPS).toLocaleString();
+            document.getElementById('serversNeeded').textContent = serversNeeded;
+            document.getElementById('bandwidth').textContent = bandwidthGB.toFixed(2) + ' GB/s';
+            
+            document.getElementById('loadResults').style.display = 'block';
+        }
+
+        function calculateDatabase() {
+            const readQPS = parseInt(document.getElementById('readQPS').value);
+            const writeQPS = parseInt(document.getElementById('writeQPS').value);
+            const avgRecordSize = parseInt(document.getElementById('avgRecordSize').value);
+            const retentionDays = parseInt(document.getElementById('retentionDays').value);
+            
+            const dailyWrites = writeQPS * 86400;
+            const totalRecords = dailyWrites * retentionDays;
+            const dataSize = totalRecords * avgRecordSize * 1024;
+            const recommendedDB = writeQPS > 10000 ? 'NoSQL' : 'SQL';
+            const iopsRequired = readQPS + writeQPS;
+            
+            document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
+            document.getElementById('dataSize').textContent = (dataSize / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+            document.getElementById('recommendedDB').textContent = recommendedDB;
+            document.getElementById('iopsRequired').textContent = iopsRequired.toLocaleString();
+            
+            document.getElementById('databaseResults').style.display = 'block';
+        }
+
+        function calculateCloud() {
+            const provider = document.getElementById('cloudProvider').value;
+            const instances = parseInt(document.getElementById('serverInstances').value);
+            const storage = parseInt(document.getElementById('storageGB').value);
+            const transfer = parseInt(document.getElementById('dataTransfer').value);
+            
+            // Simplified pricing model
+            const pricing = {
+                aws: { compute: 50, storage: 0.023, transfer: 0.09 },
+                gcp: { compute: 45, storage: 0.025, transfer: 0.12 },
+                azure: { compute: 55, storage: 0.022, transfer: 0.087 }
+            };
+            
+            const rates = pricing[provider];
+            const computeCost = instances * rates.compute;
+            const storageCost = storage * rates.storage;
+            const transferCost = transfer * rates.transfer;
+            const totalCost = computeCost + storageCost + transferCost;
+            
+            document.getElementById('computeCost').textContent = '$' + computeCost.toFixed(2);
+            document.getElementById('storageCost').textContent = '$' + storageCost.toFixed(2);
+            document.getElementById('transferCost').textContent = '$' + transferCost.toFixed(2);
+            document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+            
+            document.getElementById('cloudResults').style.display = 'block';
+        }
+
+        // Open resource functions
+        function openResource(type) {
+            const urls = {
+                'knowledge-base': 'knowledge-base.html',
+                'questions': 'COMPLETE_SYSTEM_DESIGN_KNOWLEDGE_BASE.md',
+                'code': 'professional-knowledge-base.html'
+            };
+            window.open(urls[type], '_blank');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section, .calculator-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

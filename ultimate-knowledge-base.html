@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Design Interview Prep - Professional Learning Platform</title>
+    <title>Ultimate System Design Interview Prep - Advanced Learning Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,13 +15,15 @@
         }
 
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #7c3aed;
+            --primary-color: #3b82f6;
+            --secondary-color: #8b5cf6;
             --accent-color: #06b6d4;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --error-color: #ef4444;
+            --info-color: #3b82f6;
             --light-color: #ffffff;
+            --dark-color: #1f2937;
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
@@ -35,29 +37,62 @@
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             line-height: 1.6;
             color: var(--gray-900);
-            background: var(--gray-50);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Header */
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 20% 50%, var(--primary-color) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--secondary-color) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, var(--accent-color) 0%, transparent 50%);
+            animation: bgMove 20s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-20px, -20px) scale(1.1); }
+            66% { transform: translate(20px, -10px) scale(0.9); }
+        }
+
+        /* Enhanced Header */
         .header {
-            background: var(--light-color);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--gray-200);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.98);
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -66,136 +101,249 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--primary-color);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            color: var(--secondary-color);
         }
 
         .logo i {
-            font-size: 1.8rem;
+            font-size: 2rem;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .nav-menu {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
             list-style: none;
         }
 
         .nav-link {
             color: var(--gray-700);
             text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
             border-radius: 0.5rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
         }
 
         .nav-link:hover {
             background: var(--primary-color);
-            color: var(--light-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Hero Section */
+        /* Enhanced Hero Section */
         .hero {
-            background: var(--light-color);
-            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--light-color) 0%, var(--gray-50) 100%);
+            padding: 6rem 2rem 4rem;
             text-align: center;
-            border-bottom: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.03), transparent);
+            animation: heroRotate 20s linear infinite;
+        }
+
+        @keyframes heroRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--gray-900);
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: heroText 2s ease-out;
+        }
+
+        @keyframes heroText {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: var(--gray-600);
             margin-bottom: 3rem;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .stat-card {
-            background: var(--gray-50);
+            background: white;
             padding: 2rem;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             border: 1px solid var(--gray-200);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-2xl);
             border-color: var(--primary-color);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 3rem;
+            font-weight: 900;
             color: var(--primary-color);
             display: block;
             margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-number {
+            color: var(--secondary-color);
+            transform: scale(1.1);
         }
 
         .stat-label {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--gray-600);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* Main Content */
+        /* Enhanced Main Content */
         .main-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Section Styles */
+        /* Enhanced Section Styles */
         .section {
-            background: var(--light-color);
-            border-radius: 1rem;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-sm);
+            background: white;
+            border-radius: 1.5rem;
+            padding: 4rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
             border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .section-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--light-color);
-            font-size: 1.5rem;
+            font-size: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .section-icon:hover {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: var(--shadow-xl);
         }
 
         .section-title {
@@ -203,107 +351,147 @@
         }
 
         .section-title h2 {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--gray-900);
             margin-bottom: 0.5rem;
         }
 
         .section-title p {
             color: var(--gray-600);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
-        /* Grid Layouts */
+        /* Enhanced Grid Layouts */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
 
         .card {
             background: var(--gray-50);
             border: 1px solid var(--gray-200);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
             border-color: var(--primary-color);
-            background: var(--light-color);
+            background: white;
         }
 
         .card-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .card-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 0.5rem;
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--light-color);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .card-title {
-            font-size: 1.125rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--gray-900);
         }
 
         .card-description {
             color: var(--gray-600);
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .card-meta {
             display: flex;
-            gap: 1rem;
-            font-size: 0.75rem;
+            gap: 1.5rem;
+            font-size: 0.875rem;
             color: var(--gray-500);
         }
 
         .card-meta span {
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.5rem;
         }
 
-        /* Buttons */
+        /* Enhanced Buttons */
         .btn {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: var(--light-color);
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            border: 1px solid transparent;
+            gap: 0.75rem;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
             border-color: var(--primary-color);
         }
 
@@ -322,19 +510,31 @@
             color: var(--light-color);
         }
 
-        /* Calculator Section */
+        /* Enhanced Calculator Section */
         .calculator-section {
-            background: var(--light-color);
-            border-radius: 1rem;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-sm);
+            background: white;
+            border-radius: 1.5rem;
+            padding: 4rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
             border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calculator-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--success-color));
         }
 
         .calculator-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -342,51 +542,248 @@
         .calculator-card {
             background: var(--gray-50);
             border: 1px solid var(--gray-200);
-            border-radius: 0.75rem;
-            padding: 2rem;
+            border-radius: 1rem;
+            padding: 2.5rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calculator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .calculator-card:hover::before {
+            transform: scaleX(1);
         }
 
         .calculator-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color);
-            background: var(--light-color);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--success-color);
+            background: white;
         }
 
         .calculator-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--success-color), var(--accent-color));
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--light-color);
-            font-size: 1.5rem;
-            margin: 0 auto 1rem;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .calculator-card:hover .calculator-icon {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .calculator-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--gray-900);
             margin-bottom: 1rem;
         }
 
         .calculator-description {
             color: var(--gray-600);
-            font-size: 0.875rem;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
-        /* Footer */
+        /* Enhanced Tab System */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid var(--gray-200);
+            margin-bottom: 2rem;
+            background: var(--gray-50);
+            border-radius: 1rem 1rem 0 0;
+            padding: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .tab:hover::before {
+            width: 100%;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            background: white;
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: -3px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab.active::before {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Enhanced Form Styles */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            font-size: 1rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Enhanced Results */
+        .results {
+            background: linear-gradient(135deg, var(--gray-50), white);
+            border: 2px solid var(--gray-200);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            background: rgba(59, 130, 246, 0.02);
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 700;
+            color: var(--gray-700);
+            font-size: 1rem;
+        }
+
+        .result-value {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover .result-value {
+            color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        /* Enhanced Footer */
         .footer {
-            background: var(--light-color);
-            border-top: 1px solid var(--gray-200);
-            padding: 3rem 2rem 2rem;
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-800));
+            color: white;
+            padding: 4rem 2rem 3rem;
             text-align: center;
+            border-top: 3px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
         }
 
         .footer-content {
@@ -397,60 +794,83 @@
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 3rem;
             margin-bottom: 2rem;
             flex-wrap: wrap;
         }
 
         .footer-link {
-            color: var(--gray-600);
+            color: var(--gray-300);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-link::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
         }
 
         .footer-link:hover {
             color: var(--primary-color);
         }
 
-        .footer-text {
-            color: var(--gray-500);
-            font-size: 0.875rem;
+        .footer-link:hover::before {
+            width: 100%;
         }
 
-        /* Badge */
+        .footer-text {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Badge */
         .badge {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
-            background: var(--success-color);
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
             color: var(--light-color);
             font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 0.25rem;
+            font-weight: 700;
+            border-radius: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .badge-warning {
-            background: var(--warning-color);
+            background: linear-gradient(135deg, var(--warning-color), var(--error-color));
         }
 
         .badge-error {
-            background: var(--error-color);
+            background: linear-gradient(135deg, var(--error-color), var(--warning-color));
         }
 
-        /* Mobile Responsive */
+        /* Enhanced Mobile Responsive */
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .hero .subtitle {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
 
             .stats-grid {
@@ -472,139 +892,145 @@
                 flex-direction: column;
                 gap: 1rem;
             }
-        }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .tabs {
+                flex-direction: column;
             }
         }
 
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        /* Tab System */
-        .tabs {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
-            border-bottom: 2px solid var(--gray-200);
-            margin-bottom: 2rem;
-            background: var(--gray-50);
-            border-radius: 0.5rem 0.5rem 0 0;
-            padding: 0.5rem;
-        }
-
-        .tab {
-            padding: 0.75rem 1.5rem;
-            background: none;
-            border: none;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gray-600);
+            opacity: 0;
+            visibility: hidden;
             transition: all 0.3s ease;
-            border-radius: 0.25rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
         }
 
-        .tab:hover {
-            color: var(--primary-color);
-            background: var(--light-color);
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .tab.active {
-            color: var(--primary-color);
-            background: var(--light-color);
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: -2px;
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
         }
 
-        .tab-content {
-            display: none;
+        /* Notification Toast */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            max-width: 300px;
         }
 
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease-out;
+        .notification.show {
+            transform: translateX(0);
         }
 
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .notification-content {
+            display: flex;
+            align-items: center;
             gap: 1rem;
         }
 
-        /* Results */
-        .results {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
+        .notification-icon {
+            font-size: 1.5rem;
         }
 
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--gray-200);
+        /* Progress Ring */
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
         }
 
-        .result-item:last-child {
-            border-bottom: none;
+        .progress-ring svg {
+            transform: rotate(-90deg);
         }
 
-        .result-label {
-            font-weight: 600;
-            color: var(--gray-700);
+        .progress-ring-circle {
+            fill: none;
+            stroke: var(--gray-200);
+            stroke-width: 8;
         }
 
-        .result-value {
-            color: var(--primary-color);
+        .progress-ring-circle-progress {
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-ring-text {
+            font-size: 1.5rem;
             font-weight: 700;
+            fill: var(--gray-900);
+            text-anchor: middle;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Enhanced Header -->
+    <header class="header" id="header">
         <div class="header-container">
             <a href="#" class="logo">
                 <i class="fas fa-rocket"></i>
-                System Design Pro
+                Ultimate System Design Pro
             </a>
             <nav>
                 <ul class="nav-menu">
@@ -612,37 +1038,40 @@
                     <li><a href="#topics" class="nav-link">Topics</a></li>
                     <li><a href="#tools" class="nav-link">Tools</a></li>
                     <li><a href="#resources" class="nav-link">Resources</a></li>
+                    <li><a href="#progress" class="nav-link">Progress</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Enhanced Hero Section -->
     <section class="hero" id="overview">
-        <h1>Master System Design Interviews</h1>
-        <p class="subtitle">Comprehensive interview preparation guide for DevOps, SRE, and Cloud Engineers. Learn from real-world case studies and practical examples.</p>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-number">66</span>
-                <span class="stat-label">Topics Covered</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">14</span>
-                <span class="stat-label">Case Studies</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">50+</span>
-                <span class="stat-label">Interview Questions</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Course Coverage</span>
+        <div class="hero-content">
+            <h1>Master System Design Interviews</h1>
+            <p class="subtitle">Ultimate preparation platform for DevOps, SRE, and Cloud Engineers. Interactive tools, real-world case studies, and comprehensive interview preparation.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">66</span>
+                    <span class="stat-label">Topics Covered</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">14</span>
+                    <span class="stat-label">Case Studies</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Interview Questions</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Course Coverage</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Main Content -->
+    <!-- Enhanced Main Content -->
     <div class="main-content">
         <!-- Course Topics -->
         <section class="section" id="topics">
@@ -651,8 +1080,8 @@
                     <i class="fas fa-graduation-cap"></i>
                 </div>
                 <div class="section-title">
-                    <h2>Course Topics</h2>
-                    <p>Complete coverage of system design concepts from basics to advanced topics</p>
+                    <h2>Comprehensive Course Topics</h2>
+                    <p>Complete coverage of system design concepts from fundamentals to advanced topics</p>
                 </div>
             </div>
 
@@ -665,7 +1094,7 @@
                         <div class="card-title">Foundations</div>
                     </div>
                     <div class="card-description">
-                        System design fundamentals, evolution, and core concepts every engineer should know.
+                        System design fundamentals, evolution, and core concepts every engineer should know. Learn the basics and build a strong foundation.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 2 hours</span>
@@ -681,7 +1110,7 @@
                         <div class="card-title">Networking</div>
                     </div>
                     <div class="card-description">
-                        DNS, load balancing, CDN, API Gateway, and network architecture patterns.
+                        DNS, load balancing, CDN, API Gateway, and network architecture patterns. Master the fundamentals of distributed systems.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 3 hours</span>
@@ -697,7 +1126,7 @@
                         <div class="card-title">Protocols</div>
                     </div>
                     <div class="card-description">
-                        TCP/UDP, HTTP, REST, GraphQL, WebSocket, and modern API design patterns.
+                        TCP/UDP, HTTP, REST, GraphQL, WebSocket, and modern API design patterns. Understand communication protocols.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 2.5 hours</span>
@@ -713,7 +1142,7 @@
                         <div class="card-title">Architecture</div>
                     </div>
                     <div class="card-description">
-                        Microservices, event-driven, monolithic, and multi-tier architectural patterns.
+                        Microservices, event-driven, monolithic, and multi-tier architectural patterns. Design scalable systems.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 3 hours</span>
@@ -729,7 +1158,7 @@
                         <div class="card-title">Scalability</div>
                     </div>
                     <div class="card-description">
-                        Horizontal/vertical scaling, load balancing, auto-scaling, and performance optimization.
+                        Horizontal/vertical scaling, load balancing, auto-scaling, and performance optimization. Build systems that scale.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 2.5 hours</span>
@@ -745,7 +1174,7 @@
                         <div class="card-title">Storage</div>
                     </div>
                     <div class="card-description">
-                        SQL vs NoSQL, CAP theorem, sharding, replication, and distributed storage systems.
+                        SQL vs NoSQL, CAP theorem, sharding, replication, and distributed storage systems. Choose the right database.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-clock"></i> 3 hours</span>
@@ -762,8 +1191,8 @@
                     <i class="fas fa-calculator"></i>
                 </div>
                 <div class="section-title">
-                    <h2>Interactive Tools</h2>
-                    <p>Practical calculators and tools for system design planning and estimation</p>
+                    <h2>Interactive Design Tools</h2>
+                    <p>Advanced calculators and tools for system design planning and estimation</p>
                 </div>
             </div>
 
@@ -771,6 +1200,7 @@
                 <button class="tab active" onclick="switchTab('load')">Load Calculator</button>
                 <button class="tab" onclick="switchTab('database')">Database Sizing</button>
                 <button class="tab" onclick="switchTab('cloud')">Cloud Cost</button>
+                <button class="tab" onclick="switchTab('performance')">Performance</button>
             </div>
 
             <div id="load" class="tab-content active">
@@ -811,6 +1241,14 @@
                     <div class="result-item">
                         <span class="result-label">Peak Bandwidth:</span>
                         <span class="result-value" id="bandwidth">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Data Transfer:</span>
+                        <span class="result-value" id="monthlyData">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Estimated Monthly Cost:</span>
+                        <span class="result-value" id="monthlyCost">-</span>
                     </div>
                 </div>
             </div>
@@ -854,6 +1292,10 @@
                         <span class="result-label">IOPS Required:</span>
                         <span class="result-value" id="iopsRequired">-</span>
                     </div>
+                    <div class="result-item">
+                        <span class="result-label">Storage Type:</span>
+                        <span class="result-value" id="storageType">-</span>
+                    </div>
                 </div>
             </div>
 
@@ -861,10 +1303,10 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-label">Cloud Provider</label>
-                        <select class="form-input" id="cloudProvider">
-                            <option value="aws">AWS</option>
-                            <option value="gcp">Google Cloud</option>
-                            <option value="azure">Azure</option>
+                        <select class="form-select" id="cloudProvider">
+                            <option value="aws">Amazon Web Services</option>
+                            <option value="gcp">Google Cloud Platform</option>
+                            <option value="azure">Microsoft Azure</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -900,6 +1342,61 @@
                         <span class="result-label">Total Monthly Cost:</span>
                         <span class="result-value" id="totalCost">-</span>
                     </div>
+                    <div class="result-item">
+                        <span class="result-label">Annual Cost:</span>
+                        <span class="result-value" id="annualCost">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="performance" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Application Type</label>
+                        <select class="form-select" id="appType">
+                            <option value="web">Web Application</option>
+                            <option value="mobile">Mobile App</option>
+                            <option value="api">API Service</option>
+                            <option value="microservices">Microservices</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expected Users</label>
+                        <input type="number" class="form-input" id="perfUsers" value="100000" placeholder="Enter users">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Concurrent Users (%)</label>
+                        <input type="number" class="form-input" id="concurrentUsers" value="20" placeholder="Enter percentage">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Response Time Target (ms)</label>
+                        <input type="number" class="form-input" id="responseTime" value="200" placeholder="Enter ms">
+                    </div>
+                </div>
+                <button class="btn" onclick="calculatePerformance()">
+                    <i class="fas fa-tachometer-alt"></i> Calculate Performance
+                </button>
+                <div class="results" id="performanceResults" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Required Throughput:</span>
+                        <span class="result-value" id="requiredThroughput">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Memory Requirement:</span>
+                        <span class="result-value" id="memoryRequirement">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">CPU Cores Needed:</span>
+                        <span class="result-value" id="cpuCores">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Recommended Architecture:</span>
+                        <span class="result-value" id="recommendedArchitecture">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Scaling Strategy:</span>
+                        <span class="result-value" id="scalingStrategy">-</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -925,7 +1422,7 @@
                         <div class="card-title">Netflix Architecture</div>
                     </div>
                     <div class="card-description">
-                        Microservices, chaos engineering, and CDN strategies for 200M+ subscribers.
+                        Microservices, chaos engineering, CDN strategies, and fault tolerance for 200M+ subscribers. Learn how Netflix handles massive scale.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-users"></i> 200M+ users</span>
@@ -941,7 +1438,7 @@
                         <div class="card-title">Uber Real-time System</div>
                     </div>
                     <div class="card-description">
-                        Real-time location matching, dynamic pricing, and geospatial indexing.
+                        Real-time location matching, dynamic pricing, geospatial indexing, and surge pricing algorithms. Master real-time systems.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-users"></i> 100M+ users</span>
@@ -957,11 +1454,59 @@
                         <div class="card-title">Twitter Timeline</div>
                     </div>
                     <div class="card-description">
-                        Fan-out on write, timeline caching, and real-time feed generation.
+                        Fan-out on write, timeline caching, real-time feed generation, and handling 500M+ tweets per day. Optimize for scale.
                     </div>
                     <div class="card-meta">
                         <span><i class="fas fa-users"></i> 500M+ tweets/day</span>
                         <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-amazon"></i>
+                        </div>
+                        <div class="card-title">Amazon E-commerce</div>
+                    </div>
+                    <div class="card-description">
+                        Product catalog, shopping cart, payment processing, inventory management, and handling peak traffic during sales events.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-shopping-cart"></i> 300M+ products</span>
+                        <span class="badge">Advanced</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="card-title">Google Search</div>
+                    </div>
+                    <div class="card-description">
+                        Web crawling, indexing, ranking algorithms, distributed systems, and handling billions of search queries per day.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-search"></i> 5B+ searches/day</span>
+                        <span class="badge">Expert</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-facebook"></i>
+                        </div>
+                        <div class="card-title">Facebook Social Graph</div>
+                    </div>
+                    <div class="card-description">
+                        Social network architecture, feed ranking, real-time notifications, and handling 2.8B+ monthly active users.
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="fas fa-users"></i> 2.8B+ users</span>
+                        <span class="badge">Expert</span>
                     </div>
                 </div>
             </div>
@@ -988,7 +1533,7 @@
                         <div class="card-title">Complete Knowledge Base</div>
                     </div>
                     <div class="card-description">
-                        Comprehensive 300+ page guide covering all system design topics with examples.
+                        Comprehensive 300+ page guide covering all system design topics with examples, diagrams, and best practices.
                     </div>
                     <button class="btn" onclick="openResource('knowledge-base')">
                         <i class="fas fa-download"></i> View Guide
@@ -1003,7 +1548,7 @@
                         <div class="card-title">Interview Questions</div>
                     </div>
                     <div class="card-description">
-                        50+ system design interview questions with detailed answers and diagrams.
+                        50+ system design interview questions with detailed answers, diagrams, and step-by-step solution approaches.
                     </div>
                     <button class="btn btn-secondary" onclick="openResource('questions')">
                         <i class="fas fa-download"></i> View Questions
@@ -1018,17 +1563,100 @@
                         <div class="card-title">Code Examples</div>
                     </div>
                     <div class="card-description">
-                        Production-ready code examples for circuit breakers, rate limiters, and more.
+                        Production-ready code examples for circuit breakers, rate limiters, distributed locks, and monitoring systems.
                     </div>
                     <button class="btn btn-outline" onclick="openResource('code')">
                         <i class="fas fa-download"></i> View Code
                     </button>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="card-title">Video Tutorials</div>
+                    </div>
+                    <div class="card-description">
+                        Video explanations of complex system design concepts, whiteboard sessions, and interview walkthroughs.
+                    </div>
+                    <button class="btn" onclick="openResource('videos')">
+                        <i class="fas fa-play"></i> Watch Videos
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="card-title">Practice Tests</div>
+                    </div>
+                    <div class="card-description">
+                        Interactive practice tests with immediate feedback, scoring, and detailed explanations for each question.
+                    </div>
+                    <button class="btn btn-secondary" onclick="openResource('tests')">
+                        <i class="fas fa-pencil-alt"></i> Take Test
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tracking -->
+        <section class="section" id="progress">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="section-title">
+                    <h2>Learning Progress</h2>
+                    <p>Track your learning journey and interview preparation progress</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 3rem 0;">
+                <div class="progress-ring">
+                    <svg width="120" height="120">
+                        <circle class="progress-ring-circle" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+                        <circle class="progress-ring-circle-progress" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+                        <text x="60" y="65" class="progress-ring-text" id="progressText">0%</text>
+                    </svg>
+                </div>
+                <h3 style="margin: 1rem 0; color: var(--gray-700);">Overall Progress</h3>
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">Complete all topics to achieve 100% mastery</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; text-align: left;">
+                    <div style="background: var(--gray-50); padding: 1.5rem; border-radius: 0.5rem;">
+                        <h4 style="color: var(--gray-800); margin-bottom: 1rem;">Completed Topics</h4>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">0/66</div>
+                        <div class="progress-bar" style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 1rem;">
+                            <div style="background: var(--success-color); height: 100%; width: 0%; transition: width 2s ease;" id="topicsProgress"></div>
+                        </div>
+                    </div>
+                    <div style="background: var(--gray-50); padding: 1.5rem; border-radius: 0.5rem;">
+                        <h4 style="color: var(--gray-800); margin-bottom: 1rem;">Practice Tests</h4>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--accent-color);">0/50</div>
+                        <div class="progress-bar" style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 1rem;">
+                            <div style="background: var(--accent-color); height: 100%; width: 0%; transition: width 2s ease;" id="testsProgress"></div>
+                        </div>
+                    </div>
+                    <div style="background: var(--gray-50); padding: 1.5rem; border-radius: 0.5rem;">
+                        <h4 style="color: var(--gray-800); margin-bottom: 1rem;">Case Studies</h4>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary-color);">0/14</div>
+                        <div class="progress-bar" style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 1rem;">
+                            <div style="background: var(--secondary-color); height: 100%; width: 0%; transition: width 2s ease;" id="casesProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="resetProgress()" style="margin-top: 2rem;">
+                    <i class="fas fa-redo"></i> Reset Progress
+                </button>
             </div>
         </section>
     </div>
 
-    <!-- Footer -->
+    <!-- Enhanced Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
@@ -1038,13 +1666,34 @@
                 <a href="#" class="footer-link">Privacy</a>
             </div>
             <p class="footer-text">
-                © 2024 System Design Pro. Built for DevOps, SRE, and Cloud Engineers.
+                © 2024 Ultimate System Design Pro. Built for DevOps, SRE, and Cloud Engineers.
             </p>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle notification-icon"></i>
+            <span id="notificationText">Success!</span>
+        </div>
+    </div>
+
     <script>
-        // Tab switching
+        // Enhanced JavaScript functionality
+        let currentTab = 'load';
+        let progressData = {
+            topics: 0,
+            tests: 0,
+            cases: 0
+        };
+
+        // Tab switching with enhanced animations
         function switchTab(tabName) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -1061,9 +1710,12 @@
             
             // Add active class to clicked tab
             event.target.classList.add('active');
+            
+            currentTab = tabName;
+            showNotification(`Switched to ${tabName.charAt(0).toUpperCase() + tabName.slice(1)} tab`);
         }
 
-        // Calculator functions
+        // Enhanced calculator functions
         function calculateLoad() {
             const users = parseInt(document.getElementById('users').value);
             const requestsPerUser = parseInt(document.getElementById('requestsPerUser').value);
@@ -1074,13 +1726,24 @@
             const peakQPS = baseQPS * peakMultiplier;
             const serversNeeded = Math.ceil(peakQPS / 1000);
             const bandwidthGB = Math.round((peakQPS * avgResponseSize * 1024) / (1024 * 1024 * 1024) * 8 * 1024) / 1024;
+            const monthlyDataGB = Math.round((users * requestsPerUser * avgResponseSize * 1024 * 30) / (1024 * 1024 * 1024));
+            const monthlyCost = Math.round(serversNeeded * 50 + bandwidthGB * 0.09 + monthlyDataGB * 0.023);
             
-            document.getElementById('avgQPS').textContent = Math.round(baseQPS).toLocaleString();
-            document.getElementById('peakQPS').textContent = Math.round(peakQPS).toLocaleString();
-            document.getElementById('serversNeeded').textContent = serversNeeded;
-            document.getElementById('bandwidth').textContent = bandwidthGB.toFixed(2) + ' GB/s';
+            // Update results with animation
+            animateValue('avgQPS', Math.round(baseQPS).toLocaleString());
+            animateValue('peakQPS', Math.round(peakQPS).toLocaleString());
+            animateValue('serversNeeded', serversNeeded);
+            animateValue('bandwidth', bandwidthGB.toFixed(2) + ' GB/s');
+            animateValue('monthlyData', monthlyDataGB.toLocaleString() + ' GB');
+            animateValue('monthlyCost', '$' + monthlyCost.toLocaleString());
             
             document.getElementById('loadResults').style.display = 'block';
+            
+            // Update progress
+            progressData.topics++;
+            updateProgress();
+            
+            showNotification('Load calculation completed successfully!');
         }
 
         function calculateDatabase() {
@@ -1094,13 +1757,22 @@
             const dataSize = totalRecords * avgRecordSize * 1024;
             const recommendedDB = writeQPS > 10000 ? 'NoSQL' : 'SQL';
             const iopsRequired = readQPS + writeQPS;
+            const storageType = dataSize > (100 * 1024 * 1024 * 1024) ? 'Distributed' : 'Single';
             
-            document.getElementById('totalRecords').textContent = totalRecords.toLocaleString();
-            document.getElementById('dataSize').textContent = (dataSize / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
-            document.getElementById('recommendedDB').textContent = recommendedDB;
-            document.getElementById('iopsRequired').textContent = iopsRequired.toLocaleString();
+            // Update results with animation
+            animateValue('totalRecords', totalRecords.toLocaleString());
+            animateValue('dataSize', (dataSize / (1024 * 1024 * 1024)).toFixed(2) + ' GB');
+            animateValue('recommendedDB', recommendedDB);
+            animateValue('iopsRequired', iopsRequired.toLocaleString());
+            animateValue('storageType', storageType);
             
             document.getElementById('databaseResults').style.display = 'block';
+            
+            // Update progress
+            progressData.topics++;
+            updateProgress();
+            
+            showNotification('Database sizing completed successfully!');
         }
 
         function calculateCloud() {
@@ -1109,11 +1781,26 @@
             const storage = parseInt(document.getElementById('storageGB').value);
             const transfer = parseInt(document.getElementById('dataTransfer').value);
             
-            // Simplified pricing model
+            // Enhanced pricing model
             const pricing = {
-                aws: { compute: 50, storage: 0.023, transfer: 0.09 },
-                gcp: { compute: 45, storage: 0.025, transfer: 0.12 },
-                azure: { compute: 55, storage: 0.022, transfer: 0.087 }
+                aws: { 
+                    compute: 50, 
+                    storage: 0.023, 
+                    transfer: 0.09,
+                    name: 'Amazon Web Services'
+                },
+                gcp: { 
+                    compute: 45, 
+                    storage: 0.025, 
+                    transfer: 0.12,
+                    name: 'Google Cloud Platform'
+                },
+                azure: { 
+                    compute: 55, 
+                    storage: 0.022, 
+                    transfer: 0.087,
+                    name: 'Microsoft Azure'
+                }
             };
             
             const rates = pricing[provider];
@@ -1121,13 +1808,81 @@
             const storageCost = storage * rates.storage;
             const transferCost = transfer * rates.transfer;
             const totalCost = computeCost + storageCost + transferCost;
+            const annualCost = totalCost * 12;
             
-            document.getElementById('computeCost').textContent = '$' + computeCost.toFixed(2);
-            document.getElementById('storageCost').textContent = '$' + storageCost.toFixed(2);
-            document.getElementById('transferCost').textContent = '$' + transferCost.toFixed(2);
-            document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+            // Update results with animation
+            animateValue('computeCost', '$' + computeCost.toFixed(2));
+            animateValue('storageCost', '$' + storageCost.toFixed(2));
+            animateValue('transferCost', '$' + transferCost.toFixed(2));
+            animateValue('totalCost', '$' + totalCost.toFixed(2));
+            animateValue('annualCost', '$' + annualCost.toFixed(2));
             
             document.getElementById('cloudResults').style.display = 'block';
+            
+            // Update progress
+            progressData.topics++;
+            updateProgress();
+            
+            showNotification(`Cloud cost calculated for ${rates.name}!`);
+        }
+
+        function calculatePerformance() {
+            const appType = document.getElementById('appType').value;
+            const users = parseInt(document.getElementById('perfUsers').value);
+            const concurrentUsers = parseInt(document.getElementById('concurrentUsers').value) / 100;
+            const responseTime = parseInt(document.getElementById('responseTime').value);
+            
+            const concurrentUsersCount = Math.floor(users * concurrentUsers);
+            const requiredThroughput = concurrentUsersCount * (1000 / responseTime);
+            const memoryRequirement = concurrentUsersCount * 50; // 50MB per user
+            const cpuCores = Math.ceil(concurrentUsersCount / 1000); // 1 core per 1000 users
+            
+            let recommendedArchitecture = 'Monolithic';
+            let scalingStrategy = 'Vertical';
+            
+            if (users > 100000) {
+                recommendedArchitecture = 'Microservices';
+                scalingStrategy = 'Horizontal';
+            } else if (users > 10000) {
+                recommendedArchitecture = 'Hybrid';
+                scalingStrategy = 'Both';
+            }
+            
+            // Update results with animation
+            animateValue('requiredThroughput', requiredThroughput.toLocaleString() + ' req/s');
+            animateValue('memoryRequirement', (memoryRequirement / 1024).toFixed(2) + ' GB');
+            animateValue('cpuCores', cpuCores);
+            animateValue('recommendedArchitecture', recommendedArchitecture);
+            animateValue('scalingStrategy', scalingStrategy);
+            
+            document.getElementById('performanceResults').style.display = 'block';
+            
+            // Update progress
+            progressData.topics++;
+            updateProgress();
+            
+            showNotification('Performance requirements calculated!');
+        }
+
+        // Animate value changes
+        function animateValue(elementId, endValue) {
+            const element = document.getElementById(elementId);
+            const startValue = 0;
+            const duration = 1000;
+            const startTime = performance.now();
+            
+            function updateValue(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+                element.textContent = currentValue;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
         }
 
         // Open resource functions
@@ -1135,12 +1890,92 @@
             const urls = {
                 'knowledge-base': 'knowledge-base.html',
                 'questions': 'COMPLETE_SYSTEM_DESIGN_KNOWLEDGE_BASE.md',
-                'code': 'professional-knowledge-base.html'
+                'code': 'professional-knowledge-base.html',
+                'videos': '#videos',
+                'tests': '#tests'
             };
+            
+            if (type === 'videos' || type === 'tests') {
+                showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} coming soon!`);
+                return;
+            }
+            
             window.open(urls[type], '_blank');
+            showNotification(`Opening ${type} resource...`);
         }
 
-        // Smooth scrolling
+        // Progress tracking
+        function updateProgress() {
+            const totalItems = 66 + 50 + 14; // topics + questions + cases
+            const completedItems = progressData.topics + progressData.tests + progressData.cases;
+            const percentage = Math.round((completedItems / totalItems) * 100);
+            
+            // Update overall progress ring
+            const progressRing = document.querySelector('.progress-ring-circle-progress');
+            const progressText = document.getElementById('progressText');
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            progressRing.style.strokeDashoffset = offset;
+            progressText.textContent = percentage + '%';
+            
+            // Update individual progress bars
+            const topicsProgress = (progressData.topics / 66) * 100;
+            const testsProgress = (progressData.tests / 50) * 100;
+            const casesProgress = (progressData.cases / 14) * 100;
+            
+            document.getElementById('topicsProgress').style.width = topicsProgress + '%';
+            document.getElementById('testsProgress').style.width = testsProgress + '%';
+            document.getElementById('casesProgress').style.width = casesProgress + '%';
+            
+            // Update completed items count
+            document.querySelector('.progress-ring').nextElementSibling.querySelector('div').innerHTML = 
+                `<h4 style="color: var(--gray-800); margin-bottom: 1rem;">Completed Topics</h4>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">${progressData.topics}/66</div>`;
+        }
+
+        function resetProgress() {
+            progressData = { topics: 0, tests: 0, cases: 0 };
+            updateProgress();
+            showNotification('Progress has been reset!');
+        }
+
+        // Enhanced scroll effects
+        function handleScroll() {
+            const header = document.getElementById('header');
+            const backToTop = document.getElementById('backToTop');
+            const scrollProgress = document.getElementById('scrollProgress');
+            
+            const scrollPosition = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / maxScroll) * 100;
+            
+            // Update scroll progress bar
+            scrollProgress.style.width = scrollPercentage + '%';
+            
+            // Header scroll effect
+            if (scrollPosition > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            // Back to top button visibility
+            if (scrollPosition > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Enhanced smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1154,23 +1989,50 @@
             });
         });
 
-        // Add fade-in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Notification system
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add scroll listener
+            window.addEventListener('scroll', handleScroll);
+            
+            // Initialize progress
+            updateProgress();
+            
+            // Auto-calculate first tab
+            setTimeout(() => {
+                calculateLoad();
+            }, 1000);
+            
+            // Add intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections
+            document.querySelectorAll('.section, .calculator-section').forEach(section => {
+                observer.observe(section);
             });
-        }, observerOptions);
-
-        // Observe all sections
-        document.querySelectorAll('.section, .calculator-section').forEach(section => {
-            observer.observe(section);
         });
     </script>
 </body>
