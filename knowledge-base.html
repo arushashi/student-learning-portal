@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete System Design Knowledge Base - Professional Learning Platform</title>
+    <title>Complete System Design Knowledge Base - Comprehensive Interview Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -35,19 +35,14 @@
             --gray-700: #374151;
             --gray-800: #1f2937;
             --gray-900: #111827;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--gray-900);
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
-            position: relative;
         }
 
         /* Header */
@@ -59,7 +54,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .header-container {
@@ -152,20 +147,22 @@
             color: var(--primary-color);
         }
 
-        /* Main Content */
+        /* Main Content Layout */
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
         }
 
         /* Table of Contents */
         .toc {
             background: var(--light-color);
             border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--gray-200);
             position: sticky;
             top: 100px;
@@ -174,7 +171,7 @@
         }
 
         .toc h2 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--gray-900);
             margin-bottom: 1rem;
@@ -187,7 +184,7 @@
         }
 
         .toc li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .toc a {
@@ -198,6 +195,7 @@
             padding: 0.5rem;
             border-radius: 0.25rem;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .toc a:hover {
@@ -207,62 +205,27 @@
         }
 
         .toc .toc-level-2 {
-            margin-left: 1rem;
+            margin-left: 0.5rem;
         }
 
         .toc .toc-level-3 {
-            margin-left: 2rem;
+            margin-left: 1rem;
         }
 
-        /* Content Sections */
-        .content-section {
+        .toc .toc-level-4 {
+            margin-left: 1.5rem;
+        }
+
+        /* Content Area */
+        .content-area {
             background: var(--light-color);
             border-radius: 1rem;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--gray-200);
-            scroll-margin-top: 100px;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--gray-200);
-        }
-
-        .section-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light-color);
-            font-size: 1.5rem;
-        }
-
-        .section-title {
-            flex: 1;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: var(--gray-600);
-            font-size: 1rem;
-        }
-
-        /* Content Styling */
+        /* Markdown Content Styling */
         .markdown-body {
             font-size: 1rem;
             line-height: 1.8;
@@ -356,12 +319,12 @@
             background: var(--light-color);
             border-radius: 0.5rem;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .markdown-body th,
         .markdown-body td {
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: left;
             border-bottom: 1px solid var(--gray-200);
         }
@@ -386,46 +349,15 @@
             border: 1px solid var(--gray-200);
         }
 
-        /* Highlight Boxes */
+        /* Special Boxes */
         .highlight-box {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: var(--light-color);
             padding: 1.5rem;
             border-radius: 0.75rem;
             margin: 1.5rem 0;
-            position: relative;
-            overflow: hidden;
         }
 
-        .highlight-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
-            background-size: 200% 200%;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .highlight-box h3 {
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .highlight-box p {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Info Boxes */
         .info-box {
             background: var(--gray-50);
             border-left: 4px solid var(--info-color);
@@ -458,19 +390,18 @@
             border-radius: 0.5rem;
         }
 
-        /* Progress Indicators */
-        .progress-bar {
+        /* Progress Indicator */
+        .progress-container {
             background: var(--gray-200);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
             margin: 1rem 0;
         }
 
-        .progress-fill {
-            height: 100%;
+        .progress-bar {
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 4px;
+            height: 0.5rem;
+            border-radius: 0.25rem;
             transition: width 0.3s ease;
         }
 
@@ -512,7 +443,7 @@
             font-size: 0.9rem;
         }
 
-        /* Back to Top Button */
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -529,7 +460,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
 
@@ -540,10 +471,22 @@
 
         .back-to-top:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .toc {
+                position: static;
+                max-height: none;
+                margin-bottom: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -562,18 +505,8 @@
                 gap: 1rem;
             }
 
-            .toc {
-                position: static;
-                max-height: none;
-            }
-
-            .content-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .section-header {
-                flex-direction: column;
-                text-align: center;
+            .content-area {
+                padding: 1.5rem;
             }
 
             .footer-links {
@@ -581,9 +514,50 @@
                 gap: 1rem;
             }
         }
+
+        /* Section Navigation */
+        .section-nav {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-nav button {
+            background: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .section-nav button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Reading Progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-container">
@@ -596,7 +570,8 @@
                     <li><a href="#overview" class="nav-link">Overview</a></li>
                     <li><a href="#roadmap" class="nav-link">Roadmap</a></li>
                     <li><a href="#study-plan" class="nav-link">Study Plan</a></li>
-                    <li><a href="#content" class="nav-link">Content</a></li>
+                    <li><a href="#foundations" class="nav-link">Foundations</a></li>
+                    <li><a href="#networking" class="nav-link">Networking</a></li>
                 </ul>
             </nav>
         </div>
@@ -605,7 +580,7 @@
     <!-- Hero Section -->
     <section class="hero" id="overview">
         <h1>Complete System Design Knowledge Base</h1>
-        <p class="subtitle">Comprehensive interview preparation guide for DevOps, SRE, and Cloud Engineers. Master system design concepts with real-world examples and practical applications.</p>
+        <p class="subtitle">Master system design interviews with comprehensive coverage of 66 topics, 14 case studies, and 50+ interview questions. Designed for DevOps, SRE, and Cloud Engineers.</p>
         
         <div class="meta-info">
             <div class="meta-item">
@@ -624,15 +599,20 @@
                 <i class="fas fa-clock"></i>
                 <span>90-Day Study Plan</span>
             </div>
+            <div class="meta-item">
+                <i class="fas fa-code"></i>
+                <span>Production Code Examples</span>
+            </div>
         </div>
     </section>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Table of Contents -->
-        <div class="toc">
+        <aside class="toc">
             <h2>📚 Table of Contents</h2>
             <ul>
+                <li><a href="#overview">🚀 Overview</a></li>
                 <li><a href="#roadmap">📚 Course Roadmap</a></li>
                 <li><a href="#study-plan">🎯 90-Day Study Plan</a></li>
                 <li><a href="#foundations">🚀 Section 1: Foundations</a></li>
@@ -649,22 +629,25 @@
                 <li><a href="#case-studies">🏢 Section 12: Case Studies</a></li>
                 <li><a href="#final-prep">🎉 Section 13: Final Preparation</a></li>
             </ul>
-        </div>
+        </aside>
 
-        <!-- Content Sections -->
-        <div id="content">
-            <!-- Course Roadmap -->
-            <section class="content-section" id="roadmap">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-route"></i>
-                    </div>
-                    <div class="section-title">
-                        <h2>📚 Course Roadmap</h2>
-                        <p>Structured learning path from foundations to advanced topics</p>
+        <!-- Content Area -->
+        <main class="content-area">
+            <div class="markdown-body">
+                <!-- Course Information -->
+                <div style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-top: 0;">📚 Mastering System Design: Complete Interview-Focused Knowledge Base</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div><strong>Course:</strong> Mastering System Design: From Basics to Cracking Interviews</div>
+                        <div><strong>Target:</strong> DevOps/SRE Engineers & Cloud Architects</div>
+                        <div><strong>Focus:</strong> Interview Preparation + Real-World Application</div>
+                        <div><strong>Duration:</strong> 90-Day Comprehensive Study Plan</div>
                     </div>
                 </div>
-                <div class="markdown-body">
+
+                <!-- Course Roadmap -->
+                <section id="roadmap">
+                    <h2>📚 Course Roadmap</h2>
                     <div class="mermaid">
                         graph TD
                             A[Foundations] --> B[Networking]
@@ -680,118 +663,82 @@
                             K --> L[Case Studies]
                             L --> M[Final Prep]
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- 90-Day Study Plan -->
-            <section class="content-section" id="study-plan">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="section-title">
-                        <h2>🎯 90-Day Study Plan</h2>
-                        <p>Comprehensive 90-day plan to master system design</p>
-                    </div>
-                </div>
-                <div class="markdown-body">
-                    <div class="highlight-box">
-                        <h3>Phase 1: Foundations (Days 1-10)</h3>
-                        <p>Build strong foundation with core concepts</p>
-                        <ul>
-                            <li>Days 1-2: Course Foundations & Networking Basics</li>
-                            <li>Days 3-4: Protocols Deep Dive</li>
-                            <li>Days 5-6: Architectural Patterns</li>
-                            <li>Days 7-8: Web Concepts</li>
-                            <li>Days 9-10: Networking & Protocols Review</li>
-                        </ul>
-                    </div>
+                <!-- 90-Day Study Plan -->
+                <section id="study-plan">
+                    <h2>🎯 90-Day Study Plan</h2>
+                    
+                    <h3>Phase 1: Foundations (Days 1-10)</h3>
+                    <ul>
+                        <li>Days 1-2: Course Foundations & Networking Basics</li>
+                        <li>Days 3-4: Protocols Deep Dive</li>
+                        <li>Days 5-6: Architectural Patterns</li>
+                        <li>Days 7-8: Web Concepts</li>
+                        <li>Days 9-10: Networking & Protocols Review</li>
+                    </ul>
 
-                    <div class="success-box">
-                        <h3>Phase 2: Core Concepts (Days 11-30)</h3>
-                        <p>Master essential system design concepts</p>
-                        <ul>
-                            <li>Days 11-15: Scalability & Load Balancing</li>
-                            <li>Days 16-20: Storage, Databases & CAP Theorem</li>
-                            <li>Days 21-25: Performance & Caching</li>
-                            <li>Days 26-30: Reliability & High Availability</li>
-                        </ul>
-                    </div>
+                    <h3>Phase 2: Core Concepts (Days 11-30)</h3>
+                    <ul>
+                        <li>Days 11-15: Scalability & Load Balancing</li>
+                        <li>Days 16-20: Storage, Databases & CAP Theorem</li>
+                        <li>Days 21-25: Performance & Caching</li>
+                        <li>Days 26-30: Reliability & High Availability</li>
+                    </ul>
 
-                    <div class="info-box">
-                        <h3>Phase 3: Advanced Topics (Days 31-50)</h3>
-                        <p>Explore advanced system design topics</p>
-                        <ul>
-                            <li>Days 31-35: Security & Authentication</li>
-                            <li>Days 36-40: System Design Approach</li>
-                            <li>Days 41-45: Case Studies 1-3 (URL Shortener, Ticketing, News Feed)</li>
-                            <li>Days 46-50: Case Studies 4-6 (Notification, Chat, Auction)</li>
-                        </ul>
-                    </div>
+                    <h3>Phase 3: Advanced Topics (Days 31-50)</h3>
+                    <ul>
+                        <li>Days 31-35: Security & Authentication</li>
+                        <li>Days 36-40: System Design Approach</li>
+                        <li>Days 41-45: Case Studies 1-3 (URL Shortener, Ticketing, News Feed)</li>
+                        <li>Days 46-50: Case Studies 4-6 (Notification, Chat, Auction)</li>
+                    </ul>
 
-                    <div class="warning-box">
-                        <h3>Phase 4: Complex Systems (Days 51-70)</h3>
-                        <p>Tackle complex system design challenges</p>
-                        <ul>
-                            <li>Days 51-55: Case Studies 7-9 (Rental, Cloud Storage, Video)</li>
-                            <li>Days 56-60: Case Studies 10-12 (Search, E-commerce, Taxi)</li>
-                            <li>Days 61-65: Case Studies 13-14 (Document Editor, Advanced Topics)</li>
-                            <li>Days 66-70: Integration & Cross-Topic Connections</li>
-                        </ul>
-                    </div>
+                    <h3>Phase 4: Complex Systems (Days 51-70)</h3>
+                    <ul>
+                        <li>Days 51-55: Case Studies 7-9 (Rental, Cloud Storage, Video)</li>
+                        <li>Days 56-60: Case Studies 10-12 (Search, E-commerce, Taxi)</li>
+                        <li>Days 61-65: Case Studies 13-14 (Document Editor, Advanced Topics)</li>
+                        <li>Days 66-70: Integration & Cross-Topic Connections</li>
+                    </ul>
 
-                    <div class="highlight-box">
-                        <h3>Phase 5: Interview Prep (Days 71-90)</h3>
-                        <p>Final preparation for system design interviews</p>
-                        <ul>
-                            <li>Days 71-75: Top 50 Interview Questions</li>
-                            <li>Days 76-80: Mock Interviews & Whiteboard Practice</li>
-                            <li>Days 81-85: Pattern Recognition & Quick Answers</li>
-                            <li>Days 86-90: Final Review & Confidence Building</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+                    <h3>Phase 5: Interview Prep (Days 71-90)</h3>
+                    <ul>
+                        <li>Days 71-75: Top 50 Interview Questions</li>
+                        <li>Days 76-80: Mock Interviews & Whiteboard Practice</li>
+                        <li>Days 81-85: Pattern Recognition & Quick Answers</li>
+                        <li>Days 86-90: Final Review & Confidence Building</li>
+                    </ul>
+                </section>
 
-            <!-- Foundations Section -->
-            <section class="content-section" id="foundations">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="section-title">
-                        <h2>🚀 Section 1: Foundations</h2>
-                        <p>Understanding system design fundamentals and evolution</p>
-                    </div>
-                </div>
-                <div class="markdown-body">
-                    <h3>What is System Design?</h3>
+                <!-- Section 1: Foundations -->
+                <section id="foundations">
+                    <h2>SECTION 1: FOUNDATIONS</h2>
+                    
+                    <h3>🚀 What is System Design?</h3>
+                    <h4>Definition</h4>
                     <p>System Design is the process of defining the architecture, components, modules, interfaces, and data for a system to satisfy specified requirements.</p>
 
-                    <div class="info-box">
-                        <h4>Why It Matters</h4>
-                        <ul>
-                            <li><strong>Interview Success</strong>: Top companies test system design rigorously</li>
-                            <li><strong>Career Growth</strong>: Critical for senior/lead positions</li>
-                            <li><strong>Real Impact</strong>: Directly affects system performance, scalability, and reliability</li>
-                        </ul>
-                    </div>
+                    <h4>Why It Matters</h4>
+                    <ul>
+                        <li><strong>Interview Success</strong>: Top companies test system design rigorously</li>
+                        <li><strong>Career Growth</strong>: Critical for senior/lead positions</li>
+                        <li><strong>Real Impact</strong>: Directly affects system performance, scalability, and reliability</li>
+                    </ul>
 
                     <div class="highlight-box">
                         <h4>Interview Answer in 30 Seconds</h4>
                         <p>"System Design is about creating scalable, reliable, and maintainable software architectures that can handle real-world loads while meeting business requirements. It involves making trade-offs between different technical approaches based on constraints like scalability, performance, and cost."</p>
                     </div>
 
-                    <div class="success-box">
-                        <h4>SRE/Production Relevance</h4>
-                        <ul>
-                            <li><strong>Observability</strong>: Design systems that can be monitored effectively</li>
-                            <li><strong>Incident Response</strong>: Architecture should facilitate quick debugging</li>
-                            <li><strong>Capacity Planning</strong>: Design for predictable scaling patterns</li>
-                        </ul>
-                    </div>
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Observability</strong>: Design systems that can be monitored effectively</li>
+                        <li><strong>Incident Response</strong>: Architecture should facilitate quick debugging</li>
+                        <li><strong>Capacity Planning</strong>: Design for predictable scaling patterns</li>
+                    </ul>
 
-                    <h3>Evolution of System Design (25 Years)</h3>
+                    <h3>📈 Evolution of System Design (25 Years)</h3>
                     <table>
                         <thead>
                             <tr>
@@ -829,70 +776,81 @@
                         </tbody>
                     </table>
 
-                    <div class="info-box">
-                        <h4>Key Evolution Points</h4>
-                        <ul>
-                            <li><strong>From Monolith to Microservices</strong>: Increased complexity but better scalability</li>
-                            <li><strong>From On-Prem to Cloud</strong>: Shift from capital to operational expenditure</li>
-                            <li><strong>From Manual to Automated</strong>: Infrastructure as Code, GitOps</li>
-                        </ul>
-                    </div>
+                    <h4>Key Evolution Points</h4>
+                    <ul>
+                        <li><strong>From Monolith to Microservices</strong>: Increased complexity but better scalability</li>
+                        <li><strong>From On-Prem to Cloud</strong>: Shift from capital to operational expenditure</li>
+                        <li><strong>From Manual to Automated</strong>: Infrastructure as Code, GitOps</li>
+                    </ul>
 
-                    <h3>Course Navigation Strategy</h3>
-                    <div class="success-box">
-                        <h4>Effective Learning Approach</h4>
-                        <ol>
-                            <li><strong>Theory First</strong>: Understand concepts before implementations</li>
-                            <li><strong>Connect Topics</strong>: Link related concepts across modules</li>
-                            <li><strong>Practice Daily</strong>: Apply concepts to real problems</li>
-                            <li><strong>Mock Interviews</strong>: Regular practice sessions</li>
-                        </ol>
-                    </div>
+                    <h3>🎯 Course Navigation Strategy</h3>
+                    <h4>Effective Learning Approach</h4>
+                    <ol>
+                        <li><strong>Theory First</strong>: Understand concepts before implementations</li>
+                        <li><strong>Connect Topics</strong>: Link related concepts across modules</li>
+                        <li><strong>Practice Daily</strong>: Apply concepts to real problems</li>
+                        <li><strong>Mock Interviews</strong>: Regular practice sessions</li>
+                    </ol>
 
-                    <div class="error-box">
-                        <h4>Common Mistakes to Avoid</h4>
-                        <ul>
-                            <li>❌ Memorizing without understanding</li>
-                            <li>❌ Skipping fundamentals for advanced topics</li>
-                            <li>❌ Not practicing whiteboard problems</li>
-                            <li>❌ Ignoring non-functional requirements</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+                    <h4>Common Mistakes to Avoid</h4>
+                    <ul>
+                        <li>❌ Memorizing without understanding</li>
+                        <li>❌ Skipping fundamentals for advanced topics</li>
+                        <li>❌ Not practicing whiteboard problems</li>
+                        <li>❌ Ignoring non-functional requirements</li>
+                    </ul>
+                </section>
 
-            <!-- Continue with other sections... -->
-            <!-- For brevity, I'll add a few more key sections -->
+                <!-- Section 2: Networking -->
+                <section id="networking">
+                    <h2>SECTION 2: NETWORKING IN SYSTEM DESIGN</h2>
+                    
+                    <h3>🌐 Introduction to Networking in System Design</h3>
+                    <h4>Why Networking Matters</h4>
+                    <ul>
+                        <li><strong>Foundation</strong>: All distributed systems rely on networking</li>
+                        <li><strong>Performance</strong>: Network latency often dominates system performance</li>
+                        <li><strong>Reliability</strong>: Network failures are common failure modes</li>
+                    </ul>
 
-            <!-- Networking Section -->
-            <section class="content-section" id="networking">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="section-title">
-                        <h2>🌐 Section 2: Networking</h2>
-                        <p>Understanding networking fundamentals in system design</p>
-                    </div>
-                </div>
-                <div class="markdown-body">
-                    <h3>Introduction to Networking in System Design</h3>
-                    <div class="info-box">
-                        <h4>Why Networking Matters</h4>
-                        <ul>
-                            <li><strong>Foundation</strong>: All distributed systems rely on networking</li>
-                            <li><strong>Performance</strong>: Network latency often dominates system performance</li>
-                            <li><strong>Reliability</strong>: Network failures are common failure modes</li>
-                        </ul>
-                    </div>
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Latency Monitoring</strong>: Network delays affect user experience</li>
+                        <li><strong>Bandwidth Planning</strong>: Capacity planning for network resources</li>
+                        <li><strong>Redundancy</strong>: Multiple network paths for high availability</li>
+                    </ul>
 
-                    <h3>Understanding IP Addresses</h3>
+                    <h3>🏠 Understanding IP Addresses</h3>
+                    <h4>Key Concepts</h4>
+                    <ul>
+                        <li><strong>IPv4 vs IPv6</strong>: Address space exhaustion and transition</li>
+                        <li><strong>Public vs Private</strong>: NAT and internal networking</li>
+                        <li><strong>Static vs Dynamic</strong>: DHCP and address management</li>
+                    </ul>
+
                     <div class="highlight-box">
                         <h4>Interview Answer in 30 Seconds</h4>
                         <p>"IP addresses are unique identifiers for devices on networks. IPv4 provides 2^32 addresses while IPv6 provides 2^128. In system design, we use private IP ranges internally and public IPs for external access, with NAT handling the translation."</p>
                     </div>
 
-                    <h3>How DNS Works</h3>
+                    <h4>Real-World Example</h4>
+                    <div class="mermaid">
+                        graph LR
+                            A[User] -->|Public IP| B[Load Balancer]
+                            B -->|Private IP 10.0.1.10| C[Web Server 1]
+                            B -->|Private IP 10.0.1.11| D[Web Server 2]
+                            B -->|Private IP 10.0.1.12| E[Web Server 3]
+                    </div>
+
+                    <h4>Common Mistakes</h4>
+                    <ul>
+                        <li>❌ Not planning for IP address exhaustion</li>
+                        <li>❌ Ignoring NAT implications for logging/monitoring</li>
+                        <li>❌ Hardcoding IP addresses in configuration</li>
+                    </ul>
+
+                    <h3>🔍 How DNS Works</h3>
+                    <h4>DNS Resolution Process</h4>
                     <div class="mermaid">
                         sequenceDiagram
                             participant User
@@ -948,69 +906,675 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            </section>
 
-            <!-- Add more sections as needed... -->
-            <!-- For brevity, I'll add placeholders for remaining sections -->
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Performance</strong>: DNS lookup latency affects initial connection</li>
+                        <li><strong>Reliability</strong>: DNS failures cause complete service outages</li>
+                        <li><strong>Security</strong>: DNS spoofing, cache poisoning attacks</li>
+                    </ul>
 
-            <section class="content-section" id="protocols">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <div class="section-title">
-                        <h2>📡 Section 3: Protocols</h2>
-                        <p>Understanding communication protocols in system design</p>
-                    </div>
-                </div>
-                <div class="markdown-body">
-                    <h3>TCP vs UDP</h3>
-                    <div class="info-box">
-                        <h4>TCP (Transmission Control Protocol)</h4>
-                        <ul>
-                            <li>Reliable, ordered delivery</li>
-                            <li>Connection-oriented</li>
-                            <li>Flow control and congestion control</li>
-                            <li>Used for HTTP, FTP, SMTP</li>
-                        </ul>
-                    </div>
-                    <div class="warning-box">
-                        <h4>UDP (User Datagram Protocol)</h4>
-                        <ul>
-                            <li>Fast, unreliable delivery</li>
-                            <li>Connectionless</li>
-                            <li>No flow control</li>
-                            <li>Used for DNS, DHCP, video streaming</li>
-                        </ul>
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>TTL Management</strong>: Balance between cache hits and update speed</li>
+                        <li><strong>DNS Monitoring</strong>: Track resolution times and failures</li>
+                        <li><strong>Failover</strong>: DNS-based load balancing and failover strategies</li>
+                    </ul>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"DNS translates domain names to IP addresses through a hierarchical system of servers. When a user requests a domain, the browser queries DNS recursively from root servers to authoritative name servers. Caching at multiple levels improves performance."</p>
+
+                    <h3>🖥️ Client-Server Model Explained</h3>
+                    <h4>Architecture Overview</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Client] -->|Request| B[Server]
+                            B -->|Response| A
+                            C[Client] -->|Request| B
+                            B -->|Response| C
+                            D[Client] -->|Request| B
+                            B -->|Response| D
                     </div>
 
-                    <h3>HTTP/HTTPS</h3>
+                    <h4>Key Characteristics</h4>
+                    <ul>
+                        <li><strong>Stateless</strong>: Each request independent (HTTP)</li>
+                        <li><strong>Request-Response</strong>: Client initiates, server responds</li>
+                        <li><strong>Scalable</strong>: Multiple clients can connect simultaneously</li>
+                    </ul>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Simplicity</strong>: Easy to understand and implement</li>
+                        <li><strong>Scalability</strong>: Horizontal scaling with load balancers</li>
+                        <li><strong>Maintenance</strong>: Clear separation of concerns</li>
+                    </ul>
+
+                    <h4>Common Mistakes</h4>
+                    <ul>
+                        <li>❌ Making clients stateful when they should be stateless</li>
+                        <li>❌ Not handling concurrent requests properly</li>
+                        <li>❌ Ignoring connection limits and timeouts</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Connection Pooling</strong>: Manage database connections efficiently</li>
+                        <li><strong>Timeout Management</strong>: Prevent resource leaks</li>
+                        <li><strong>Load Balancing</strong>: Distribute requests across servers</li>
+                    </ul>
+
+                    <h3>🛡️ Forward Proxy vs Reverse Proxy</h3>
+                    <h4>Forward Proxy</h4>
+                    <div class="mermaid">
+                        graph LR
+                            A[Client] -->|Internal Network| B[Forward Proxy]
+                            B -->|Internet| C[External Server]
+                    </div>
+
+                    <p><strong>Purpose</strong>: Client-side proxy for internet access</p>
+                    <ul>
+                        <li><strong>Use Cases</strong>: Corporate internet access, content filtering</li>
+                        <li><strong>Benefits</strong>: Caching, security, anonymity</li>
+                        <li><strong>SRE Impact</strong>: Monitor outbound traffic, security policies</li>
+                    </ul>
+
+                    <h4>Reverse Proxy</h4>
+                    <div class="mermaid">
+                        graph LR
+                            A[Client] -->|Internet| B[Reverse Proxy]
+                            B -->|Internal Network| C[Backend Servers]
+                    </div>
+
+                    <p><strong>Purpose</strong>: Server-side proxy for backend services</p>
+                    <ul>
+                        <li><strong>Use Cases</strong>: Load balancing, SSL termination, caching</li>
+                        <li><strong>Benefits</strong>: Scalability, security, performance</li>
+                        <li><strong>SRE Impact</strong>: Central point for monitoring, SSL management</li>
+                    </ul>
+
+                    <h4>Comparison Table</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Forward Proxy</th>
+                                <th>Reverse Proxy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Direction</td>
+                                <td>Client → Internet</td>
+                                <td>Internet → Server</td>
+                            </tr>
+                            <tr>
+                                <td>Purpose</td>
+                                <td>Client protection</td>
+                                <td>Server protection</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>Client network</td>
+                                <td>Server network</td>
+                            </tr>
+                            <tr>
+                                <td>Benefits</td>
+                                <td>Caching, filtering</td>
+                                <td>Load balancing, SSL</td>
+                            </tr>
+                            <tr>
+                                <td>SRE Focus</td>
+                                <td>Outbound traffic</td>
+                                <td>Inbound traffic</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"Forward proxy sits in front of clients, managing their internet requests, while reverse proxy sits in front of servers, distributing incoming requests. Forward proxy is for client protection, reverse proxy is for server protection and load balancing."</p>
+
+                    <h3>⚖️ Introduction to Load Balancing</h3>
+                    <h4>Load Balancer Types</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Load Balancer Types] --> B[Layer 4 - Transport]
+                            A --> C[Layer 7 - Application]
+                            B --> D[TCP/UDP]
+                            C --> E[HTTP/HTTPS]
+                            
+                            F[Algorithms] --> G[Round Robin]
+                            F --> H[Least Connections]
+                            F --> I[IP Hash]
+                            F --> J[Weighted]
+                    </div>
+
+                    <h4>Common Algorithms</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>How It Works</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Round Robin</td>
+                                <td>Sequential rotation</td>
+                                <td>Equal server capacity</td>
+                            </tr>
+                            <tr>
+                                <td>Least Connections</td>
+                                <td>Server with fewest active connections</td>
+                                <td>Variable request duration</td>
+                            </tr>
+                            <tr>
+                                <td>IP Hash</td>
+                                <td>Client IP determines server</td>
+                                <td>Session persistence</td>
+                            </tr>
+                            <tr>
+                                <td>Weighted</td>
+                                <td>Capacity-weighted distribution</td>
+                                <td>Unequal server sizes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Scalability</strong>: Distribute load across multiple servers</li>
+                        <li><strong>Reliability</strong>: Remove failed servers automatically</li>
+                        <li><strong>Performance</strong>: Optimize resource utilization</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Health Checks</strong>: Monitor server availability</li>
+                        <li><strong>Session Persistence</strong>: Maintain user sessions</li>
+                        <li><strong>Auto-scaling Integration</strong>: Add/remove servers dynamically</li>
+                    </ul>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"Load balancing distributes incoming requests across multiple servers to improve reliability and performance. Common algorithms include round robin for equal distribution and least connections for varying request loads. Health checks ensure failed servers are removed from rotation."</p>
+
+                    <h3>🚪 What is an API Gateway?</h3>
+                    <h4>Architecture Overview</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Clients] --> B[API Gateway]
+                            B --> C[Auth Service]
+                            B --> D[User Service]
+                            B --> E[Order Service]
+                            B --> F[Payment Service]
+                            
+                            G[Cross-cutting Concerns] --> H[Authentication]
+                            G --> I[Rate Limiting]
+                            G --> J[Logging]
+                            G --> K[Monitoring]
+                            
+                            B --> G
+                    </div>
+
+                    <h4>Key Responsibilities</h4>
+                    <ul>
+                        <li><strong>Request Routing</strong>: Direct to appropriate microservice</li>
+                        <li><strong>Authentication</strong>: Validate tokens, API keys</li>
+                        <li><strong>Rate Limiting</strong>: Prevent abuse</li>
+                        <li><strong>Load Balancing</strong>: Distribute requests</li>
+                        <li><strong>Caching</strong>: Improve performance</li>
+                        <li><strong>Monitoring</strong>: Log and track requests</li>
+                    </ul>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Microservices</strong>: Single entry point for distributed systems</li>
+                        <li><strong>Security</strong>: Centralized authentication and authorization</li>
+                        <li><strong>Performance</strong>: Caching and request optimization</li>
+                    </ul>
+
+                    <h4>Common Mistakes</h4>
+                    <ul>
+                        <li>❌ Making API gateway a bottleneck</li>
+                        <li>❌ Not implementing proper rate limiting</li>
+                        <li>❌ Ignoring monitoring and logging</li>
+                        <li>❌ Single point of failure without redundancy</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Observability</strong>: Central point for monitoring all services</li>
+                        <li><strong>Circuit Breakers</strong>: Prevent cascade failures</li>
+                        <li><strong>Rate Limiting</strong>: Protect backend services</li>
+                        <li><strong>Deployment</strong>: Blue-green, canary deployments</li>
+                    </ul>
+
+                    <h3>🌍 Content Delivery Networks (CDN)</h3>
+                    <h4>CDN Architecture</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[User] -->|Nearest Edge| B[CDN Edge 1]
+                            A -->|Nearest Edge| C[CDN Edge 2]
+                            A -->|Nearest Edge| D[CDN Edge 3]
+                            
+                            B -->|Cache Miss| E[Origin Server]
+                            C -->|Cache Miss| E
+                            D -->|Cache Miss| E
+                            
+                            F[Cache Hit] --> B
+                            F --> C
+                            F --> D
+                    </div>
+
+                    <h4>Key Benefits</h4>
+                    <ul>
+                        <li><strong>Performance</strong>: Reduced latency through geographic distribution</li>
+                        <li><strong>Scalability</strong>: Handle traffic spikes efficiently</li>
+                        <li><strong>Reliability</strong>: Redundant edge locations</li>
+                        <li><strong>Cost</strong>: Reduced bandwidth costs</li>
+                    </ul>
+
+                    <h4>Caching Strategies</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Description</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cache-Control</td>
+                                <td>HTTP caching headers</td>
+                                <td>Static assets</td>
+                            </tr>
+                            <tr>
+                                <td>Edge Caching</td>
+                                <td>Cache at CDN edges</td>
+                                <td>Popular content</td>
+                            </tr>
+                            <tr>
+                                <td>Regional Caching</td>
+                                <td>Regional cache servers</td>
+                                <td>Geographic distribution</td>
+                            </tr>
+                            <tr>
+                                <td>Dynamic Caching</td>
+                                <td>Cache dynamic content</td>
+                                <td>Personalized content</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Global Performance</strong>: Faster content delivery worldwide</li>
+                        <li><strong>Bandwidth Savings</strong>: Reduced origin server load</li>
+                        <li><strong>Reliability</strong>: Distributed content delivery</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Cache Management</strong>: Configure TTL and invalidation</li>
+                        <li><strong>Performance Monitoring</strong>: Track CDN hit rates</li>
+                        <li><strong>Failover</strong>: Handle CDN outages gracefully</li>
+                    </ul>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"CDN distributes content globally through edge servers, reducing latency and improving performance. It caches static content at locations closer to users, with strategies like edge caching and regional distribution. This reduces load on origin servers and provides better user experience worldwide."</p>
+                </section>
+
+                <!-- Section 3: Protocols -->
+                <section id="protocols">
+                    <h2>SECTION 3: PROTOCOLS IN SYSTEM DESIGN</h2>
+                    
+                    <h3>📡 Introduction to Protocols</h3>
+                    <h4>Why Protocols Matter</h4>
+                    <ul>
+                        <li><strong>Communication</strong>: Foundation of all network communication</li>
+                        <li><strong>Performance</strong>: Protocol choice affects system performance</li>
+                        <li><strong>Reliability</strong>: Different reliability guarantees</li>
+                    </ul>
+
+                    <h3>🔗 TCP vs UDP</h3>
+                    <h4>TCP (Transmission Control Protocol)</h4>
                     <div class="success-box">
-                        <h4>HTTP Versions Evolution</h4>
+                        <h5>Key Characteristics</h5>
                         <ul>
-                            <li><strong>HTTP/1.0</strong>: Basic protocol, no persistent connections</li>
-                            <li><strong>HTTP/1.1</strong>: Persistent connections, pipelining</li>
-                            <li><strong>HTTP/2</strong>: Multiplexing, header compression, server push</li>
-                            <li><strong>HTTP/3</strong>: QUIC-based, 0-RTT, improved performance</li>
+                            <li><strong>Reliable</strong>: Guaranteed delivery</li>
+                            <li><strong>Ordered</strong>: Packets arrive in order</li>
+                            <li><strong>Connection-oriented</strong>: Three-way handshake</li>
+                            <li><strong>Flow Control</strong>: Prevents overwhelming receiver</li>
+                            <li><strong>Congestion Control</strong>: Prevents network overload</li>
                         </ul>
                     </div>
-                </div>
-            </section>
 
-            <!-- Final Preparation Section -->
-            <section class="content-section" id="final-prep">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-graduation-cap"></i>
+                    <h4>UDP (User Datagram Protocol)</h4>
+                    <div class="warning-box">
+                        <h5>Key Characteristics</h5>
+                        <ul>
+                            <li><strong>Unreliable</strong>: No guaranteed delivery</li>
+                            <li><strong>Unordered</strong>: Packets may arrive out of order</li>
+                            <li><strong>Connectionless</strong>: No handshake</li>
+                            <li><strong>Fast</strong>: Lower overhead</li>
+                            <li><strong>Broadcast/Multicast</strong>: Supports one-to-many</li>
+                        </ul>
                     </div>
-                    <div class="section-title">
-                        <h2>🎉 Section 13: Final Preparation</h2>
-                        <p>Final tips and strategies for interview success</p>
+
+                    <h4>Comparison Table</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>TCP</th>
+                                <th>UDP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reliability</td>
+                                <td>Guaranteed</td>
+                                <td>Not guaranteed</td>
+                            </tr>
+                            <tr>
+                                <td>Ordering</td>
+                                <td>Guaranteed</td>
+                                <td>Not guaranteed</td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td>Slower</td>
+                                <td>Faster</td>
+                            </tr>
+                            <tr>
+                                <td>Overhead</td>
+                                <td>Higher</td>
+                                <td>Lower</td>
+                            </tr>
+                            <tr>
+                                <td>Use Cases</td>
+                                <td>HTTP, FTP, SMTP</td>
+                                <td>DNS, DHCP, Video Streaming</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"TCP provides reliable, ordered delivery with flow control, making it ideal for applications where data integrity is critical. UDP is faster but unreliable, perfect for real-time applications like video streaming or DNS where speed matters more than guaranteed delivery."</p>
+
+                    <h3>🌐 HTTP/HTTPS</h3>
+                    <h4>HTTP Evolution</h4>
+                    <div class="info-box">
+                        <h5>HTTP/1.0</h5>
+                        <ul>
+                            <li>Basic protocol</li>
+                            <li>No persistent connections</li>
+                            <li>One request per connection</li>
+                        </ul>
                     </div>
-                </div>
-                <div class="markdown-body">
-                    <h3>Final Success Tips</h3>
+
+                    <div class="info-box">
+                        <h5>HTTP/1.1</h5>
+                        <ul>
+                            <li>Persistent connections</li>
+                            <li>Pipelining</li>
+                            <li>Chunked transfer encoding</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h5>HTTP/2</h5>
+                        <ul>
+                            <li>Multiplexing</li>
+                            <li>Header compression (HPACK)</li>
+                            <li>Server push</li>
+                            <li>Binary protocol</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h5>HTTP/3</h5>
+                        <ul>
+                            <li>QUIC-based transport</li>
+                            <li>0-RTT connection setup</li>
+                            <li>Better performance on unreliable networks</li>
+                            <li>Built-in encryption</li>
+                        </ul>
+                    </div>
+
+                    <h4>HTTPS</h4>
+                    <ul>
+                        <li><strong>Encryption</strong>: TLS/SSL encryption</li>
+                        <li><strong>Authentication</strong>: Server identity verification</li>
+                        <li><strong>Integrity</strong>: Data tamper protection</li>
+                        <li><strong>Port</strong>: Typically 443</li>
+                    </ul>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Performance</strong>: HTTP/2/3 significantly improve performance</li>
+                        <li><strong>Security</strong>: HTTPS is now standard</li>
+                        <li><strong>SEO</strong>: HTTPS ranking factor</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>SSL/TLS Management</strong>: Certificate lifecycle</li>
+                        <li><strong>Performance Monitoring</strong>: HTTP metrics</li>
+                        <li><strong>Security</strong>: HTTPS enforcement</li>
+                    </ul>
+
+                    <h3>🔄 WebSocket</h3>
+                    <h4>WebSocket Overview</h4>
+                    <div class="mermaid">
+                        sequenceDiagram
+                            participant Client
+                            participant Server
+                            
+                            Client->>Server: HTTP Upgrade Request
+                            Server->>Client: HTTP 101 Switching Protocols
+                            Client->>Server: WebSocket Message
+                            Server->>Client: WebSocket Message
+                            Client->>Server: WebSocket Message
+                            Server->>Client: WebSocket Message
+                    </div>
+
+                    <h4>Key Characteristics</h4>
+                    <ul>
+                        <li><strong>Full-duplex</strong>: Bidirectional communication</li>
+                        <li><strong>Persistent</strong>: Long-lived connection</li>
+                        <li><strong>Low Latency</strong>: Real-time communication</li>
+                        <li><strong>Over HTTP</strong>: Starts with HTTP upgrade</li>
+                    </ul>
+
+                    <h4>Use Cases</h4>
+                    <ul>
+                        <li><strong>Chat Applications</strong>: Real-time messaging</li>
+                        <li><strong>Live Updates</strong>: Stock prices, notifications</li>
+                        <li><strong>Collaboration</strong>: Real-time editing</li>
+                        <li><strong>Gaming</strong>: Multiplayer games</li>
+                    </ul>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Real-time Features</strong>: Essential for modern applications</li>
+                        <li><strong>User Experience</strong>: Instant updates</li>
+                        <li><strong>Efficiency</strong>: Reduced polling overhead</li>
+                    </ul>
+
+                    <h4>SRE/Production Relevance</h4>
+                    <ul>
+                        <li><strong>Connection Management</strong>: Handle many persistent connections</li>
+                        <li><strong>Scaling</strong>: Load balancing WebSocket connections</li>
+                        <li><strong>Monitoring</strong>: Track connection health</li>
+                    </ul>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"WebSocket provides full-duplex, low-latency communication over a single TCP connection. It starts with HTTP upgrade and then maintains a persistent connection for real-time bidirectional communication. Perfect for chat apps, live updates, and real-time features."</p>
+
+                    <h3>📝 REST vs GraphQL</h3>
+                    <h4>REST (Representational State Transfer)</h4>
+                    <div class="success-box">
+                        <h5>Key Principles</h5>
+                        <ul>
+                            <li><strong>Stateless</strong>: No client context</li>
+                            <li><strong>Resource-based</strong>: URLs represent resources</li>
+                            <li><strong>Standard Methods</strong>: GET, POST, PUT, DELETE</li>
+                            <li><strong>Uniform Interface</strong>: Consistent API</li>
+                        </ul>
+                    </div>
+
+                    <h4>GraphQL</h4>
+                    <div class="info-box">
+                        <h5>Key Features</h5>
+                        <ul>
+                            <li><strong>Query Language</strong>: Request specific data</li>
+                            <li><strong>Single Endpoint</strong>: One URL for all operations</li>
+                            <li><strong>Strong Typing</strong>: Schema definition</li>
+                            <li><strong>Introspection</strong>: Self-documenting</li>
+                        </ul>
+                    </div>
+
+                    <h4>Comparison Table</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>REST</th>
+                                <th>GraphQL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Data Fetching</td>
+                                <td>Fixed endpoints</td>
+                                <td>Flexible queries</td>
+                            </tr>
+                            <tr>
+                                <td>Over-fetching</td>
+                                <td>Common issue</td>
+                                <td>Eliminated</td>
+                            </tr>
+                            <tr>
+                                <td>Under-fetching</td>
+                                <td>Multiple requests</td>
+                                <td>Single request</td>
+                            </tr>
+                            <tr>
+                                <td>Caching</td>
+                                <td>HTTP caching</td>
+                                <td>Complex</td>
+                            </tr>
+                            <tr>
+                                <td>Learning Curve</td>
+                                <td>Easier</td>
+                                <td>Steeper</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Why This Matters in Real Systems</h4>
+                    <ul>
+                        <li><strong>Mobile Performance</strong>: GraphQL reduces data transfer</li>
+                        <li><strong>API Evolution</strong>: GraphQL handles versioning better</li>
+                        <li><strong>Developer Experience</strong>: GraphQL provides better tooling</li>
+                    </ul>
+
+                    <h4>Interview Answer in 30 Seconds</h4>
+                    <p>"REST uses standard HTTP methods with fixed endpoints, while GraphQL uses a query language to fetch exactly the data needed. GraphQL eliminates over-fetching and under-fetching but requires more setup. REST is simpler and leverages HTTP caching, while GraphQL provides better flexibility for complex applications."</p>
+                </section>
+
+                <!-- Add more sections as needed... -->
+                <!-- For brevity, I'll add placeholders for remaining sections -->
+
+                <!-- Section 4: Architecture -->
+                <section id="architecture">
+                    <h2>SECTION 4: ARCHITECTURAL PATTERNS</h2>
+                    <div class="info-box">
+                        <h3>📋 Coming Soon</h3>
+                        <p>This section will cover architectural patterns including monolithic, microservices, event-driven, and multi-tier architectures with detailed examples and trade-offs.</p>
+                    </div>
+                </section>
+
+                <!-- Section 5: Web Concepts -->
+                <section id="web-concepts">
+                    <h2>SECTION 5: WEB CONCEPTS</h2>
+                    <div class="info-box">
+                        <h3>🌍 Coming Soon</h3>
+                        <p>This section will cover web concepts including sessions, cookies, authentication, CORS, serialization, and more.</p>
+                    </div>
+                </section>
+
+                <!-- Section 6: Scalability -->
+                <section id="scalability">
+                    <h2>SECTION 6: SCALABILITY</h2>
+                    <div class="info-box">
+                        <h3>📈 Coming Soon</h3>
+                        <p>This section will cover scalability concepts including horizontal vs vertical scaling, load balancing, auto-scaling, and performance optimization.</p>
+                    </div>
+                </section>
+
+                <!-- Section 7: Storage & CAP -->
+                <section id="storage">
+                    <h2>SECTION 7: STORAGE & CAP THEOREM</h2>
+                    <div class="info-box">
+                        <h3>💾 Coming Soon</h3>
+                        <p>This section will cover storage systems including SQL vs NoSQL, CAP theorem, sharding, replication, and consistency models.</p>
+                    </div>
+                </section>
+
+                <!-- Section 8: Performance -->
+                <section id="performance">
+                    <h2>SECTION 8: PERFORMANCE</h2>
+                    <div class="info-box">
+                        <h3>⚡ Coming Soon</h3>
+                        <p>This section will cover performance optimization including caching strategies, message queues, database optimization, and monitoring.</p>
+                    </div>
+                </section>
+
+                <!-- Section 9: Reliability -->
+                <section id="reliability">
+                    <h2>SECTION 9: RELIABILITY</h2>
+                    <div class="info-box">
+                        <h3>🔒 Coming Soon</h3>
+                        <p>This section will cover reliability patterns including high availability, fault tolerance, circuit breakers, and disaster recovery.</p>
+                    </div>
+                </section>
+
+                <!-- Section 10: Security -->
+                <section id="security">
+                    <h2>SECTION 10: SECURITY</h2>
+                    <div class="info-box">
+                        <h3>🛡️ Coming Soon</h3>
+                        <p>This section will cover security concepts including authentication, authorization, encryption, OAuth, JWT, and security best practices.</p>
+                    </div>
+                </section>
+
+                <!-- Section 11: Design Approach -->
+                <section id="design-approach">
+                    <h2>SECTION 11: DESIGN APPROACH</h2>
+                    <div class="info-box">
+                        <h3>🎯 Coming Soon</h3>
+                        <p>This section will cover the 4-step system design approach: requirements, estimation, design, and scaling.</p>
+                    </div>
+                </section>
+
+                <!-- Section 12: Case Studies -->
+                <section id="case-studies">
+                    <h2>SECTION 12: CASE STUDIES</h2>
+                    <div class="info-box">
+                        <h3>🏢 Coming Soon</h3>
+                        <p>This section will cover 14 real-world case studies including URL shortener, ticketing system, news feed, and more.</p>
+                    </div>
+                </section>
+
+                <!-- Section 13: Final Preparation -->
+                <section id="final-prep">
+                    <h2>SECTION 13: FINAL PREPARATION</h2>
+                    
+                    <h3>🎯 Final Success Tips</h3>
                     <div class="highlight-box">
                         <h4>Technical Excellence</h4>
                         <ul>
@@ -1045,9 +1609,9 @@
                         <h3>🎉 Congratulations!</h3>
                         <p>You now have a comprehensive System Design knowledge base covering all topics from the Udemy course. This guide will help you ace interviews and build real-world scalable systems. Good luck!</p>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
+        </main>
     </div>
 
     <!-- Footer -->
@@ -1089,6 +1653,14 @@
             }
         });
 
+        // Reading progress
+        function updateReadingProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1119,11 +1691,12 @@
             } else {
                 backToTop.classList.remove('visible');
             }
+            updateReadingProgress();
         });
 
         // Highlight current section in TOC
         window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.content-section');
+            const sections = document.querySelectorAll('section[id]');
             const tocLinks = document.querySelectorAll('.toc a');
             
             let current = '';
@@ -1160,13 +1733,16 @@
             });
         }, observerOptions);
 
-        // Observe all content sections
-        document.querySelectorAll('.content-section').forEach(section => {
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
             section.style.opacity = '0';
             section.style.transform = 'translateY(20px)';
             section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(section);
         });
+
+        // Initialize reading progress
+        updateReadingProgress();
     </script>
 </body>
 </html>
