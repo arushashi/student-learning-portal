@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DNS - System Design Learning Portal</title>
-    <base href="/student-learning-portal/">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/concept.css">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 </head>
@@ -48,8 +48,8 @@
                     <p class="topic-description">The internet's phonebook that translates domain names to IP addresses</p>
                     <div class="topic-meta">
                         <span class="difficulty beginner">Beginner</span>
-                        <span class="duration">⏱ 18 min</span>
-                        <span class="last-updated">📅 April 2, 2024</span>
+                        <span class="duration">â± 18 min</span>
+                        <span class="last-updated">ðŸ“… April 2, 2024</span>
                     </div>
                 </div>
                 <div class="topic-actions">
@@ -240,17 +240,17 @@
                                     <div style="text-align: center; margin-top: 20px;">
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px;">
                                             <div style="width: 60px; height: 30px; background: #667eea; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">User</div>
-                                            <span>→</span>
+                                            <span>â†’</span>
                                             <div style="width: 80px; height: 30px; background: #ffc107; border-radius: 5px; line-height: 30px; font-size: 10px;">Resolver</div>
-                                            <span>→</span>
+                                            <span>â†’</span>
                                             <div style="width: 70px; height: 30px; background: #28a745; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Root</div>
-                                            <span>→</span>
+                                            <span>â†’</span>
                                             <div style="width: 70px; height: 30px; background: #17a2b8; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">TLD</div>
-                                            <span>→</span>
+                                            <span>â†’</span>
                                             <div style="width: 80px; height: 30px; background: #dc3545; color: white; border-radius: 5px; line-height: 30px; font-size: 10px;">Authoritative</div>
                                         </div>
                                         <div style="font-size: 11px; color: #666;">
-                                            Query flow: User → Resolver → Root → TLD → Authoritative → Back to User
+                                            Query flow: User â†’ Resolver â†’ Root â†’ TLD â†’ Authoritative â†’ Back to User
                                         </div>
                                     </div>
                                 </div>
@@ -304,7 +304,7 @@
                                     <ul>
                                         <li><strong>User Query:</strong> Browser requests domain resolution</li>
                                         <li><strong>Resolver Check:</strong> Local resolver checks cache first</li>
-                                        <li><strong>Hierarchical Query:</strong> If not cached, queries root → TLD → authoritative servers</li>
+                                        <li><strong>Hierarchical Query:</strong> If not cached, queries root â†’ TLD â†’ authoritative servers</li>
                                         <li><strong>Response:</strong> IP address returned and cached</li>
                                         <li><strong>Connection:</strong> Browser connects to the IP address</li>
                                     </ul>
@@ -319,9 +319,9 @@
                                 <div class="answer-content">
                                     <p>Common DNS record types include:</p>
                                     <ul>
-                                        <li><strong>A Record:</strong> IPv4 address mapping (example.com → 192.0.2.1)</li>
+                                        <li><strong>A Record:</strong> IPv4 address mapping (example.com â†’ 192.0.2.1)</li>
                                         <li><strong>AAAA Record:</strong> IPv6 address mapping</li>
-                                        <li><strong>CNAME Record:</strong> Canonical name alias (www.example.com → example.com)</li>
+                                        <li><strong>CNAME Record:</strong> Canonical name alias (www.example.com â†’ example.com)</li>
                                         <li><strong>MX Record:</strong> Mail exchange servers for email</li>
                                         <li><strong>NS Record:</strong> Name servers for the domain</li>
                                         <li><strong>TXT Record:</strong> Text information (SPF, DKIM, verification)</li>
@@ -551,7 +551,7 @@
                         </div>
                         <h4>Video Tutorials</h4>
                         <p>Recommended video content for visual learners</p>
-                        <a href="#" class="resource-link">Watch Videos →</a>
+                        <a href="#" class="resource-link">Watch Videos â†’</a>
                     </div>
                     <div class="resource-card">
                         <div class="resource-icon">
@@ -559,7 +559,7 @@
                         </div>
                         <h4>Documentation</h4>
                         <p>Official documentation and technical specs</p>
-                        <a href="#" class="resource-link">Read Docs →</a>
+                        <a href="#" class="resource-link">Read Docs â†’</a>
                     </div>
                     <div class="resource-card">
                         <div class="resource-icon">
@@ -567,7 +567,7 @@
                         </div>
                         <h4>Code Examples</h4>
                         <p>Practical implementations and sample code</p>
-                        <a href="#" class="resource-link">View Code →</a>
+                        <a href="#" class="resource-link">View Code â†’</a>
                     </div>
                 </div>
             </section>
@@ -621,3 +621,4 @@
     <script src="../assets/js/concept.js"></script>
 </body>
 </html>
+
