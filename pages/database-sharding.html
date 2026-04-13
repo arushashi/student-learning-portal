@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Sharding - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Database Sharding</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Database Sharding</h1>
+                    <p class="topic-description">Horizontal partitioning of data across multiple database instances for massive scalability and performance</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#x23F1; 30 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="database-sharding">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&amp;A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Database Sharding?</h3>
+                                <p>Database sharding is a horizontal partitioning strategy that distributes data across multiple independent database instances, called shards. Each shard holds a subset of the total data and operates as a fully functional database. Unlike vertical partitioning (which splits columns), sharding splits rows &mdash; for example, users with IDs 1&ndash;1,000,000 go to Shard A, while users 1,000,001&ndash;2,000,000 go to Shard B. This allows a system to scale beyond the limits of a single database server by spreading reads, writes, and storage across multiple machines.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Sharding is a last-resort scaling strategy. It introduces significant complexity in application logic, cross-shard queries, and data rebalancing. Always exhaust vertical scaling, read replicas, caching, and query optimization before sharding.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a massive library with 10 million books. A single building can't hold them all efficiently &mdash; finding any book takes too long because the catalog is enormous. So you split the library into 10 branches: Branch A holds books by authors A&ndash;C, Branch B holds D&ndash;F, and so on. Each branch has its own catalog, shelves, and librarians. If someone wants a book by "Garcia," they go straight to Branch C. This is sharding &mdash; splitting a large dataset into smaller, manageable pieces distributed across separate instances.</p>
+
+                                <p>In database systems, sharding becomes necessary when a single database server cannot handle the data volume or request rate. The process involves:</p>
+
+                                <ul>
+                                    <li><strong>Choosing a shard key:</strong> The column or attribute used to determine which shard holds each row (e.g., user_id, region, tenant_id)</li>
+                                    <li><strong>Applying a sharding strategy:</strong> Range-based, hash-based, directory-based, or geographic sharding to distribute data evenly</li>
+                                    <li><strong>Routing queries:</strong> A routing layer or application logic directs each query to the correct shard based on the shard key</li>
+                                    <li><strong>Handling cross-shard operations:</strong> Joins, aggregations, and transactions that span multiple shards require special coordination</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Twitter</h5>
+                                        <p>Twitter shards its tweet storage by user ID. When you post a tweet, it is stored on the shard determined by your user ID using a hash function. This means all tweets from the same user live on the same shard, making user timeline queries fast (single-shard reads). Twitter processes over 500 million tweets per day across thousands of shards. Their shard routing layer uses consistent hashing so that adding new shards only requires migrating a fraction of the data rather than reshuffling everything.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points &amp; Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-key"></i> Shard Key Selection</h4>
+                                <p>The shard key is the most critical decision in sharding. A good shard key has high cardinality (many unique values), even distribution (no hotspots), and aligns with query patterns (most queries include the shard key). Poor shard key choices lead to unbalanced shards, hotspots, and excessive cross-shard queries. Common shard keys include user_id, tenant_id, and geographic region.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-th"></i> Sharding Strategies</h4>
+                                <p><strong>Range-based:</strong> Split by value ranges (e.g., dates, IDs) &mdash; simple but prone to hotspots. <strong>Hash-based:</strong> Hash the shard key for even distribution &mdash; great balance but loses range query efficiency. <strong>Directory-based:</strong> A lookup table maps each key to its shard &mdash; flexible but the directory is a single point of failure. <strong>Geographic:</strong> Shard by region for data locality and compliance.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exclamation-triangle"></i> Cross-Shard Challenges</h4>
+                                <p>Queries spanning multiple shards are expensive. Cross-shard joins require scatter-gather patterns. Distributed transactions need two-phase commit (2PC) or saga patterns, which are slow and complex. Aggregations (COUNT, SUM) must query all shards and merge results. Unique constraints across shards are nearly impossible to enforce efficiently. Design your schema to minimize cross-shard operations.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Rebalancing &amp; Resharding</h4>
+                                <p>As data grows unevenly, shards become imbalanced (some shards store far more data than others). Rebalancing involves migrating data between shards while the system is live &mdash; an extremely complex operation. Consistent hashing minimizes data movement when adding or removing shards. Tools like Vitess (for MySQL) and native sharding in MongoDB automate much of this complexity.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Sharding splits data horizontally across multiple database instances (shards)</li>
+                                <li>The shard key determines data distribution &mdash; choose one with high cardinality and even distribution</li>
+                                <li>Common strategies: range-based, hash-based, directory-based, and geographic sharding</li>
+                                <li>Cross-shard queries, joins, and transactions are expensive and should be minimized</li>
+                                <li>Rebalancing is complex &mdash; consistent hashing helps reduce data movement</li>
+                                <li>Exhaust simpler scaling strategies (replicas, caching, indexing) before sharding</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Hash-Based Sharding Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Application routes queries to the correct shard using a hash function on the shard key</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 140px; height: 50px; background: #667eea; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-size: 13px;">
+                                            Application Layer
+                                        </div>
+                                        <div style="color: #667eea; font-size: 18px;">&#x2193;</div>
+                                        <div style="display: inline-block; width: 160px; height: 50px; background: #764ba2; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-size: 12px;">
+                                            Shard Router (hash)
+                                        </div>
+                                        <div style="color: #764ba2; font-size: 14px; margin-bottom: 8px;">&#x2199; &nbsp; &#x2193; &nbsp; &#x2198;</div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 45px; background: #28a745; color: white; border-radius: 5px; line-height: 45px; font-size: 11px;">Shard 0</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 3px;">Users 0-33%</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 45px; background: #fd7e14; color: white; border-radius: 5px; line-height: 45px; font-size: 11px;">Shard 1</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 3px;">Users 34-66%</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 45px; background: #dc3545; color: white; border-radius: 5px; line-height: 45px; font-size: 11px;">Shard 2</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 3px;">Users 67-100%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Sharding Strategies Comparison</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <p>Tradeoffs between different sharding approaches</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 15px;">
+                                        <div style="margin-bottom: 14px; padding: 8px; background: rgba(102,126,234,0.1); border-radius: 6px;">
+                                            <strong style="color: #667eea;">Range-Based:</strong> Simple to implement, supports range queries, but prone to hotspots if data is skewed
+                                        </div>
+                                        <div style="margin-bottom: 14px; padding: 8px; background: rgba(40,167,69,0.1); border-radius: 6px;">
+                                            <strong style="color: #28a745;">Hash-Based:</strong> Even data distribution, no hotspots, but range queries require querying all shards
+                                        </div>
+                                        <div style="margin-bottom: 14px; padding: 8px; background: rgba(253,126,20,0.1); border-radius: 6px;">
+                                            <strong style="color: #fd7e14;">Directory-Based:</strong> Maximum flexibility, custom routing rules, but lookup table is a bottleneck and SPOF
+                                        </div>
+                                        <div style="padding: 8px; background: rgba(220,53,69,0.1); border-radius: 6px;">
+                                            <strong style="color: #dc3545;">Geographic:</strong> Data locality for compliance and low latency, but uneven distribution across regions
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions &amp; Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When should you shard a database, and what alternatives should you try first?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Sharding should be considered only after simpler scaling strategies have been exhausted:</p>
+                                    <ul>
+                                        <li><strong>Try first &mdash; Vertical scaling:</strong> Upgrade to a more powerful server (more RAM, faster SSDs, more CPU cores). This is the simplest approach and works until you hit hardware limits.</li>
+                                        <li><strong>Try first &mdash; Read replicas:</strong> For read-heavy workloads, add read replicas to distribute SELECT queries. This can handle 10x read traffic without touching the write path.</li>
+                                        <li><strong>Try first &mdash; Caching:</strong> Add Redis or Memcached to cache frequently accessed data. This can reduce database load by 80-90%.</li>
+                                        <li><strong>Try first &mdash; Query optimization:</strong> Add proper indexes, fix N+1 queries, denormalize hot tables, and use connection pooling.</li>
+                                        <li><strong>Shard when:</strong> A single database server cannot handle the write volume, the dataset exceeds single-server storage, or you need geographic data partitioning for compliance (e.g., GDPR requires EU user data in EU servers).</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you choose a good shard key?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Choosing a shard key is the most important and irreversible decision in sharding design:</p>
+                                    <ul>
+                                        <li><strong>High cardinality:</strong> The key should have many distinct values. A boolean field (true/false) would only create 2 shards. user_id or order_id with millions of values enables fine-grained distribution.</li>
+                                        <li><strong>Even distribution:</strong> The key should distribute data uniformly. Sharding by country would put 70% of data on the "US" shard for a US-heavy service. Hashing the key can help with even distribution.</li>
+                                        <li><strong>Query alignment:</strong> Most queries should include the shard key so they can be routed to a single shard. If 90% of queries filter by user_id, then user_id is a natural shard key.</li>
+                                        <li><strong>Avoid monotonically increasing keys:</strong> Using an auto-increment ID with range sharding sends all new writes to the last shard (hotspot). Use hash-based sharding or compound keys instead.</li>
+                                        <li><strong>Consider compound shard keys:</strong> Combining tenant_id + timestamp can provide both data isolation and temporal distribution.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle cross-shard queries and transactions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Cross-shard operations are the biggest challenge of sharding and should be minimized by design:</p>
+                                    <ul>
+                                        <li><strong>Scatter-gather pattern:</strong> For queries that must touch multiple shards, send the query to all relevant shards in parallel, then merge results at the application layer. This works for aggregations but is expensive.</li>
+                                        <li><strong>Denormalization:</strong> Duplicate data across shards to avoid cross-shard joins. For example, store the user's name alongside each order so you don't need to join the users shard with the orders shard.</li>
+                                        <li><strong>Saga pattern:</strong> Instead of distributed transactions (2PC), use a saga &mdash; a sequence of local transactions on each shard with compensating actions if any step fails. This sacrifices strict consistency for availability.</li>
+                                        <li><strong>Global tables:</strong> Small, rarely-changing reference data (countries, currencies, categories) can be replicated to all shards to avoid cross-shard lookups.</li>
+                                        <li><strong>Application-level joins:</strong> Fetch data from multiple shards independently and join them in the application code. Less efficient but more flexible than database-level joins.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does consistent hashing relate to database sharding?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Consistent hashing solves the rebalancing problem that arises when shards are added or removed:</p>
+                                    <ul>
+                                        <li><strong>The problem with naive hashing:</strong> If you use shard = hash(key) % N, then changing N (adding a shard) causes nearly all keys to map to different shards, requiring massive data migration.</li>
+                                        <li><strong>How consistent hashing works:</strong> Both shard identifiers and data keys are mapped onto a circular hash ring. Each key is assigned to the next shard clockwise on the ring. When a shard is added, only keys between the new shard and its predecessor need to move &mdash; roughly 1/N of the data.</li>
+                                        <li><strong>Virtual nodes:</strong> Each physical shard is represented by multiple virtual nodes on the ring to ensure even distribution. Without virtual nodes, shards can end up with vastly unequal portions of the ring.</li>
+                                        <li><strong>Real-world usage:</strong> Amazon DynamoDB, Apache Cassandra, and Discord all use consistent hashing for shard assignment. Vitess (YouTube's MySQL sharding layer) uses a similar concept with key ranges.</li>
+                                        <li><strong>Tradeoff:</strong> Consistent hashing minimizes data movement but adds complexity to the routing layer and makes range queries impossible (since the hash scrambles key ordering).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Database Sharding</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is database sharding?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Splitting a database table into separate columns across servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Creating backup copies of a database on multiple servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Horizontally partitioning rows of data across multiple database instances</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Encrypting database records for security</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which property is most important for a good shard key?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>The key should be a string data type</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>High cardinality with even data distribution</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>The key should be auto-incrementing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>The key should have only a few distinct values</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is the main advantage of hash-based sharding over range-based sharding?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>More even data distribution and avoidance of hotspots</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Better support for range queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Simpler implementation with no routing layer needed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Automatic rebalancing without data migration</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Why is consistent hashing used in sharded databases?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>It guarantees all shards have identical data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>It eliminates the need for a shard key</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>It encrypts the shard key for security</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>It minimizes data movement when adding or removing shards</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. What is a scatter-gather query in a sharded database?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>A query that randomly selects which shard to read from</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>A query that writes to all shards simultaneously</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>A query sent to all shards in parallel, with results merged at the application layer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>A query that migrates data between shards</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Vertical and horizontal scaling techniques for databases</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Data redundancy and read scaling with replicas</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cap-theorem.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>CAP Theorem</h4>
+                            <p>Consistency, availability, and partition tolerance tradeoffs</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

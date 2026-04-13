@@ -46,26 +46,60 @@
                     <h1>Object Storage</h1>
                     <p class="topic-description">Scalable storage systems for unstructured data</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Intermediate</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 25 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="object-storage">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,117 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Object storage is ideal for unstructured data like images, videos, and backups.</p>
+                                <p><strong>Key Insight:</strong> Object storage is ideal for unstructured data like images, videos, and backups.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a massive warehouse where each item has a unique tag with a description and tracking information. You don't organize items into folders on shelves &mdash; instead, you simply tag each item and retrieve it by its unique identifier. That's object storage: a flat namespace where every piece of data is an object with its own metadata and unique key.</p>
+
+                                <h4>How Object Storage Works</h4>
+
+                                <p><strong>1. Object Components</strong></p>
+                                <ul>
+                                    <li><strong>Data:</strong> The actual content (file, image, video, document, etc.)</li>
+                                    <li><strong>Metadata:</strong> Descriptive information about the object (content type, creation date, custom tags)</li>
+                                    <li><strong>Unique Identifier (Key):</strong> A globally unique address used to retrieve the object</li>
+                                </ul>
+
+                                <p><strong>2. Storage Types Comparison</strong></p>
+                                <ul>
+                                    <li><strong>Object Storage:</strong> Flat namespace, accessed via HTTP APIs, best for unstructured data at scale</li>
+                                    <li><strong>Block Storage:</strong> Raw storage volumes divided into blocks, provides low-latency access for databases and OS</li>
+                                    <li><strong>File Storage:</strong> Hierarchical directory structure with shared file access via NFS/SMB protocols</li>
+                                </ul>
+
+                                <h4>Key Features</h4>
+                                <p><strong>Scalability:</strong> Scales to petabytes and beyond without performance degradation</p>
+                                <p><strong>Durability:</strong> Typically 99.999999999% (11 nines) durability through replication</p>
+                                <p><strong>Versioning:</strong> Maintain multiple versions of objects for protection against overwrites</p>
+                                <p><strong>Lifecycle Policies:</strong> Automatically transition objects between storage tiers based on age or access patterns</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-aws"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon S3</h5>
+                                        <p>Amazon S3 (Simple Storage Service) is the most widely used object storage service, storing trillions of objects for millions of customers. Netflix stores its entire media library on S3, while Airbnb uses it for all user-uploaded photos and assets.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-th-large"></i> Flat Namespace</h4>
+                                <p>Objects are stored in a flat address space with unique keys, not in hierarchical folders like file systems.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tags"></i> Rich Metadata</h4>
+                                <p>Each object includes customizable metadata enabling powerful search, classification, and lifecycle management.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-expand-arrows-alt"></i> Massive Scale</h4>
+                                <p>Designed to scale to exabytes of data with consistent performance and 11 nines of durability.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-dollar-sign"></i> Cost Efficiency</h4>
+                                <p>Tiered storage classes (hot, warm, cold, archive) optimize costs based on access frequency.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Object storage uses a flat namespace with unique keys for each object</li>
+                                <li>Objects contain data, metadata, and a unique identifier</li>
+                                <li>Ideal for unstructured data like images, videos, backups, and logs</li>
+                                <li>Block storage provides lower latency for databases and applications</li>
+                                <li>Services like S3, Azure Blob, and GCS are widely used object stores</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +242,289 @@
                                     <p>Benefits include massive scalability, high durability, low cost, global accessibility, versioning, and built-in security. It's ideal for backup, archiving, and content distribution.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does object storage achieve high durability?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Object storage achieves high durability through multiple strategies:</p>
+                                    <ul>
+                                        <li><strong>Replication:</strong> Objects are automatically replicated across multiple availability zones or data centers</li>
+                                        <li><strong>Erasure coding:</strong> Data is split into fragments with parity blocks for reconstruction if parts are lost</li>
+                                        <li><strong>Checksums:</strong> Data integrity is verified using checksums to detect and repair corruption</li>
+                                        <li><strong>11 nines durability:</strong> Services like S3 guarantee 99.999999999% durability, meaning virtually zero data loss</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When should you use block storage vs object storage?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Choosing between block and object storage depends on the use case:</p>
+                                    <ul>
+                                        <li><strong>Block storage:</strong> Use for databases, virtual machines, and applications requiring low-latency random I/O access</li>
+                                        <li><strong>Object storage:</strong> Use for unstructured data like media files, backups, logs, and static website assets</li>
+                                        <li><strong>Performance:</strong> Block storage offers microsecond latency; object storage typically has millisecond latency</li>
+                                        <li><strong>Cost:</strong> Object storage is significantly cheaper per GB, especially for infrequently accessed data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Object Storage</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. How does object storage organize data?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>In hierarchical directories and folders</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>In a flat namespace with unique keys</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>In fixed-size data blocks</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>In relational database tables</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. Which of the following is an object storage service?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Amazon S3</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>MySQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Redis</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>MongoDB</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What components make up an object in object storage?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Rows and columns</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Blocks and sectors</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Data, metadata, and a unique identifier</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Headers and payloads only</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What type of data is object storage best suited for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Relational database records</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Operating system files</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Real-time transactional data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Unstructured data like images, videos, and backups</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What is a key advantage of block storage over object storage?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Better scalability for large files</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Low-latency random access for databases</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Lower cost per gigabyte</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Built-in metadata support</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/cdn.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Content Delivery Networks</h4>
+                            <p>Global content distribution for low latency</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching</h4>
+                            <p>Speed up data access with caching strategies</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Strategies for scaling databases horizontally and vertically</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consensus Algorithms - System Design Learning Portal</title>
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Consensus Algorithms</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Consensus Algorithms</h1>
+                    <p class="topic-description">Protocols like Raft and Paxos that enable distributed nodes to agree on a single value, ensuring consistency across replicated systems</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#8986; 30 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="consensus-algorithms">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are Consensus Algorithms?</h3>
+                                <p>Consensus algorithms are protocols that allow a group of distributed nodes (servers) to agree on a single data value or a sequence of operations, even when some nodes may fail or become unreachable. They guarantee that all non-faulty nodes in a distributed system reach the same decision, providing the foundation for replicated state machines, distributed databases, and coordination services. The two most influential consensus algorithms are Paxos (introduced by Leslie Lamport in 1989) and Raft (designed by Diego Ongaro and John Ousterhout in 2014 as a more understandable alternative).</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Consensus algorithms solve the fundamental challenge of getting multiple computers to agree on the same thing. They must tolerate network partitions, message delays, and node crashes while ensuring that once a value is agreed upon (committed), it is never lost or contradicted &mdash; this is the safety guarantee.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a group of five judges who need to agree on a single winner for a competition, but they can only communicate by passing notes. Some notes might get lost, and some judges might fall asleep. A consensus algorithm is the set of rules that ensures all awake judges eventually agree on the same winner &mdash; and once they do, the decision sticks even if more judges fall asleep later.</p>
+
+                                <p>In the Raft algorithm (the most commonly taught consensus protocol), the process works through three key mechanisms:</p>
+
+                                <ul>
+                                    <li><strong>Leader Election:</strong> Nodes elect a single leader through a voting process. The leader is the only node that accepts client requests and replicates them to followers. If the leader fails, a new election occurs using randomized timeouts to prevent split votes.</li>
+                                    <li><strong>Log Replication:</strong> The leader appends client requests to its log and sends them to all follower nodes. Once a majority (quorum) of nodes have written the entry to their logs, the entry is considered committed and can be applied to the state machine.</li>
+                                    <li><strong>Safety Guarantees:</strong> Raft ensures that once a log entry is committed, it will be present in the logs of all future leaders. This is enforced through election restrictions &mdash; only nodes with the most up-to-date logs can become leader.</li>
+                                    <li><strong>Quorum Requirement:</strong> Decisions require agreement from a majority (N/2 + 1) of nodes. A 5-node cluster tolerates 2 failures; a 3-node cluster tolerates 1 failure.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-dharmachakra"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>etcd &amp; Kubernetes (Raft Consensus)</h5>
+                                        <p>Kubernetes uses etcd as its distributed key-value store for all cluster state &mdash; pod configurations, service discovery, secrets, and more. etcd implements the Raft consensus algorithm to ensure that all etcd nodes agree on the exact same cluster state. When you run <code>kubectl apply</code>, the request goes to the etcd leader, which replicates it to a majority of etcd nodes before confirming. Even if an etcd node crashes, the cluster state is never lost because it has been committed to a quorum. This is why Kubernetes clusters typically run 3 or 5 etcd nodes &mdash; to tolerate 1 or 2 failures respectively.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-crown"></i> Leader Election</h4>
+                                <p>In Raft, a leader is elected using randomized election timeouts. Candidates request votes from peers, and the first to receive a majority becomes leader. Terms (monotonically increasing numbers) prevent stale leaders. If the leader heartbeat stops, followers start a new election automatically.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-copy"></i> Log Replication</h4>
+                                <p>The leader receives client requests, appends them to its log, and sends AppendEntries RPCs to followers. Once a majority acknowledge the entry, it is committed. The leader then notifies followers to apply committed entries to their state machines, ensuring all nodes converge to the same state.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Safety Properties</h4>
+                                <p>Consensus algorithms guarantee: (1) Election Safety &mdash; at most one leader per term, (2) Leader Append-Only &mdash; leaders never overwrite log entries, (3) Log Matching &mdash; if two logs contain an entry with the same index and term, all preceding entries are identical, (4) Leader Completeness &mdash; committed entries appear in all future leaders' logs.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-not-equal"></i> Paxos vs Raft</h4>
+                                <p>Paxos (the original consensus algorithm) is theoretically elegant but notoriously difficult to implement correctly. Raft was designed as an equivalent algorithm that is easier to understand and implement. Both require quorum-based agreement, but Raft decomposes the problem into leader election, log replication, and safety &mdash; making it practical for real systems.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Consensus algorithms let distributed nodes agree on values despite failures</li>
+                                <li>Raft uses leader election, log replication, and safety rules for consensus</li>
+                                <li>Quorum requirement: majority (N/2 + 1) must agree for a commit</li>
+                                <li>A 5-node cluster tolerates 2 simultaneous failures</li>
+                                <li>Paxos is theoretically foundational; Raft is the practical standard</li>
+                                <li>Used in etcd, ZooKeeper, CockroachDB, TiKV, and Consul</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Raft Leader Election &amp; Log Replication</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-handshake"></i>
+                                    <p>Leader receives writes and replicates to followers</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 130px; height: 55px; background: #667eea; color: white; border-radius: 10px; line-height: 55px; margin-bottom: 15px; font-weight: bold;">Leader (Node 1)</div>
+                                        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 10px;">
+                                            <div style="font-size: 20px; color: #667eea;">&darr;</div>
+                                            <div style="font-size: 20px; color: #667eea;">&darr;</div>
+                                            <div style="font-size: 20px; color: #667eea;">&darr;</div>
+                                            <div style="font-size: 20px; color: #667eea;">&darr;</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 8px;">
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Node 2 &#10003;</div>
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Node 3 &#10003;</div>
+                                            <div style="width: 80px; height: 40px; background: #dc3545; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Node 4 &#10007;</div>
+                                            <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">Node 5 &#10003;</div>
+                                        </div>
+                                        <p style="margin-top: 12px; font-size: 13px; color: #28a745; font-weight: bold;">&#10003; 4/5 nodes ACK = Quorum reached (committed)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Node States in Raft</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>Nodes transition between Follower, Candidate, and Leader states</p>
+                                    <div style="text-align: center; margin-top: 20px; padding: 10px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                            <div style="width: 100px; height: 50px; background: #6c757d; color: white; border-radius: 8px; line-height: 50px; font-size: 13px;">Follower</div>
+                                            <div style="font-size: 24px; color: #ffc107;">&rarr;</div>
+                                            <div style="width: 100px; height: 50px; background: #ffc107; color: #333; border-radius: 8px; line-height: 50px; font-size: 13px;">Candidate</div>
+                                            <div style="font-size: 24px; color: #28a745;">&rarr;</div>
+                                            <div style="width: 100px; height: 50px; background: #667eea; color: white; border-radius: 8px; line-height: 50px; font-size: 13px;">Leader</div>
+                                        </div>
+                                        <div style="margin-top: 15px; text-align: left; font-size: 12px; color: #666;">
+                                            <div>&bull; Follower &rarr; Candidate: Election timeout expires, no heartbeat received</div>
+                                            <div>&bull; Candidate &rarr; Leader: Receives majority votes</div>
+                                            <div>&bull; Candidate &rarr; Follower: Discovers current leader or new term</div>
+                                            <div>&bull; Leader &rarr; Follower: Discovers higher term from another node</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between Paxos and Raft?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Both Paxos and Raft solve the same consensus problem and provide equivalent guarantees, but they differ significantly in design philosophy:</p>
+                                    <ul>
+                                        <li><strong>Understandability:</strong> Raft was explicitly designed to be easier to understand. It decomposes consensus into leader election, log replication, and safety &mdash; three relatively independent subproblems.</li>
+                                        <li><strong>Leader Requirement:</strong> Raft requires a strong leader; all writes go through the leader. Paxos can work in a leaderless mode (Multi-Paxos optimizes with a leader).</li>
+                                        <li><strong>Log Structure:</strong> Raft enforces that logs have no gaps and entries are committed in order. Paxos allows out-of-order commits and log gaps, which adds complexity.</li>
+                                        <li><strong>Implementation:</strong> Raft has clear, implementable specifications. Paxos descriptions are often abstract, and real implementations (like Google's Chubby) deviate significantly from the paper.</li>
+                                        <li><strong>Adoption:</strong> Raft is used in etcd, Consul, CockroachDB, TiKV. Paxos variants are used in Google Spanner, Chubby, and Azure Storage.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does Raft handle leader failure?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Raft handles leader failure through its election mechanism:</p>
+                                    <ul>
+                                        <li><strong>Heartbeat Detection:</strong> The leader sends periodic heartbeats to all followers. Each follower has a randomized election timeout (typically 150-300ms).</li>
+                                        <li><strong>Election Trigger:</strong> If a follower does not receive a heartbeat within its timeout, it transitions to Candidate state, increments its term, and requests votes.</li>
+                                        <li><strong>Vote Restriction:</strong> A node only grants its vote if the candidate's log is at least as up-to-date as its own, ensuring the new leader has all committed entries.</li>
+                                        <li><strong>Majority Wins:</strong> The first candidate to receive votes from a majority becomes the new leader and begins sending heartbeats.</li>
+                                        <li><strong>Uncommitted Entries:</strong> Entries that were replicated by the old leader but not committed may be overwritten by the new leader, ensuring consistency.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is a split-brain problem and how do consensus algorithms prevent it?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Split-brain occurs when a network partition causes two groups of nodes to independently elect leaders and accept conflicting writes. Consensus algorithms prevent this:</p>
+                                    <ul>
+                                        <li><strong>Quorum Requirement:</strong> A leader must receive votes from a majority (N/2 + 1) of all nodes. In a 5-node cluster, you need 3 votes. Both sides of a partition cannot simultaneously have a majority.</li>
+                                        <li><strong>Term Numbers:</strong> Each election increments a monotonic term counter. If a stale leader from an old term contacts nodes, they reject its requests because they have moved to a higher term.</li>
+                                        <li><strong>Write Commits:</strong> A leader can only commit entries that have been replicated to a majority. The minority partition's leader cannot commit any writes.</li>
+                                        <li><strong>Resolution:</strong> When the partition heals, the stale leader discovers the higher term and steps down to follower. Its uncommitted entries are overwritten by the legitimate leader's log.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Why do consensus-based systems typically use an odd number of nodes (3, 5, 7)?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Odd numbers maximize fault tolerance relative to the total number of nodes:</p>
+                                    <ul>
+                                        <li><strong>Quorum Math:</strong> A cluster of N nodes requires N/2 + 1 for quorum. 3 nodes tolerates 1 failure (quorum = 2). 4 nodes also tolerates only 1 failure (quorum = 3). So 4 nodes offers no benefit over 3.</li>
+                                        <li><strong>Cost Efficiency:</strong> 5 nodes tolerates 2 failures (quorum = 3). 6 nodes also tolerates 2 failures (quorum = 4). The extra node adds cost without improving fault tolerance.</li>
+                                        <li><strong>Partition Symmetry:</strong> With odd numbers, a network partition always creates a clear majority side and minority side, enabling the majority to continue operating.</li>
+                                        <li><strong>Common Sizes:</strong> 3 nodes for development/small clusters (tolerates 1 failure), 5 nodes for production (tolerates 2 failures), 7 nodes for critical systems (tolerates 3 failures). Beyond 7 is rare due to increased latency.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Consensus Algorithms</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the minimum number of nodes that must agree for a commit in a 5-node Raft cluster?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>2 nodes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>3 nodes (majority)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>All 5 nodes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>4 nodes</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What triggers a new leader election in Raft?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>A follower's election timeout expires without receiving a heartbeat</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>A client sends a special election request</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>The leader voluntarily steps down after a fixed time</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>All nodes vote simultaneously on a schedule</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. Which real-world system uses Raft consensus for storing Kubernetes cluster state?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Redis</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>MongoDB</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>etcd</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>MySQL</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. How does Raft prevent split-brain during a network partition?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>By shutting down all nodes during a partition</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>By using timestamps to pick the latest write</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>By allowing both partitions to accept writes independently</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>By requiring a majority quorum for both elections and commits</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. What was the primary design goal of Raft compared to Paxos?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Understandability and ease of implementation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Higher throughput for write operations</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Support for larger cluster sizes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Eliminating the need for a leader node</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Design systems that remain operational despite component failures</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-clone"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Replicate data across multiple nodes for reliability and performance</p>
+                        </div>
+                    </a>
+                    <a href="../pages/distributed-transactions.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Distributed Transactions</h4>
+                            <p>Coordinate transactions across multiple services and databases</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Raft visualization and animated leader election walkthroughs</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>The Raft paper (In Search of an Understandable Consensus Algorithm)</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Interactive Raft implementation and raft.github.io visualization</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

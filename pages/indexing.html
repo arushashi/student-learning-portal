@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Indexing - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Database Indexing</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Database Indexing</h1>
+                    <p class="topic-description">Database indexing strategies for query optimization and efficient data retrieval</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="indexing">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Database Indexing?</h3>
+                                <p>A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional storage space and slower writes. Indexes work like a book's table of contents &mdash; instead of scanning every page (full table scan), you look up the topic in the index to find the exact page number. Indexes are built on one or more columns of a table using structures like B-trees, hash tables, or inverted indexes, enabling the database engine to locate rows without examining every record in the table.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Indexing is the single most impactful optimization for database query performance. A well-designed index can reduce query time from minutes to milliseconds, but over-indexing can degrade write performance and waste storage. The art lies in choosing the right indexes for your query patterns.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a library with millions of books but no catalog system. To find a specific book, you'd have to walk through every aisle and check every shelf &mdash; that's a full table scan. Now imagine the library has a card catalog organized alphabetically by title, author, and subject. You look up the card, find the exact shelf location, and go straight to the book. That card catalog is an index.</p>
+
+                                <p>Database indexes work the same way. They maintain a sorted reference structure that points directly to the data rows matching your query criteria. Different index types serve different query patterns, and choosing the right one is crucial for performance.</p>
+
+                                <ul>
+                                    <li><strong>B-Tree Indexes:</strong> The default index type in most databases (PostgreSQL, MySQL). A self-balancing tree structure that maintains sorted data and supports range queries, equality lookups, and prefix searches efficiently with O(log n) complexity</li>
+                                    <li><strong>Hash Indexes:</strong> Use a hash function to map keys to locations. Excellent for exact equality lookups with O(1) average time, but cannot support range queries or sorting. Ideal for columns used exclusively in WHERE equality conditions</li>
+                                    <li><strong>Composite Indexes:</strong> Indexes on multiple columns that follow the leftmost prefix rule. An index on (country, city, zip) supports queries filtering by country alone, country+city, or all three &mdash; but not city alone or zip alone</li>
+                                    <li><strong>Covering Indexes:</strong> Indexes that include all columns needed by a query, allowing the database to satisfy the query entirely from the index without accessing the table data (index-only scan), dramatically improving performance</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-google"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Google Search &mdash; Inverted Indexes</h5>
+                                        <p>Google indexes billions of web pages using inverted indexes, which map every word to the list of documents containing that word. When you search for "database indexing," Google doesn't scan every page on the internet. Instead, it looks up "database" and "indexing" in its inverted index, finds the intersection of documents containing both terms, ranks them using PageRank and other signals, and returns results in milliseconds. This same inverted index approach powers Elasticsearch, Apache Solr, and full-text search in PostgreSQL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tree"></i> B-Tree vs Hash Indexes</h4>
+                                <p>B-tree indexes store data in a sorted, balanced tree with O(log n) lookups. They support equality, range queries, ORDER BY, and prefix matching. Hash indexes offer O(1) equality lookups but cannot handle ranges or sorting. Most databases default to B-tree because of its versatility across diverse query patterns.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Composite Indexes & Column Order</h4>
+                                <p>The order of columns in a composite index matters enormously. Place the most selective (highest cardinality) columns first and follow the leftmost prefix rule. An index on (A, B, C) supports queries on A, (A, B), and (A, B, C) but not B alone or C alone. Reordering columns based on query patterns can eliminate the need for multiple separate indexes.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-bullseye"></i> Covering Indexes</h4>
+                                <p>A covering index includes all columns a query needs in the index itself. The database can return results directly from the index without touching the table data (an "index-only scan"). This eliminates random I/O to the heap, which can improve query performance by 10-100x for frequently executed queries.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-balance-scale"></i> Index Trade-offs</h4>
+                                <p>Every index speeds up reads but slows down writes because each INSERT, UPDATE, or DELETE must also update the index. Indexes consume additional disk space (often 10-30% of table size). Over-indexing a write-heavy table can severely degrade performance. Use EXPLAIN/ANALYZE to verify that indexes are actually being used by the query planner.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Indexes are data structures that speed up data retrieval at the cost of storage and write performance</li>
+                                <li>B-tree indexes are the default and support equality, range, and sort queries with O(log n) time</li>
+                                <li>Hash indexes excel at equality lookups with O(1) time but cannot handle range queries</li>
+                                <li>Composite index column order follows the leftmost prefix rule and should match query patterns</li>
+                                <li>Covering indexes eliminate table lookups by including all needed columns in the index</li>
+                                <li>Always use EXPLAIN ANALYZE to verify index usage and avoid over-indexing write-heavy tables</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>B-Tree Index Structure</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                                            <div style="background: #667eea; color: white; padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: bold;">Root: [30 | 60]</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 8px;">
+                                            <span style="color: #667eea;">&swarr;</span>
+                                            <span style="color: #667eea;">&darr;</span>
+                                            <span style="color: #667eea;">&searr;</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 15px;">
+                                            <div style="background: #28a745; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px;">[10 | 20]</div>
+                                            <div style="background: #28a745; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px;">[40 | 50]</div>
+                                            <div style="background: #28a745; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px;">[70 | 80]</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 8px;">
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                            <span style="font-size: 10px; color: #888;">&darr;</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                                            <div style="background: #ffc107; color: #333; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Leaf: Data Pointers</div>
+                                            <div style="background: #ffc107; color: #333; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Leaf: Data Pointers</div>
+                                            <div style="background: #ffc107; color: #333; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Leaf: Data Pointers</div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 12px; color: #666; padding: 10px; background: rgba(102,126,234,0.1); border-radius: 6px;">
+                                            <strong>Lookup:</strong> Find key 50 &rarr; Root (50 &gt; 30, &le; 60) &rarr; Middle child [40|50] &rarr; Found! O(log n) steps
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Composite Index: Leftmost Prefix Rule</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="padding: 20px;">
+                                        <div style="text-align: center; margin-bottom: 15px;">
+                                            <div style="background: #667eea; color: white; padding: 8px 16px; border-radius: 6px; font-size: 13px; display: inline-block;">INDEX (country, city, zip_code)</div>
+                                        </div>
+                                        <div style="margin-bottom: 12px; display: flex; align-items: center;">
+                                            <span style="color: #28a745; font-weight: bold; font-size: 16px; margin-right: 10px;">&#10003;</span>
+                                            <code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">WHERE country = 'US'</code>
+                                            <span style="margin-left: 10px; font-size: 12px; color: #28a745;">Uses index</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px; display: flex; align-items: center;">
+                                            <span style="color: #28a745; font-weight: bold; font-size: 16px; margin-right: 10px;">&#10003;</span>
+                                            <code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">WHERE country = 'US' AND city = 'NYC'</code>
+                                            <span style="margin-left: 10px; font-size: 12px; color: #28a745;">Uses index</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px; display: flex; align-items: center;">
+                                            <span style="color: #28a745; font-weight: bold; font-size: 16px; margin-right: 10px;">&#10003;</span>
+                                            <code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">WHERE country = 'US' AND city = 'NYC' AND zip = '10001'</code>
+                                            <span style="margin-left: 10px; font-size: 12px; color: #28a745;">Full index</span>
+                                        </div>
+                                        <div style="margin-bottom: 12px; display: flex; align-items: center;">
+                                            <span style="color: #dc3545; font-weight: bold; font-size: 16px; margin-right: 10px;">&#10007;</span>
+                                            <code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">WHERE city = 'NYC'</code>
+                                            <span style="margin-left: 10px; font-size: 12px; color: #dc3545;">Skips leftmost &mdash; full scan</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color: #dc3545; font-weight: bold; font-size: 16px; margin-right: 10px;">&#10007;</span>
+                                            <code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">WHERE zip_code = '10001'</code>
+                                            <span style="margin-left: 10px; font-size: 12px; color: #dc3545;">Skips leftmost &mdash; full scan</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When should you use a B-tree index versus a hash index?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The choice depends on your query patterns:</p>
+                                    <ul>
+                                        <li><strong>B-Tree Index:</strong> Use when you need range queries (WHERE age > 25), ORDER BY, LIKE prefix matching (LIKE 'John%'), or a mix of equality and range conditions. B-trees are the default and most versatile index type.</li>
+                                        <li><strong>Hash Index:</strong> Use when you only need exact equality lookups (WHERE email = 'user@example.com'). Hash indexes are faster for equality (O(1) vs O(log n)) but cannot support ranges, sorting, or partial matches.</li>
+                                        <li><strong>Practical Note:</strong> In PostgreSQL, hash indexes became crash-safe only in version 10. In MySQL InnoDB, B-tree is the only option. Most production systems use B-tree indexes almost exclusively due to their flexibility.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you decide the column order in a composite index?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Column order in a composite index should follow these guidelines:</p>
+                                    <ul>
+                                        <li><strong>Equality First:</strong> Place columns used in equality conditions (=) before those used in range conditions (&gt;, &lt;, BETWEEN). The index can only use a range condition on the last column it traverses.</li>
+                                        <li><strong>Selectivity:</strong> Among equality columns, consider placing higher-cardinality columns first for better filtering, though this is less critical than the equality-before-range rule.</li>
+                                        <li><strong>Query Coverage:</strong> Design composite indexes to support your most frequent queries. An index on (status, created_at) serves both WHERE status = 'active' and WHERE status = 'active' AND created_at > '2024-01-01'.</li>
+                                        <li><strong>Avoid Redundancy:</strong> An index on (A, B) makes a separate index on (A) alone unnecessary, since the composite index covers single-column lookups on A.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is a covering index and when would you use one?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A covering index includes all columns that a query needs, allowing the database to satisfy the query entirely from the index without accessing the actual table rows:</p>
+                                    <ul>
+                                        <li><strong>Example:</strong> For query <code>SELECT name, email FROM users WHERE status = 'active'</code>, an index on (status, name, email) is a covering index.</li>
+                                        <li><strong>Benefit:</strong> Eliminates random I/O to the heap/clustered index. The query reads only the compact index pages, which are often cached in memory.</li>
+                                        <li><strong>Performance:</strong> Can improve query speed by 10-100x for large tables, especially on spinning disks where random I/O is expensive.</li>
+                                        <li><strong>Trade-off:</strong> Wider indexes consume more space and slow down writes more. Use covering indexes for your highest-frequency, most performance-critical queries.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the downsides of having too many indexes?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Over-indexing causes several problems:</p>
+                                    <ul>
+                                        <li><strong>Write Penalty:</strong> Every INSERT must update all indexes. Every UPDATE to an indexed column must remove the old entry and add a new one. On a table with 10 indexes, a single row insert triggers 10 index updates.</li>
+                                        <li><strong>Storage Overhead:</strong> Each index can consume 10-30% of the table size. Unused indexes waste valuable disk space and memory in the buffer pool.</li>
+                                        <li><strong>Query Planner Confusion:</strong> Too many indexes can cause the optimizer to choose suboptimal execution plans, especially with stale statistics.</li>
+                                        <li><strong>Maintenance Overhead:</strong> Indexes need periodic maintenance (REINDEX, VACUUM in PostgreSQL). More indexes mean longer maintenance windows and more lock contention.</li>
+                                        <li><strong>Solution:</strong> Regularly audit indexes using pg_stat_user_indexes (PostgreSQL) or sys.dm_db_index_usage_stats (SQL Server) and drop unused indexes.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Database Indexing</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the time complexity of a B-tree index lookup?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>O(1)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>O(n)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>O(log n)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>O(n log n)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Given a composite index on (A, B, C), which query can use the index?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>WHERE B = 5 AND C = 10</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>WHERE A = 1 AND B = 5</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>WHERE C = 10</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>WHERE B = 5</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is the main advantage of a covering index?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>It satisfies queries without accessing the table data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>It reduces the size of the index</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>It speeds up write operations</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>It automatically partitions the table</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which index type cannot support range queries?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>B-tree index</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Composite index</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Covering index</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Hash index</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. What is a major downside of having too many indexes on a table?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Faster read queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Reduced disk usage</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Slower write performance due to index maintenance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Loss of data integrity</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Strategies for scaling databases horizontally and vertically</p>
+                        </div>
+                    </a>
+                    <a href="../pages/sql-nosql.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>SQL vs NoSQL</h4>
+                            <p>Choosing the right database type for your use case</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-performance.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>System Performance</h4>
+                            <p>Optimizing system performance and reducing latency</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Visual guides to B-tree structures, index internals, and query optimization</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>PostgreSQL and MySQL indexing guides, EXPLAIN ANALYZE documentation</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>SQL index creation examples, query optimization before and after comparisons</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

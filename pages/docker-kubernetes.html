@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker & Kubernetes - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>Docker & Kubernetes</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fab fa-docker"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Docker & Kubernetes</h1>
+                    <p class="topic-description">Understand containerization with Docker and container orchestration with Kubernetes — the foundational infrastructure technologies that enable scalable, portable, and resilient microservice deployments in modern cloud-native architectures.</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 35 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="bookmark-btn" data-topic="docker-kubernetes">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-target="definition">1. Definition</div>
+                    <div class="step" data-target="explanation">2. Explanation</div>
+                    <div class="step" data-target="key-points">3. Key Points</div>
+                    <div class="step" data-target="interview">4. Interview Q&A</div>
+                    <div class="step" data-target="quiz">5. Quiz</div>
+                </div>
+            </section>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Section 1: Definition -->
+                <section id="definition" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <button class="toggle-btn" onclick="toggleSection('definition')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are Docker & Kubernetes?</h3>
+                                <p>Docker is a platform for building, shipping, and running applications inside lightweight, portable containers. A container packages an application with all its dependencies — code, runtime, system libraries, and configuration — into a single, isolated unit that runs consistently across any environment. Unlike traditional virtual machines, containers share the host operating system's kernel, making them significantly lighter (megabytes vs. gigabytes) and faster to start (seconds vs. minutes).</p>
+                                <p>Kubernetes (often abbreviated K8s) is an open-source container orchestration platform originally developed by Google, now maintained by the Cloud Native Computing Foundation (CNCF). It automates the deployment, scaling, and management of containerized applications across clusters of machines. Kubernetes handles service discovery, load balancing, rolling updates, self-healing (restarting failed containers), secret management, and horizontal auto-scaling. Together, Docker provides the container runtime and image format, while Kubernetes manages how and where those containers run at scale.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Key Insight:</strong> Docker solved the "it works on my machine" problem by packaging applications with their entire dependency tree into portable containers. Kubernetes solved the "how do I run thousands of these containers reliably" problem by providing a declarative infrastructure layer that continuously reconciles the actual state of your cluster with your desired state. You declare "I want 5 replicas of my API service with 512MB RAM each" and Kubernetes ensures exactly that, automatically replacing crashed containers, distributing load, and scaling up during traffic spikes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Explanation -->
+                <section id="explanation" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Detailed Explanation</h2>
+                        <button class="toggle-btn" onclick="toggleSection('explanation')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of Docker containers like standardized shipping containers in global trade. Before shipping containers, goods had to be manually loaded and unloaded at every port — different shapes, sizes, and handling requirements made logistics a nightmare. Standardized shipping containers revolutionized trade by providing a uniform format that works with any ship, truck, or crane. Docker does the same for software: your application is packaged into a standard container format that runs identically on a developer's laptop, a CI server, and a production cloud cluster. Kubernetes, then, is like the global port management system — it decides which containers go on which ships (servers), reroutes containers when a ship breaks down, and scales the fleet up or down based on demand.</p>
+                                <ul>
+                                    <li><strong>Docker Images and Layers:</strong> A Docker image is built from a Dockerfile — a set of instructions that define the application's environment. Each instruction (FROM, COPY, RUN, etc.) creates a read-only layer. Layers are cached and shared between images, so if ten microservices all use the same base Node.js image, that base layer is stored only once. When a container runs, Docker adds a thin read-write layer on top of the image layers. Images are stored in registries (Docker Hub, Amazon ECR, Google Container Registry) and pulled by the runtime when deploying. Multi-stage builds allow you to use a heavy build environment (compilers, dev tools) in the first stage and copy only the compiled artifact to a minimal production image, dramatically reducing image size.</li>
+                                    <li><strong>Kubernetes Architecture — Pods, Services, Deployments:</strong> The smallest deployable unit in Kubernetes is a Pod — one or more tightly coupled containers that share networking and storage. A Deployment manages a set of identical Pods, handling rolling updates (gradually replacing old Pods with new ones) and rollbacks. A Service provides a stable network endpoint (IP and DNS name) for a set of Pods, acting as an internal load balancer. Ingress resources manage external HTTP traffic routing. The control plane (API server, scheduler, controller manager, etcd) manages cluster state, while worker nodes run the actual container workloads via kubelet and a container runtime (containerd, CRI-O).</li>
+                                    <li><strong>Scaling and Self-Healing:</strong> Kubernetes supports both horizontal and vertical scaling. Horizontal Pod Autoscaler (HPA) adjusts the number of Pod replicas based on CPU utilization, memory usage, or custom metrics (e.g., queue depth, request latency). Vertical Pod Autoscaler (VPA) adjusts CPU and memory resource requests. Self-healing is built into Kubernetes' reconciliation loop: if a Pod crashes, the ReplicaSet controller detects the discrepancy between desired and actual state and immediately schedules a replacement. Liveness probes detect hung processes, and readiness probes ensure traffic is only sent to Pods that are ready to serve requests.</li>
+                                    <li><strong>Networking, Storage, and Configuration:</strong> Kubernetes networking follows a flat network model where every Pod gets its own IP address and can communicate with any other Pod without NAT. Network Policies provide firewall-like rules between Pods. Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) abstract storage provisioning for stateful workloads (databases, file stores). ConfigMaps store non-sensitive configuration, while Secrets store sensitive data like API keys and database credentials. Together, these abstractions let you define your entire application infrastructure as declarative YAML manifests, enabling GitOps workflows where infrastructure changes go through the same code review and CI/CD process as application code.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-music"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Spotify: Migrating to Kubernetes for 1000+ Services</h5>
+                                        <p>Spotify migrated over 1,000 microservices from their custom-built orchestration system (Helios) to Kubernetes to standardize their infrastructure and improve developer productivity. Before Kubernetes, each team managed deployment configurations differently, creating operational inconsistency across the organization. With Kubernetes, Spotify established a uniform deployment model: every service is a Docker container defined by a Dockerfile, deployed as a Kubernetes Deployment with associated Services for internal communication. Their platform team built an internal developer portal (Backstage, which they later open-sourced) on top of Kubernetes that abstracts away infrastructure complexity. Engineers deploy by pushing code — CI/CD pipelines build Docker images, push them to their container registry, and update Kubernetes Deployments automatically. Kubernetes' self-healing capabilities mean that when containers crash or nodes fail, services automatically recover without manual intervention. Auto-scaling handles their daily traffic patterns, scaling music streaming services up during morning commutes and down during off-hours, optimizing their cloud infrastructure costs while maintaining reliability for 500+ million users worldwide.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Key Points -->
+                <section id="key-points" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points</h2>
+                        <button class="toggle-btn" onclick="toggleSection('key-points')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-box-open"></i> Containers vs VMs</h4>
+                                <p>Virtual machines emulate entire hardware stacks — each VM runs its own full operating system on top of a hypervisor (VMware, KVM, Hyper-V), consuming gigabytes of RAM and taking minutes to boot. Containers share the host OS kernel and use Linux namespaces and cgroups for isolation, making them lightweight (megabytes), fast to start (sub-second), and efficient in resource usage. A single server can run hundreds of containers versus tens of VMs. However, containers provide weaker isolation than VMs since they share a kernel — a kernel vulnerability could potentially affect all containers. For this reason, some environments use lightweight VMs (Firecracker, gVisor, Kata Containers) that combine VM-level isolation with near-container performance for multi-tenant or security-sensitive workloads.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Docker Images & Layers</h4>
+                                <p>Docker images are built from Dockerfiles using a layered filesystem. Each instruction creates a new immutable layer: <code>FROM node:18-alpine</code> establishes the base layer, <code>COPY package.json .</code> creates another, and <code>RUN npm install</code> creates a third. Layers are cached — if you change your application code but not dependencies, only the application layer rebuilds while the npm install layer is reused from cache. Multi-stage builds let you separate build-time dependencies from runtime: compile in a full SDK image, then copy the binary to a minimal base image (Alpine Linux, Distroless) for production. Best practices include ordering Dockerfile instructions from least to most frequently changed, using .dockerignore to exclude unnecessary files, running as non-root users, and scanning images for vulnerabilities with tools like Trivy or Snyk.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-network-wired"></i> K8s Pods, Services & Deployments</h4>
+                                <p>A Pod is the atomic deployment unit in Kubernetes — one or more containers sharing a network namespace (same IP, shared localhost) and storage volumes. Deployments manage Pod lifecycle declaratively: you specify desired replicas, container image, resource limits, and update strategy. Rolling updates gradually replace old Pods with new ones, maintaining availability — you can configure maxSurge (extra Pods during update) and maxUnavailable (how many can be down). Services provide stable endpoints: ClusterIP for internal access, NodePort for external access on a static port, and LoadBalancer for cloud provider load balancers. Ingress controllers (NGINX, Traefik) manage HTTP routing, TLS termination, and path-based routing for external traffic.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-heartbeat"></i> Self-Healing & Auto-Scaling</h4>
+                                <p>Kubernetes continuously reconciles desired state with actual state through its control loop. If a Pod crashes, the ReplicaSet controller immediately schedules a replacement on a healthy node. Liveness probes (HTTP checks, TCP connections, or command execution) detect unresponsive processes and trigger container restarts. Readiness probes remove unhealthy Pods from Service endpoints so they stop receiving traffic. The Horizontal Pod Autoscaler (HPA) adjusts replica counts based on CPU, memory, or custom metrics — for example, scaling a queue worker service based on the number of pending messages. The Cluster Autoscaler adds or removes worker nodes from the cluster based on pending Pod resource requests, ensuring capacity matches demand while minimizing cloud costs.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Docker containers package applications with all dependencies into portable, lightweight units that run consistently across environments</li>
+                                <li>Container images use a layered filesystem with caching, making builds efficient and image sharing storage-effective</li>
+                                <li>Kubernetes orchestrates containers across clusters, handling deployment, scaling, networking, and self-healing automatically</li>
+                                <li>Pods are the smallest K8s unit; Deployments manage replica sets; Services provide stable networking endpoints</li>
+                                <li>HPA scales Pods horizontally based on metrics; Cluster Autoscaler scales the underlying node infrastructure</li>
+                                <li>Declarative YAML manifests enable GitOps workflows where infrastructure is versioned and reviewed like application code</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Diagrams -->
+                <section id="diagrams" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Diagrams</h2>
+                        <button class="toggle-btn" onclick="toggleSection('diagrams')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Kubernetes Cluster Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 13px;">
+                                        <div style="border: 3px solid #2c3e50; border-radius: 10px; padding: 15px; width: 90%; margin-bottom: 20px; background: #f8f9fa;">
+                                            <div style="text-align: center; font-weight: bold; margin-bottom: 10px; font-size: 14px;">Control Plane</div>
+                                            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                                                <div style="border: 2px solid #3498db; border-radius: 6px; padding: 8px 12px; background: #eaf2fd; text-align: center;">
+                                                    <div style="font-weight: bold; font-size: 11px;">API Server</div>
+                                                    <div style="font-size: 10px;">REST Gateway</div>
+                                                </div>
+                                                <div style="border: 2px solid #e67e22; border-radius: 6px; padding: 8px 12px; background: #fdf2e9; text-align: center;">
+                                                    <div style="font-weight: bold; font-size: 11px;">etcd</div>
+                                                    <div style="font-size: 10px;">Cluster State</div>
+                                                </div>
+                                                <div style="border: 2px solid #27ae60; border-radius: 6px; padding: 8px 12px; background: #e9f7ef; text-align: center;">
+                                                    <div style="font-weight: bold; font-size: 11px;">Scheduler</div>
+                                                    <div style="font-size: 10px;">Pod Placement</div>
+                                                </div>
+                                                <div style="border: 2px solid #8e44ad; border-radius: 6px; padding: 8px 12px; background: #f4ecf7; text-align: center;">
+                                                    <div style="font-weight: bold; font-size: 11px;">Controller Mgr</div>
+                                                    <div style="font-size: 10px;">Reconciliation</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595; &#8595; &#8595;</div>
+                                        <div style="display: flex; gap: 15px; width: 95%; justify-content: center;">
+                                            <div style="border: 2px solid #2980b9; border-radius: 10px; padding: 12px; flex: 1; background: #fafbfc;">
+                                                <div style="text-align: center; font-weight: bold; margin-bottom: 8px; font-size: 12px;">Worker Node 1</div>
+                                                <div style="border: 1px dashed #999; border-radius: 6px; padding: 8px; margin-bottom: 6px;">
+                                                    <div style="font-size: 10px; color: #666;">kubelet + kube-proxy</div>
+                                                </div>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <div style="border: 2px solid #27ae60; border-radius: 4px; padding: 6px; flex: 1; background: #e9f7ef; text-align: center; font-size: 10px;">
+                                                        <div style="font-weight: bold;">Pod</div>
+                                                        <div>API:v2</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #e67e22; border-radius: 4px; padding: 6px; flex: 1; background: #fdf2e9; text-align: center; font-size: 10px;">
+                                                        <div style="font-weight: bold;">Pod</div>
+                                                        <div>Worker:v1</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border: 2px solid #2980b9; border-radius: 10px; padding: 12px; flex: 1; background: #fafbfc;">
+                                                <div style="text-align: center; font-weight: bold; margin-bottom: 8px; font-size: 12px;">Worker Node 2</div>
+                                                <div style="border: 1px dashed #999; border-radius: 6px; padding: 8px; margin-bottom: 6px;">
+                                                    <div style="font-size: 10px; color: #666;">kubelet + kube-proxy</div>
+                                                </div>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <div style="border: 2px solid #27ae60; border-radius: 4px; padding: 6px; flex: 1; background: #e9f7ef; text-align: center; font-size: 10px;">
+                                                        <div style="font-weight: bold;">Pod</div>
+                                                        <div>API:v2</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #c0392b; border-radius: 4px; padding: 6px; flex: 1; background: #fdedec; text-align: center; font-size: 10px;">
+                                                        <div style="font-weight: bold;">Pod</div>
+                                                        <div>DB:v3</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diagram-card">
+                                <h4>Containers vs Virtual Machines</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; gap: 30px; padding: 20px; font-family: monospace; font-size: 12px; justify-content: center;">
+                                        <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                            <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">Containers</div>
+                                            <div style="width: 100%; display: flex; flex-direction: column; gap: 3px;">
+                                                <div style="display: flex; gap: 3px;">
+                                                    <div style="border: 2px solid #27ae60; border-radius: 4px; padding: 8px; flex: 1; background: #e9f7ef; text-align: center;">
+                                                        <div style="font-weight: bold;">App A</div>
+                                                        <div style="font-size: 10px;">+ Libs</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #3498db; border-radius: 4px; padding: 8px; flex: 1; background: #eaf2fd; text-align: center;">
+                                                        <div style="font-weight: bold;">App B</div>
+                                                        <div style="font-size: 10px;">+ Libs</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #e67e22; border-radius: 4px; padding: 8px; flex: 1; background: #fdf2e9; text-align: center;">
+                                                        <div style="font-weight: bold;">App C</div>
+                                                        <div style="font-size: 10px;">+ Libs</div>
+                                                    </div>
+                                                </div>
+                                                <div style="border: 2px solid #8e44ad; border-radius: 4px; padding: 8px; background: #f4ecf7; text-align: center;">
+                                                    <div style="font-weight: bold;">Container Runtime (Docker)</div>
+                                                </div>
+                                                <div style="border: 2px solid #2c3e50; border-radius: 4px; padding: 8px; background: #eee; text-align: center;">
+                                                    <div style="font-weight: bold;">Host OS Kernel (shared)</div>
+                                                </div>
+                                                <div style="border: 2px solid #7f8c8d; border-radius: 4px; padding: 6px; background: #ddd; text-align: center;">
+                                                    <div style="font-weight: bold;">Hardware</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                            <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">Virtual Machines</div>
+                                            <div style="width: 100%; display: flex; flex-direction: column; gap: 3px;">
+                                                <div style="display: flex; gap: 3px;">
+                                                    <div style="border: 2px solid #27ae60; border-radius: 4px; padding: 4px; flex: 1; background: #e9f7ef; text-align: center;">
+                                                        <div style="font-weight: bold; font-size: 11px;">App A</div>
+                                                        <div style="font-size: 9px; border-top: 1px solid #ccc; margin-top: 2px; padding-top: 2px;">Guest OS</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #3498db; border-radius: 4px; padding: 4px; flex: 1; background: #eaf2fd; text-align: center;">
+                                                        <div style="font-weight: bold; font-size: 11px;">App B</div>
+                                                        <div style="font-size: 9px; border-top: 1px solid #ccc; margin-top: 2px; padding-top: 2px;">Guest OS</div>
+                                                    </div>
+                                                    <div style="border: 2px solid #e67e22; border-radius: 4px; padding: 4px; flex: 1; background: #fdf2e9; text-align: center;">
+                                                        <div style="font-weight: bold; font-size: 11px;">App C</div>
+                                                        <div style="font-size: 9px; border-top: 1px solid #ccc; margin-top: 2px; padding-top: 2px;">Guest OS</div>
+                                                    </div>
+                                                </div>
+                                                <div style="border: 2px solid #c0392b; border-radius: 4px; padding: 8px; background: #fdedec; text-align: center;">
+                                                    <div style="font-weight: bold;">Hypervisor (VMware/KVM)</div>
+                                                </div>
+                                                <div style="border: 2px solid #2c3e50; border-radius: 4px; padding: 8px; background: #eee; text-align: center;">
+                                                    <div style="font-weight: bold;">Host OS</div>
+                                                </div>
+                                                <div style="border: 2px solid #7f8c8d; border-radius: 4px; padding: 6px; background: #ddd; text-align: center;">
+                                                    <div style="font-weight: bold;">Hardware</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Interview Q&A -->
+                <section id="interview" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions</h2>
+                        <button class="toggle-btn" onclick="toggleSection('interview')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q1: What are the key differences between containers and virtual machines?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Containers and VMs both provide isolation but at fundamentally different levels of the stack:</p>
+                                    <ul>
+                                        <li><strong>Architecture:</strong> VMs run on a hypervisor and each includes a full guest operating system (kernel, system libraries, init system). Containers share the host OS kernel and use Linux namespaces (PID, network, mount, user) and cgroups for isolation. This means containers are much lighter — a container image might be 50MB while a VM image is 5GB.</li>
+                                        <li><strong>Performance:</strong> Containers start in milliseconds to seconds since they don't need to boot an OS. VMs take minutes to boot. Containers have near-native performance since there's no hypervisor overhead. VMs incur virtualization overhead for CPU, memory, and I/O operations.</li>
+                                        <li><strong>Isolation:</strong> VMs provide stronger isolation because each has its own kernel — a vulnerability in one VM's kernel doesn't affect others. Containers share a kernel, so kernel vulnerabilities could potentially affect all containers on a host. This is why security-sensitive environments sometimes use lightweight VMs (Firecracker) or sandboxed runtimes (gVisor).</li>
+                                        <li><strong>Density:</strong> A single host can run hundreds of containers but typically only tens of VMs. This makes containers more cost-efficient for microservice architectures where you're running many small services.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q2: How does Kubernetes handle rolling updates and rollbacks?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Kubernetes Deployments manage rolling updates through a careful, configurable process that maintains availability:</p>
+                                    <ul>
+                                        <li><strong>Rolling Update Strategy:</strong> When you update a Deployment's container image, Kubernetes creates a new ReplicaSet with the updated Pod template. It gradually scales up the new ReplicaSet while scaling down the old one. Two parameters control the pace: <code>maxSurge</code> (how many extra Pods can exist during the update, e.g., 25%) and <code>maxUnavailable</code> (how many Pods can be unavailable, e.g., 25%).</li>
+                                        <li><strong>Readiness Gates:</strong> Before a new Pod receives traffic, it must pass its readiness probe. This prevents routing requests to Pods that are still starting up (loading caches, warming connections). If new Pods fail readiness checks, the rollout stalls, preventing a bad deployment from progressing.</li>
+                                        <li><strong>Rollback:</strong> Kubernetes stores revision history for Deployments. If a new version has issues, you can rollback with <code>kubectl rollout undo deployment/my-app</code>, which reverts to the previous ReplicaSet's Pod template. You can also rollback to a specific revision using <code>--to-revision=N</code>.</li>
+                                        <li><strong>Pause/Resume:</strong> You can pause a rollout mid-way with <code>kubectl rollout pause</code> to perform canary-style verification on the partial deployment, then resume or rollback based on observations.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q3: Explain how Kubernetes networking works. How do Pods communicate?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Kubernetes implements a flat networking model with several layers of abstraction:</p>
+                                    <ul>
+                                        <li><strong>Pod-to-Pod:</strong> Every Pod gets a unique IP address within the cluster. Kubernetes requires that all Pods can communicate with every other Pod directly using these IPs, without NAT. This is implemented by Container Network Interface (CNI) plugins like Calico, Flannel, Cilium, or Weave. Containers within the same Pod share a network namespace and communicate via localhost.</li>
+                                        <li><strong>Services:</strong> Since Pod IPs are ephemeral (Pods are recreated frequently), Services provide stable endpoints. A ClusterIP Service gets a virtual IP and DNS name (e.g., <code>my-service.default.svc.cluster.local</code>). kube-proxy programs iptables or IPVS rules on each node to load-balance traffic across the Service's backing Pods based on label selectors.</li>
+                                        <li><strong>External Access:</strong> NodePort Services expose a port on every cluster node. LoadBalancer Services provision cloud provider load balancers. Ingress resources define HTTP routing rules (host-based, path-based) and TLS termination, implemented by Ingress controllers like NGINX or Traefik.</li>
+                                        <li><strong>Network Policies:</strong> By default, all Pods can communicate freely. Network Policies act as Pod-level firewalls, specifying which Pods can communicate on which ports. For example, you can restrict database Pods to only accept connections from application Pods in the same namespace.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q4: How would you run a stateful application (like a database) on Kubernetes?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Stateful applications require stable identities and persistent storage, which Kubernetes handles through StatefulSets and storage abstractions:</p>
+                                    <ul>
+                                        <li><strong>StatefulSets:</strong> Unlike Deployments where Pods are interchangeable, StatefulSets provide each Pod with a stable hostname (e.g., mysql-0, mysql-1, mysql-2), ordered startup and shutdown (mysql-0 starts before mysql-1), and persistent storage that follows the Pod across reschedules. This is essential for databases that need stable network identities for replication.</li>
+                                        <li><strong>Persistent Volumes:</strong> PersistentVolume (PV) represents a piece of storage in the cluster (EBS volume, NFS share, local SSD). PersistentVolumeClaim (PVC) is a request for storage by a Pod. StorageClasses enable dynamic provisioning — when a StatefulSet creates a PVC, Kubernetes automatically provisions the underlying storage. VolumeClaimTemplates in StatefulSets create a unique PVC per Pod replica.</li>
+                                        <li><strong>Headless Services:</strong> StatefulSets use headless Services (clusterIP: None) that create DNS records for each Pod individually (e.g., mysql-0.mysql-svc.default.svc.cluster.local), enabling direct communication for database replication and leader election.</li>
+                                        <li><strong>Operator Pattern:</strong> Kubernetes Operators encode domain-specific knowledge for stateful applications. The MySQL Operator, PostgreSQL Operator, or MongoDB Operator automate tasks like backup, restore, scaling, failover, and version upgrades — managing the full lifecycle of the database through custom controllers.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Quiz -->
+                <section id="quiz" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Quiz</h2>
+                        <button class="toggle-btn" onclick="toggleSection('quiz')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Docker and Kubernetes concepts.</p>
+                                <div class="quiz-stats">
+                                    <span>Question: <strong id="currentQuestion">1</strong>/<strong id="totalQuestions">5</strong></span>
+                                    <span>Score: <strong id="quizScore">0</strong></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>1.</strong> What is the smallest deployable unit in Kubernetes?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Container</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Pod</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Node</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">
+                                        <p><strong>2.</strong> How do Docker image layers improve build efficiency?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Unchanged layers are cached and reused, so only modified layers rebuild</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Layers compress the application code to reduce image size</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Each layer runs as a separate container for parallel processing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Layers encrypt different parts of the application for security</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">
+                                        <p><strong>3.</strong> Which Kubernetes component stores all cluster state and configuration?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>API Server</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Scheduler</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>kubelet</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>etcd</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>4.</strong> What does the Horizontal Pod Autoscaler (HPA) do?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Increases CPU and memory limits for existing Pods</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Adjusts the number of Pod replicas based on metrics like CPU usage</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Adds more worker nodes to the cluster automatically</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Distributes Pods evenly across all available nodes</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>5.</strong> Which Kubernetes resource is best suited for running a database with stable network identities?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>DaemonSet</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>StatefulSet</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>ReplicaSet</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button id="submitQuiz" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                                <button id="resetQuiz" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-cubes"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Understand the architectural pattern that containers and Kubernetes are designed to support at scale.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/ci-cd.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-sync"></i></div>
+                        <div class="related-topic-info">
+                            <h4>CI/CD Pipelines</h4>
+                            <p>Learn how continuous integration and deployment automate the build, test, and delivery of containerized applications.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/autoscaling.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Auto-Scaling</h4>
+                            <p>Explore scaling strategies including Kubernetes HPA, VPA, and cluster autoscaling for dynamic workloads.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-video"></i></div>
+                        <h4>Video</h4>
+                        <p>Kubernetes Explained in 15 Minutes — Visual walkthrough of Kubernetes architecture, Pods, Services, and Deployments with real-world deployment examples.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4>Documentation</h4>
+                        <p>Kubernetes Official Documentation — Comprehensive reference covering all Kubernetes concepts, API resources, best practices, and tutorials for production deployments.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-code"></i></div>
+                        <h4>Code</h4>
+                        <p>Docker & K8s Workshop — Hands-on lab containerizing a multi-service application with Docker and deploying it to Kubernetes with auto-scaling and rolling updates.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Design Portal</h4>
+                <p>A comprehensive learning platform for mastering system design concepts, from fundamentals to advanced distributed systems topics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../pages/logging-monitoring.html">Logging & Monitoring</a></li>
+                    <li><a href="../pages/distributed-tracing.html">Distributed Tracing</a></li>
+                    <li><a href="../pages/docker-kubernetes.html">Docker & Kubernetes</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Video Tutorials</a></li>
+                    <li><a href="#">Practice Problems</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

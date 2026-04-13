@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saga Pattern - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Saga Pattern</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Saga Pattern</h1>
+                    <p class="topic-description">Manage distributed transactions across multiple microservices using choreography or orchestration with compensating actions for rollback</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#x23F1; 35 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="saga-pattern">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is the Saga Pattern?</h3>
+                                <p>The Saga pattern is a design pattern for managing data consistency across multiple microservices in distributed transaction scenarios. Instead of using a single ACID transaction that spans multiple services (which is impractical in microservices), a saga breaks the transaction into a sequence of local transactions. Each local transaction updates its own service's database and publishes an event or message to trigger the next step. If any step fails, the saga executes compensating transactions to undo the changes made by preceding steps, ensuring the system returns to a consistent state.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of a saga like planning a vacation with multiple bookings. You book a flight, then a hotel, then a rental car. If the rental car is unavailable, you need to cancel the hotel and the flight in reverse order. Each cancellation is a "compensating transaction" that undoes a previous step.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>In a monolithic application, a single database transaction can ensure that either all operations succeed or all fail together (ACID properties). But in microservices, each service has its own database. You cannot use a traditional distributed transaction (like two-phase commit) because it creates tight coupling and poor performance. The Saga pattern solves this by breaking the big transaction into small, manageable local transactions.</p>
+
+                                <p>There are two main approaches to implementing sagas:</p>
+
+                                <ul>
+                                    <li><strong>Choreography:</strong> Each service listens for events and decides independently what to do next. When Service A completes its local transaction, it publishes an event. Service B listens for that event and performs its step, then publishes its own event. There is no central coordinator. This approach is simpler for small sagas but can become difficult to understand as the number of steps grows.</li>
+                                    <li><strong>Orchestration:</strong> A central orchestrator (saga coordinator) tells each service what local transaction to execute. The orchestrator sends commands to services and waits for replies. If a step fails, the orchestrator triggers compensating transactions in the correct reverse order. This approach is easier to understand and maintain for complex sagas.</li>
+                                    <li><strong>Compensating Transactions:</strong> For every forward action, you define a compensating action that undoes the effect. For example, if "Place Order" is the forward action, "Cancel Order" is the compensation. These are semantically opposite operations, not technical rollbacks.</li>
+                                    <li><strong>Eventual Consistency:</strong> During saga execution, the system may be in an inconsistent state. Eventually, once all steps complete (or all compensations execute), the system reaches a consistent state. This is a fundamental trade-off of the saga pattern.</li>
+                                    <li><strong>Idempotency:</strong> Each step must be idempotent so that retries don't cause duplicate effects. If a message is delivered twice, the service should produce the same result as processing it once.</li>
+                                </ul>
+
+                                <p>Challenges of the Saga pattern:</p>
+                                <ul>
+                                    <li><strong>Complexity:</strong> Designing compensating transactions for every step requires careful planning</li>
+                                    <li><strong>Debugging:</strong> Tracing failures across multiple services is more difficult than debugging a single transaction</li>
+                                    <li><strong>Isolation:</strong> Sagas lack the isolation property of ACID transactions, so intermediate states are visible to other operations</li>
+                                    <li><strong>Testing:</strong> Testing all possible failure scenarios and compensation paths is challenging</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>E-Commerce Order Processing</h5>
+                                        <p>Consider an online store where placing an order involves multiple services: (1) Order Service creates the order, (2) Payment Service charges the customer's credit card, (3) Inventory Service reserves the items, and (4) Shipping Service schedules delivery. If the Inventory Service discovers an item is out of stock, the saga must compensate by refunding the payment and cancelling the order. Each service handles its own local transaction and publishes events for the next step. An orchestrator coordinates the entire flow and triggers compensations in reverse order when failures occur, ensuring the customer is never charged for unavailable items.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Choreography vs Orchestration</h4>
+                                <p>Choreography uses event-driven communication where each service reacts independently, ideal for simple flows. Orchestration uses a central coordinator that directs the saga, better for complex multi-step transactions with intricate compensation logic.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-undo-alt"></i> Compensating Transactions</h4>
+                                <p>Every forward step requires a corresponding compensating transaction that semantically undoes its effect. Compensations must be idempotent and must succeed eventually, often requiring retry mechanisms with dead-letter queues for persistent failures.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-hourglass-half"></i> Eventual Consistency</h4>
+                                <p>Sagas guarantee eventual consistency rather than strong consistency. During execution, the system may be in an intermediate state where some services have committed while others have not. Design your UI and business logic to handle these transient inconsistencies.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exclamation-circle"></i> Failure Handling</h4>
+                                <p>Robust failure handling includes retries with exponential backoff, dead-letter queues for unprocessable messages, saga timeout mechanisms, and observability through distributed tracing to track saga progress across services.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Sagas manage distributed transactions as a sequence of local transactions</li>
+                                <li>Choreography is decentralized (event-driven); Orchestration uses a central coordinator</li>
+                                <li>Compensating transactions undo completed steps when a later step fails</li>
+                                <li>The system achieves eventual consistency, not strong ACID consistency</li>
+                                <li>Each step and compensation must be idempotent for safe retries</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Saga Orchestration Flow (E-Commerce Order)</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block; padding: 10px 24px; background: linear-gradient(135deg, #764ba2, #667eea); color: white; border-radius: 10px; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(102,126,234,0.4);">
+                                            Saga Orchestrator
+                                        </div>
+                                        <div style="display: flex; justify-content: center; align-items: flex-start; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #28a745; color: white; border-radius: 6px; font-size: 11px; font-weight: bold;">1. Create Order</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Compensate: Cancel Order</div>
+                                            </div>
+                                            <div style="font-size: 20px; color: #ccc; margin-top: 20px;">&#x2192;</div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #007bff; color: white; border-radius: 6px; font-size: 11px; font-weight: bold;">2. Process Payment</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Compensate: Refund</div>
+                                            </div>
+                                            <div style="font-size: 20px; color: #ccc; margin-top: 20px;">&#x2192;</div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #ffc107; color: #333; border-radius: 6px; font-size: 11px; font-weight: bold;">3. Reserve Stock</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Compensate: Release</div>
+                                            </div>
+                                            <div style="font-size: 20px; color: #ccc; margin-top: 20px;">&#x2192;</div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #17a2b8; color: white; border-radius: 6px; font-size: 11px; font-weight: bold;">4. Schedule Ship</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Compensate: Cancel Ship</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 20px; padding: 10px; background: #fff3cd; border-radius: 8px; font-size: 11px; color: #856404;">
+                                            <strong>On Failure at Step 3:</strong> Orchestrator triggers Step 2 Refund &#x2192; Step 1 Cancel Order (reverse compensation)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Choreography vs Orchestration</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; gap: 20px; padding: 20px; flex-wrap: wrap;">
+                                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                                            <div style="font-weight: bold; color: #667eea; margin-bottom: 12px; font-size: 14px;">Choreography (Event-Driven)</div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                                <div style="padding: 6px 14px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 6px; font-size: 11px; font-weight: bold;">Service A</div>
+                                                <div style="font-size: 10px; color: #2196f3;">publishes event &#x2193;</div>
+                                                <div style="padding: 6px 14px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 6px; font-size: 11px; font-weight: bold;">Service B</div>
+                                                <div style="font-size: 10px; color: #4caf50;">publishes event &#x2193;</div>
+                                                <div style="padding: 6px 14px; background: #fff3e0; border: 2px solid #ff9800; border-radius: 6px; font-size: 11px; font-weight: bold;">Service C</div>
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 10px; color: #666;">No central control<br>Each service reacts independently</div>
+                                        </div>
+                                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                                            <div style="font-weight: bold; color: #764ba2; margin-bottom: 12px; font-size: 14px;">Orchestration (Coordinator)</div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                                <div style="padding: 6px 14px; background: #f3e5f5; border: 2px solid #9c27b0; border-radius: 6px; font-size: 11px; font-weight: bold;">Orchestrator</div>
+                                                <div style="display: flex; gap: 12px; margin-top: 4px;">
+                                                    <div style="text-align: center;">
+                                                        <div style="font-size: 10px; color: #9c27b0;">&#x2193; cmd</div>
+                                                        <div style="padding: 4px 10px; background: #e3f2fd; border: 1px solid #2196f3; border-radius: 4px; font-size: 10px;">Svc A</div>
+                                                    </div>
+                                                    <div style="text-align: center;">
+                                                        <div style="font-size: 10px; color: #9c27b0;">&#x2193; cmd</div>
+                                                        <div style="padding: 4px 10px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; font-size: 10px;">Svc B</div>
+                                                    </div>
+                                                    <div style="text-align: center;">
+                                                        <div style="font-size: 10px; color: #9c27b0;">&#x2193; cmd</div>
+                                                        <div style="padding: 4px 10px; background: #fff3e0; border: 1px solid #ff9800; border-radius: 4px; font-size: 10px;">Svc C</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 10px; color: #666;">Central coordinator<br>Manages flow and compensations</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the Saga pattern and why do we need it in microservices?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The Saga pattern manages distributed transactions by breaking them into a sequence of local transactions coordinated through events or an orchestrator. We need it because:</p>
+                                    <ul>
+                                        <li>Microservices each own their database, making traditional ACID transactions across services impossible</li>
+                                        <li>Two-phase commit (2PC) creates tight coupling, single points of failure, and poor performance at scale</li>
+                                        <li>Sagas maintain data consistency across services while preserving service autonomy</li>
+                                        <li>They support long-running business processes that may span minutes or hours</li>
+                                        <li>Compensating transactions provide a mechanism for rollback when partial failures occur</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Compare choreography-based and orchestration-based sagas. When would you use each?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Choreography:</strong></p>
+                                    <ul>
+                                        <li>Services communicate via events with no central coordinator</li>
+                                        <li>Each service knows what to do when it receives specific events</li>
+                                        <li>Best for simple sagas with 2-4 steps and straightforward flows</li>
+                                        <li>Risk of cyclic dependencies and harder to trace the overall saga flow</li>
+                                    </ul>
+                                    <p><strong>Orchestration:</strong></p>
+                                    <ul>
+                                        <li>A central orchestrator directs the saga by sending commands to services</li>
+                                        <li>Clearer control flow, easier to understand and modify</li>
+                                        <li>Best for complex sagas with many steps, branching logic, or parallel execution</li>
+                                        <li>The orchestrator can become a single point of failure (mitigate with replication)</li>
+                                    </ul>
+                                    <p>Use choreography for simple, loosely-coupled flows. Use orchestration when the saga involves complex business rules, multiple branching paths, or when you need clear visibility into the saga's progress.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are compensating transactions and what challenges do they present?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Compensating transactions are operations that semantically undo the effects of a previously committed transaction. Key challenges include:</p>
+                                    <ul>
+                                        <li><strong>Not always reversible:</strong> Some actions like sending an email or an SMS notification cannot be truly undone; you can only send a correction</li>
+                                        <li><strong>Must be idempotent:</strong> Compensations may be retried multiple times due to network failures, so they must produce the same result regardless of how many times they execute</li>
+                                        <li><strong>Ordering matters:</strong> Compensations must execute in reverse order of the original transactions to maintain consistency</li>
+                                        <li><strong>Failure of compensation:</strong> If a compensation itself fails, you need retry mechanisms, dead-letter queues, and potentially manual intervention</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle the lack of isolation in sagas?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Since sagas don't provide ACID isolation, intermediate states are visible to other transactions. Strategies to mitigate this include:</p>
+                                    <ul>
+                                        <li><strong>Semantic Locking:</strong> Use application-level flags (e.g., order status = "PENDING") to indicate a saga is in progress, preventing other operations from modifying the same data</li>
+                                        <li><strong>Commutative Updates:</strong> Design operations so their order doesn't matter, reducing conflicts between concurrent sagas</li>
+                                        <li><strong>Pessimistic View:</strong> Design the business process to handle the worst case, reading data that may be dirty</li>
+                                        <li><strong>Re-read Value:</strong> Re-read data before making decisions to ensure it hasn't been modified by another saga</li>
+                                        <li><strong>Version Numbering:</strong> Use optimistic concurrency control with version numbers to detect conflicts</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of the Saga Pattern</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the primary purpose of the Saga pattern?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>To implement two-phase commit across microservices</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>To provide ACID transactions in distributed systems</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>To manage distributed transactions using local transactions and compensations</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>To cache transaction results for faster processing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. In the choreography approach, how do services communicate?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Through a central orchestrator sending commands</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>By publishing and subscribing to domain events</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Through direct synchronous API calls</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Using shared database tables for coordination</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is a compensating transaction?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>An operation that semantically undoes the effect of a previous committed transaction</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>A database rollback command that reverses all changes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>A retry mechanism that repeats failed transactions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>A transaction that compensates for slow network performance</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which consistency model do sagas provide?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Strong consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Linearizable consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Strict serializability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Eventual consistency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. When is the orchestration approach preferred over choreography?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>When you have only two services involved</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>When services should have zero coupling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>When the saga has complex logic with many steps and branching paths</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>When you want to avoid any single point of failure</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/distributed-transactions.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Distributed Transactions</h4>
+                            <p>Coordinate transactions across multiple databases and services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Design systems as independently deployable, loosely coupled services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Build reactive systems that respond to events asynchronously</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Visual walkthroughs of saga implementations with real-world examples</p>
+                        <a href="#" class="resource-link">Watch Videos &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Microservices.io saga pattern guide and framework documentation</p>
+                        <a href="#" class="resource-link">Read Docs &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Saga implementations using Axon Framework, Eventuate, and MassTransit</p>
+                        <a href="#" class="resource-link">View Code &#x2192;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

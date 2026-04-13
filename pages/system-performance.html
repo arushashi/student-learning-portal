@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Performance - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">System Performance</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>System Performance</h1>
+                    <p class="topic-description">Master performance optimization techniques including latency reduction, throughput maximization, profiling, caching, and query optimization</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#x23F1; 25 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="system-performance">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&amp;A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is System Performance?</h3>
+                                <p>System performance refers to the ability of a software system to process requests efficiently, minimize response times, and maximize throughput under varying loads. It encompasses a broad set of optimization techniques including latency reduction, resource utilization, caching strategies, connection pooling, query optimization, and profiling. Performance engineering ensures that applications meet their Service Level Objectives (SLOs) by measuring key metrics like P50, P95, and P99 response times, requests per second (RPS), and error rates.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Performance is not just about speed &mdash; it is about delivering a consistently fast experience at scale. A system with low average latency but terrible P99 latency can still frustrate users, because 1 in 100 requests will be painfully slow.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of system performance like a highway. <strong>Latency</strong> is how long it takes a single car to travel from point A to point B. <strong>Throughput</strong> is how many cars can pass through the highway per hour. A four-lane highway has higher throughput than a two-lane road, but each car's travel time (latency) might remain the same. Performance optimization means widening the highway, removing bottlenecks, and ensuring smooth traffic flow.</p>
+
+                                <p>In software systems, every user request travels through multiple layers &mdash; DNS resolution, network hops, load balancers, application servers, databases, and back. Performance optimization targets each of these layers to reduce end-to-end response time:</p>
+
+                                <ul>
+                                    <li><strong>Latency reduction:</strong> Minimize the time each request spends waiting &mdash; through caching, connection reuse, and efficient algorithms</li>
+                                    <li><strong>Throughput maximization:</strong> Increase the number of requests the system can handle per second via concurrency, batching, and horizontal scaling</li>
+                                    <li><strong>Profiling &amp; benchmarking:</strong> Use tools like flame graphs, APM agents, and load testing to identify bottlenecks before they hit production</li>
+                                    <li><strong>Resource optimization:</strong> Tune CPU, memory, disk I/O, and network utilization to avoid waste and prevent saturation</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-google"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Google Search</h5>
+                                        <p>Google returns search results in under 200 milliseconds, querying billions of web pages across thousands of servers worldwide. They achieve this through aggressive caching of popular queries, pre-computed indexes, connection pooling to backend services, geographic distribution of data centers, and constant profiling to shave milliseconds off every layer of the stack. Google's engineers famously found that adding just 500ms of latency to search results reduced traffic by 20%.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points &amp; Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-clock"></i> Latency vs Throughput</h4>
+                                <p>Latency measures the time to complete a single request (e.g., 50ms API response). Throughput measures total work done per unit time (e.g., 10,000 RPS). Optimizing one doesn't always improve the other &mdash; batching can increase throughput at the cost of individual request latency. Understanding this tradeoff is critical for designing SLOs.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-search"></i> Profiling &amp; Benchmarking</h4>
+                                <p>Never optimize without measuring first. Use Application Performance Monitoring (APM) tools like Datadog, New Relic, or Jaeger for distributed tracing. Flame graphs reveal CPU hotspots. Load testing with tools like k6, Locust, or JMeter simulates production traffic to find breaking points before users do.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-bolt"></i> Caching as #1 Optimization</h4>
+                                <p>Caching is the single most effective performance optimization. Use in-memory caches like Redis or Memcached for frequently accessed data. Apply caching at every layer: browser cache, CDN cache, application cache, and database query cache. A well-placed cache can reduce database load by 90% and cut response times from 200ms to under 5ms.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-plug"></i> Connection Pooling &amp; Batching</h4>
+                                <p>Creating new database or HTTP connections is expensive (TCP handshake, TLS negotiation). Connection pools maintain a set of reusable connections, eliminating setup overhead. Batching groups multiple small operations into a single round-trip &mdash; for example, fetching 100 user records in one query instead of 100 individual queries (the N+1 problem).</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Latency is per-request time; throughput is total requests per second &mdash; optimize both</li>
+                                <li>Always measure before optimizing: use profiling, tracing, and load testing</li>
+                                <li>Caching is the most impactful optimization &mdash; apply it at every layer</li>
+                                <li>Connection pooling eliminates expensive connection setup overhead</li>
+                                <li>Percentile metrics (P95, P99) reveal tail latency that averages hide</li>
+                                <li>Query optimization (indexes, denormalization, avoiding N+1) is essential for database-bound systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Request Lifecycle &amp; Optimization Points</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sitemap"></i>
+                                    <p>Each layer of the request path is an opportunity for performance optimization</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 130px; height: 50px; background: #667eea; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-size: 13px;">
+                                            Client / Browser
+                                        </div>
+                                        <div style="color: #667eea; font-size: 18px;">&#x2193; <span style="font-size: 11px; color: #888;">CDN Cache</span></div>
+                                        <div style="display: inline-block; width: 130px; height: 50px; background: #764ba2; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-size: 13px;">
+                                            Load Balancer
+                                        </div>
+                                        <div style="color: #764ba2; font-size: 18px;">&#x2193; <span style="font-size: 11px; color: #888;">Conn Pool</span></div>
+                                        <div style="display: inline-block; width: 130px; height: 50px; background: #f093fb; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-size: 13px;">
+                                            App Server
+                                        </div>
+                                        <div style="color: #f093fb; font-size: 18px;">&#x2193; <span style="font-size: 11px; color: #888;">App Cache</span></div>
+                                        <div style="display: flex; justify-content: center; gap: 15px;">
+                                            <div style="width: 100px; height: 45px; background: #28a745; color: white; border-radius: 5px; line-height: 45px; font-size: 12px;">Redis Cache</div>
+                                            <div style="width: 100px; height: 45px; background: #fd7e14; color: white; border-radius: 5px; line-height: 45px; font-size: 12px;">Database</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Latency Percentile Distribution</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <p>Understanding P50, P95, and P99 latency percentiles</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <strong>P50 (Median):</strong> 45ms
+                                            <div style="background: #e9ecef; border-radius: 4px; height: 20px; margin-top: 4px;">
+                                                <div style="background: #28a745; height: 20px; border-radius: 4px; width: 22%;">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong>P95:</strong> 120ms
+                                            <div style="background: #e9ecef; border-radius: 4px; height: 20px; margin-top: 4px;">
+                                                <div style="background: #fd7e14; height: 20px; border-radius: 4px; width: 60%;">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong>P99:</strong> 350ms
+                                            <div style="background: #e9ecef; border-radius: 4px; height: 20px; margin-top: 4px;">
+                                                <div style="background: #dc3545; height: 20px; border-radius: 4px; width: 90%;">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 12px; color: #888; margin-top: 10px;">
+                                            <em>P99 latency is 7.8x the median &mdash; tail latency matters!</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions &amp; Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you diagnose a slow API endpoint in production?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A systematic approach to diagnosing a slow API endpoint involves multiple layers of investigation:</p>
+                                    <ul>
+                                        <li><strong>Check metrics dashboards:</strong> Start with APM tools (Datadog, New Relic) to see latency percentiles (P50, P95, P99), error rates, and throughput trends over time</li>
+                                        <li><strong>Distributed tracing:</strong> Use Jaeger or Zipkin to trace a single slow request through all microservices and identify which service or database call is the bottleneck</li>
+                                        <li><strong>Database query analysis:</strong> Check for slow queries using EXPLAIN plans, look for missing indexes, N+1 query patterns, or full table scans</li>
+                                        <li><strong>Resource utilization:</strong> Examine CPU, memory, disk I/O, and network metrics on the host &mdash; a saturated resource will cause queuing delays</li>
+                                        <li><strong>Connection pool exhaustion:</strong> Verify that database and HTTP connection pools are not fully utilized, causing requests to wait for available connections</li>
+                                        <li><strong>External dependencies:</strong> Check if third-party API calls or downstream services are responding slowly, and consider adding circuit breakers and timeouts</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When should you scale vertically vs horizontally to improve performance?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The choice between vertical and horizontal scaling depends on the nature of the bottleneck:</p>
+                                    <ul>
+                                        <li><strong>Vertical scaling (scale up):</strong> Add more CPU, RAM, or faster disks to a single machine. Best for: database servers with complex queries, applications not designed for distribution, or when the bottleneck is single-threaded processing. Simpler but has hardware limits and creates a single point of failure.</li>
+                                        <li><strong>Horizontal scaling (scale out):</strong> Add more machines behind a load balancer. Best for: stateless application servers, read-heavy workloads (add read replicas), or when you need fault tolerance. Requires the application to handle distributed state, session management, and data consistency.</li>
+                                        <li><strong>Hybrid approach:</strong> Most production systems use both &mdash; scale up database servers to the practical limit, then shard horizontally. Scale out stateless app servers behind load balancers from the start.</li>
+                                        <li><strong>Cost considerations:</strong> Vertical scaling has diminishing returns (2x CPU rarely gives 2x performance). Horizontal scaling is more cost-effective at scale but adds operational complexity.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are P99 percentiles and why do they matter more than averages?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Percentile metrics provide a much more accurate picture of user experience than averages:</p>
+                                    <ul>
+                                        <li><strong>P99 definition:</strong> The P99 latency is the value below which 99% of all requests complete. If your P99 is 500ms, then 1 in 100 requests takes longer than 500ms.</li>
+                                        <li><strong>Why averages lie:</strong> An average of 50ms could mean most requests take 30ms but a few take 2000ms. The average hides the pain of those slow requests.</li>
+                                        <li><strong>Impact at scale:</strong> If a user's page load makes 50 API calls, there is a 40% chance (1 - 0.99^50) that at least one call hits P99 latency. High-percentile latency directly impacts real user experience.</li>
+                                        <li><strong>SLO design:</strong> Industry best practice is to set SLOs on P95 and P99, not averages. For example: "P99 latency must be below 300ms" is a meaningful SLO.</li>
+                                        <li><strong>Common causes of tail latency:</strong> Garbage collection pauses, cache misses, retries, network timeouts, and resource contention under load.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Explain connection pooling and why it improves performance.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Connection pooling is a technique that maintains a pool of reusable connections to avoid the overhead of creating new ones:</p>
+                                    <ul>
+                                        <li><strong>The problem:</strong> Every new database connection requires a TCP handshake (1 RTT), TLS negotiation (1-2 RTT), and authentication. This can add 5-30ms per connection, which is devastating at high request rates.</li>
+                                        <li><strong>How pooling works:</strong> A pool of pre-established connections is maintained. When the application needs a connection, it borrows one from the pool, uses it, and returns it. No setup overhead per request.</li>
+                                        <li><strong>Pool sizing:</strong> Set the pool size based on expected concurrency. Too small causes request queuing; too large wastes database resources. A common formula: connections = (core_count * 2) + effective_spindle_count.</li>
+                                        <li><strong>Connection pool tools:</strong> HikariCP (Java), pgBouncer (PostgreSQL), ProxySQL (MySQL), and built-in pools in ORMs like SQLAlchemy or Sequelize.</li>
+                                        <li><strong>Beyond databases:</strong> HTTP connection pooling (keep-alive) and gRPC channel reuse apply the same principle to service-to-service communication.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of System Performance</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the difference between latency and throughput?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>They are the same metric measured differently</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Latency is time per request; throughput is requests per unit time</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Latency measures bandwidth; throughput measures speed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Throughput is always more important than latency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. What does P99 latency represent?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>The average latency of 99 requests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>The maximum latency observed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>The latency below which 99% of requests complete</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>The latency of the 99th request</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is the primary benefit of connection pooling?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Eliminates connection setup overhead by reusing connections</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Encrypts all database connections automatically</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Increases the number of database servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Compresses data sent over connections</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is the N+1 query problem?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>A database can only handle N+1 concurrent connections</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>A query that returns N+1 rows maximum</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>An index that needs N+1 levels of B-tree depth</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>One query to fetch a list, then N individual queries for each item's details</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which is generally the most effective single performance optimization?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Switching programming languages</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Adding a caching layer for frequently accessed data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Increasing server CPU cores</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Reducing code comments to decrease file size</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching at every layer</p>
+                        </div>
+                    </a>
+                    <a href="../pages/autoscaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Autoscaling</h4>
+                            <p>Dynamically adjust resources based on performance metrics and load</p>
+                        </div>
+                    </a>
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distribute traffic across servers for optimal throughput and availability</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

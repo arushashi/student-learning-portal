@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">CQRS</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-columns"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>CQRS (Command Query Responsibility Segregation)</h1>
+                    <p class="topic-description">Separate read and write models to independently optimize queries and commands for scalability and performance</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#x23F1; 35 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="cqrs">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is CQRS?</h3>
+                                <p>Command Query Responsibility Segregation (CQRS) is an architectural pattern that separates the read (query) and write (command) operations of a system into distinct models. Instead of using a single data model for both reading and writing data, CQRS uses one model optimized for updates (the write model) and a different model optimized for queries (the read model). Commands change state but return no data. Queries return data but do not change state. This separation allows each side to be independently scaled, optimized, and evolved without impacting the other.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of a library system: the cataloging department (write side) organizes and updates book records with detailed metadata, while the public search terminal (read side) presents a simplified, fast-searchable view. Each is optimized for its purpose rather than forcing one system to do both poorly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>In traditional applications, the same data model and database handle both reads and writes. This works fine for simple applications, but in complex, high-traffic systems, reads and writes often have very different requirements. Reads may need denormalized data across multiple entities for fast queries, while writes need normalized data with strong validation and business rules. CQRS solves this tension by splitting them apart.</p>
+
+                                <p>Here is how CQRS works in practice:</p>
+
+                                <ul>
+                                    <li><strong>Command Side (Write Model):</strong> Handles all create, update, and delete operations. The write model is typically normalized, enforces business rules and invariants, and is optimized for transactional integrity. Commands are processed through command handlers that validate and execute business logic.</li>
+                                    <li><strong>Query Side (Read Model):</strong> Handles all data retrieval operations. The read model is typically denormalized, pre-computed, and optimized for specific query patterns. It may use different storage technologies like Elasticsearch for full-text search or Redis for fast key-value lookups.</li>
+                                    <li><strong>Synchronization:</strong> When data changes on the write side, the read model must be updated. This is often done asynchronously through domain events. The write side publishes events, and the read side subscribes to them and updates its projections accordingly.</li>
+                                    <li><strong>Different Data Stores:</strong> The read and write sides can use completely different databases. For example, the write side might use PostgreSQL for ACID transactions, while the read side uses MongoDB for flexible document queries or Elasticsearch for search.</li>
+                                    <li><strong>Event Sourcing Compatibility:</strong> CQRS pairs naturally with Event Sourcing, where the write side stores events and the read side builds materialized views (projections) from those events.</li>
+                                </ul>
+
+                                <p>Benefits of CQRS:</p>
+                                <ul>
+                                    <li><strong>Independent Scaling:</strong> Scale read and write sides separately based on their individual load</li>
+                                    <li><strong>Optimized Models:</strong> Each model is tailored for its specific use case without compromise</li>
+                                    <li><strong>Simplified Queries:</strong> Read models can be pre-computed and denormalized for fast retrieval</li>
+                                    <li><strong>Better Security:</strong> Fine-grained control over which operations users can perform</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-store"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>High-Traffic E-Commerce Platform</h5>
+                                        <p>Consider an e-commerce platform like Amazon during Black Friday. The product catalog is read millions of times per second (browsing, searching, filtering), while orders are written thousands of times per second. With CQRS, the read side uses Elasticsearch for lightning-fast product searches with denormalized data (product name, price, ratings, images all in one document), while the write side uses a relational database with normalized tables for order processing, inventory management, and payment validation. The read model is updated asynchronously when inventory changes, meaning there's a brief delay before a stock change appears in search results, but the system can handle massive read traffic without impacting order processing performance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-h"></i> Read/Write Separation</h4>
+                                <p>Commands (writes) and queries (reads) use separate models, potentially with different data stores and schemas. Commands enforce business rules and return no data; queries are optimized for retrieval and do not modify state. This clear separation simplifies each model.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-puzzle-piece"></i> Event Sourcing Compatibility</h4>
+                                <p>CQRS naturally pairs with Event Sourcing where the write side appends events to an event store and the read side builds materialized views (projections) from those events. Together they provide a complete audit trail and temporal query capability.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync"></i> Eventual Consistency</h4>
+                                <p>Because the read model is updated asynchronously from the write model, there is a propagation delay. The system is eventually consistent: after a write, the read model will reflect the change, but not instantaneously. Design your UI to handle this stale-read window.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-ban"></i> When NOT to Use CQRS</h4>
+                                <p>Avoid CQRS for simple CRUD applications with balanced read/write loads, systems requiring strong consistency, small teams without distributed systems experience, or domains where the read and write models would be nearly identical.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>CQRS separates read and write operations into distinct models and potentially different data stores</li>
+                                <li>The write model enforces business rules; the read model is optimized for query performance</li>
+                                <li>Read and write sides can be scaled independently based on their traffic patterns</li>
+                                <li>Pairs naturally with Event Sourcing for complete audit trails and temporal queries</li>
+                                <li>Introduces eventual consistency and added complexity; not suitable for simple CRUD apps</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>CQRS Architecture Overview</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block; padding: 10px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 10px; font-weight: bold; margin-bottom: 15px;">
+                                            Client Application
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 50px; margin-top: 10px; flex-wrap: wrap;">
+                                            <div style="text-align: center; min-width: 180px;">
+                                                <div style="font-size: 14px; color: #dc3545; font-weight: bold;">Commands (Writes)</div>
+                                                <div style="font-size: 20px; color: #dc3545;">&#x2193;</div>
+                                                <div style="padding: 10px 16px; background: linear-gradient(135deg, #dc3545, #c0392b); color: white; border-radius: 8px; font-weight: bold; font-size: 12px; margin: 8px 0;">
+                                                    Command Handlers
+                                                </div>
+                                                <div style="font-size: 20px; color: #dc3545;">&#x2193;</div>
+                                                <div style="padding: 10px 16px; background: #ffebee; border: 2px solid #dc3545; border-radius: 8px; font-size: 12px; font-weight: bold; color: #c0392b;">
+                                                    Write Database<br><span style="font-size: 10px; font-weight: normal;">(Normalized / PostgreSQL)</span>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                                <div style="padding: 8px 14px; background: #f0f0f0; border-radius: 6px; font-size: 11px; font-weight: bold; color: #555;">
+                                                    Domain Events
+                                                </div>
+                                                <div style="font-size: 20px; color: #888;">&#x2192;</div>
+                                                <div style="font-size: 10px; color: #888;">Async Sync</div>
+                                            </div>
+                                            <div style="text-align: center; min-width: 180px;">
+                                                <div style="font-size: 14px; color: #28a745; font-weight: bold;">Queries (Reads)</div>
+                                                <div style="font-size: 20px; color: #28a745;">&#x2193;</div>
+                                                <div style="padding: 10px 16px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border-radius: 8px; font-weight: bold; font-size: 12px; margin: 8px 0;">
+                                                    Query Handlers
+                                                </div>
+                                                <div style="font-size: 20px; color: #28a745;">&#x2193;</div>
+                                                <div style="padding: 10px 16px; background: #e8f5e9; border: 2px solid #28a745; border-radius: 8px; font-size: 12px; font-weight: bold; color: #2e7d32;">
+                                                    Read Database<br><span style="font-size: 10px; font-weight: normal;">(Denormalized / Elasticsearch)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Traditional vs CQRS Approach</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; gap: 30px; padding: 20px; flex-wrap: wrap;">
+                                        <div style="flex: 1; min-width: 180px; text-align: center;">
+                                            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 12px; font-size: 14px;">Traditional (Single Model)</div>
+                                            <div style="padding: 8px 14px; background: #ffeaa7; border: 2px solid #fdcb6e; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+                                                Single API Layer
+                                            </div>
+                                            <div style="font-size: 16px;">&#x2193;</div>
+                                            <div style="padding: 8px 14px; background: #fab1a0; border: 2px solid #e17055; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+                                                One Data Model
+                                            </div>
+                                            <div style="font-size: 16px;">&#x2193;</div>
+                                            <div style="padding: 8px 14px; background: #dfe6e9; border: 2px solid #b2bec3; border-radius: 6px; font-size: 12px; font-weight: bold;">
+                                                One Database
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 10px; color: #e74c3c;">
+                                                Reads &amp; Writes compete<br>for same resources
+                                            </div>
+                                        </div>
+                                        <div style="flex: 1; min-width: 180px; text-align: center;">
+                                            <div style="font-weight: bold; color: #27ae60; margin-bottom: 12px; font-size: 14px;">CQRS (Separated Models)</div>
+                                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                                <div style="text-align: center;">
+                                                    <div style="padding: 6px 10px; background: #ff7675; border-radius: 4px; font-size: 10px; color: white; font-weight: bold;">Command API</div>
+                                                    <div style="font-size: 12px;">&#x2193;</div>
+                                                    <div style="padding: 6px 10px; background: #d63031; border-radius: 4px; font-size: 10px; color: white; font-weight: bold;">Write Model</div>
+                                                    <div style="font-size: 12px;">&#x2193;</div>
+                                                    <div style="padding: 6px 10px; background: #dfe6e9; border-radius: 4px; font-size: 9px; font-weight: bold;">Write DB</div>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <div style="padding: 6px 10px; background: #00b894; border-radius: 4px; font-size: 10px; color: white; font-weight: bold;">Query API</div>
+                                                    <div style="font-size: 12px;">&#x2193;</div>
+                                                    <div style="padding: 6px 10px; background: #00cec9; border-radius: 4px; font-size: 10px; color: white; font-weight: bold;">Read Model</div>
+                                                    <div style="font-size: 12px;">&#x2193;</div>
+                                                    <div style="padding: 6px 10px; background: #dfe6e9; border-radius: 4px; font-size: 9px; font-weight: bold;">Read DB</div>
+                                                </div>
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 10px; color: #27ae60;">
+                                                Independent scaling &amp;<br>optimization per side
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is CQRS and what problem does it solve?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CQRS (Command Query Responsibility Segregation) separates the read and write sides of an application into distinct models. It solves several problems:</p>
+                                    <ul>
+                                        <li><strong>Mismatched optimization:</strong> Read and write operations have fundamentally different performance requirements that a single model cannot satisfy optimally</li>
+                                        <li><strong>Scaling imbalance:</strong> Most applications have vastly more reads than writes (often 100:1 or higher), but a single model forces both to scale together</li>
+                                        <li><strong>Complex queries:</strong> When reads require joining many tables or aggregating data, the queries become slow and complex. A denormalized read model eliminates expensive joins</li>
+                                        <li><strong>Contention:</strong> Read and write operations competing for the same database resources cause lock contention and degraded performance under load</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does CQRS relate to Event Sourcing? Do you need both together?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CQRS and Event Sourcing are complementary but independent patterns:</p>
+                                    <ul>
+                                        <li><strong>CQRS without Event Sourcing:</strong> You can implement CQRS with traditional databases on both sides. The write side uses a normalized relational database, and the read side uses denormalized views or a separate read-optimized store, synchronized via change data capture or domain events.</li>
+                                        <li><strong>Event Sourcing without CQRS:</strong> You can store events as the source of truth without separating read and write models, though this is uncommon since querying an event store directly is typically impractical.</li>
+                                        <li><strong>Together:</strong> They work exceptionally well together. Event Sourcing provides the write model (append-only event store), and CQRS provides separate read models (projections) built by replaying events. Events serve as the natural synchronization mechanism between the two sides.</li>
+                                    </ul>
+                                    <p>In practice, Event Sourcing almost always uses CQRS because querying an event stream directly is inefficient for most use cases.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle eventual consistency in CQRS systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Eventual consistency is a fundamental trade-off in CQRS. Strategies to manage it include:</p>
+                                    <ul>
+                                        <li><strong>UI Optimistic Updates:</strong> After a command succeeds, update the UI immediately with the expected state without waiting for the read model to sync. This gives the user instant feedback.</li>
+                                        <li><strong>Polling or WebSockets:</strong> The client polls the read model or subscribes to real-time updates until the read model reflects the latest write.</li>
+                                        <li><strong>Read-Your-Writes:</strong> After a command, include a version token. The query side checks if the read model has caught up to that version before returning data.</li>
+                                        <li><strong>Synchronous Read Model Update:</strong> For critical paths, update the read model synchronously within the command handler, sacrificing some decoupling for immediate consistency.</li>
+                                        <li><strong>Business Process Design:</strong> Design workflows that naturally accommodate delays, such as showing "Order Processing" status instead of immediate confirmation.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>When should you NOT use CQRS?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CQRS adds significant complexity and should be avoided in these scenarios:</p>
+                                    <ul>
+                                        <li><strong>Simple CRUD applications:</strong> If your app is basic create-read-update-delete with no complex business logic, CQRS is overkill</li>
+                                        <li><strong>Balanced read/write loads:</strong> If reads and writes are roughly equal and don't have conflicting optimization needs, separation provides little benefit</li>
+                                        <li><strong>Strong consistency requirements:</strong> If every read must immediately reflect the latest write (e.g., financial account balances), eventual consistency is problematic</li>
+                                        <li><strong>Small teams:</strong> CQRS requires expertise in distributed systems, event-driven architecture, and operational tooling that small teams may lack</li>
+                                        <li><strong>Early-stage products:</strong> When the domain model is still evolving rapidly, maintaining two separate models doubles the refactoring effort</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of CQRS</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What does CQRS stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Command Queue Replication Service</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Command Query Responsibility Segregation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Centralized Query Response System</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Concurrent Query Read Synchronization</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. What is the primary advantage of separating read and write models?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>It eliminates the need for a database</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>It guarantees strong consistency at all times</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Each model can be independently optimized and scaled</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>It reduces the total amount of code needed</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What consistency model does CQRS typically introduce between read and write models?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Eventual consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Strong consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Causal consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Linearizable consistency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which pattern pairs most naturally with CQRS?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Singleton Pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Circuit Breaker Pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Load Balancer Pattern</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Event Sourcing Pattern</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. When is CQRS NOT recommended?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>When read and write loads are highly asymmetric</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>For simple CRUD applications with balanced read/write loads</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>When using event-driven architecture</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>When the domain has complex business logic</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/event-sourcing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event Sourcing</h4>
+                            <p>Store state as a sequence of immutable events for complete audit trails</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Build reactive systems where components communicate through events</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Scale databases horizontally and vertically to handle growing workloads</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>In-depth CQRS walkthroughs with real-world architecture examples</p>
+                        <a href="#" class="resource-link">Watch Videos &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Martin Fowler's CQRS guide and Microsoft Azure architecture patterns</p>
+                        <a href="#" class="resource-link">Read Docs &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>CQRS implementations using Axon Framework, MediatR, and EventStoreDB</p>
+                        <a href="#" class="resource-link">View Code &#x2192;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

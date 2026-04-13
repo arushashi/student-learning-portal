@@ -46,26 +46,60 @@
                     <h1>Database Replication</h1>
                     <p class="topic-description">Data redundancy and high availability through database copying</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Intermediate</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="database-replication">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,118 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Replication ensures data availability and improves system reliability through multiple copies.</p>
+                                <p><strong>Key Insight:</strong> Replication ensures data availability and improves system reliability through multiple copies.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you have an important notebook with all your notes. To protect against losing it, you make copies and keep them in different locations. Database replication works the same way &mdash; it keeps identical copies of your database across multiple servers so that if one fails, the others can take over seamlessly.</p>
+
+                                <h4>How Database Replication Works</h4>
+
+                                <p><strong>1. Replication Topologies</strong></p>
+                                <ul>
+                                    <li><strong>Master-Slave (Primary-Replica):</strong> One primary node handles all writes; replicas receive copies for read operations</li>
+                                    <li><strong>Multi-Master:</strong> Multiple nodes accept writes, with changes propagated to all other nodes</li>
+                                    <li><strong>Peer-to-Peer:</strong> All nodes are equal, each can read and write independently</li>
+                                    <li><strong>Circular Replication:</strong> Each node replicates to the next in a ring topology</li>
+                                </ul>
+
+                                <p><strong>2. Replication Methods</strong></p>
+                                <ul>
+                                    <li><strong>Synchronous Replication:</strong> Waits for all replicas to confirm the write before committing &mdash; ensures strong consistency but adds latency</li>
+                                    <li><strong>Asynchronous Replication:</strong> Commits on the primary immediately, replicas catch up later &mdash; faster but risks data loss</li>
+                                    <li><strong>Semi-Synchronous:</strong> Waits for at least one replica to acknowledge before committing &mdash; balances consistency and performance</li>
+                                    <li><strong>Logical Replication:</strong> Replicates SQL statements or row-level changes rather than raw data blocks</li>
+                                </ul>
+
+                                <h4>Replication Challenges</h4>
+                                <p><strong>Replication Lag:</strong> Delay between primary writes and replica updates causing stale reads</p>
+                                <p><strong>Conflict Resolution:</strong> Handling simultaneous writes to different masters in multi-master setups</p>
+                                <p><strong>Split Brain:</strong> Network partitions causing nodes to operate independently with divergent data</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>MySQL Replication at Facebook</h5>
+                                        <p>Facebook uses MySQL replication extensively to handle billions of queries per day. Their setup involves primary databases that handle writes with numerous read replicas distributed across data centers globally, ensuring low-latency reads for users worldwide.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Sync vs Async</h4>
+                                <p>Synchronous replication guarantees consistency but adds latency; asynchronous offers speed but risks temporary inconsistency.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-server"></i> Master-Slave</h4>
+                                <p>The most common topology with one write node and multiple read replicas for scalable read performance.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-clock"></i> Replication Lag</h4>
+                                <p>The delay between a write on the primary and its appearance on replicas can cause stale data reads.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exclamation-triangle"></i> Conflict Resolution</h4>
+                                <p>Multi-master setups need strategies like last-write-wins, merge, or custom conflict handlers.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Replication creates and maintains copies of data across multiple servers</li>
+                                <li>Master-slave is the most widely used replication topology</li>
+                                <li>Synchronous replication ensures consistency; asynchronous improves performance</li>
+                                <li>Replication lag can cause stale reads and must be managed</li>
+                                <li>Multi-master replication requires conflict resolution strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +243,289 @@
                                     <p>Synchronous replication ensures data consistency by waiting for confirmation from replicas before committing, while asynchronous replication provides better performance by allowing immediate commits with eventual consistency.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle replication lag in distributed systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Strategies for handling replication lag include:</p>
+                                    <ul>
+                                        <li><strong>Read-after-write consistency:</strong> Route reads to the primary for recently written data</li>
+                                        <li><strong>Monotonic reads:</strong> Ensure a user always reads from the same replica</li>
+                                        <li><strong>Lag monitoring:</strong> Track replication delay and alert when it exceeds thresholds</li>
+                                        <li><strong>Semi-synchronous replication:</strong> Ensure at least one replica is up-to-date before confirming writes</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is split-brain in database replication and how do you prevent it?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Split-brain occurs when network partitions cause multiple nodes to believe they are the primary:</p>
+                                    <ul>
+                                        <li><strong>Quorum-based decisions:</strong> Require majority agreement before promoting a new primary</li>
+                                        <li><strong>Fencing (STONITH):</strong> Shut down the old primary to prevent dual-write scenarios</li>
+                                        <li><strong>Leader election:</strong> Use consensus algorithms like Raft or Paxos for reliable leader selection</li>
+                                        <li><strong>Heartbeat monitoring:</strong> Detect failures quickly and trigger coordinated failover</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Database Replication</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">1. What is a key characteristic of synchronous replication?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Waits for confirmation from replicas before committing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Commits immediately without waiting</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Only replicates during off-peak hours</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Requires manual intervention for each write</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. What defines a master-slave replication topology?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>All nodes accept write operations equally</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>One write node with multiple read replicas</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Nodes replicate in a circular ring</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>No designated primary or secondary nodes</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What does multi-master replication allow?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Only read operations on all nodes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Writes only during scheduled windows</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Writes to any node in the cluster</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Automatic schema changes across nodes</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What problem does replication lag cause?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Database corruption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Increased write throughput</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Reduced storage requirements</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Stale reads from replicas</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What is a trade-off of asynchronous replication?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Higher write latency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Faster performance but risks data loss</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Requires more storage space</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Only works with NoSQL databases</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Strategies for scaling databases horizontally and vertically</p>
+                        </div>
+                    </a>
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Fault tolerance and continuous system operation</p>
+                        </div>
+                    </a>
+                    <a href="../pages/eventual-consistency.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Eventual Consistency</h4>
+                            <p>Understanding consistency models in distributed systems</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

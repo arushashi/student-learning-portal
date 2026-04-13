@@ -46,26 +46,60 @@
                     <h1>REST & RESTfulness</h1>
                     <p class="topic-description">API design principles and architectural style for web services</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Intermediate</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 25 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="rest">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,138 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>REST uses stateless communication and standard HTTP methods for scalable API design.</p>
+                                <p><strong>Key Insight:</strong> REST uses stateless communication and standard HTTP methods for scalable API design.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a library. Each book has a unique call number (URL), and there are standard actions you can perform: borrow a book (GET), donate a new book (POST), replace a damaged copy (PUT), or remove a book (DELETE). REST works the same way &mdash; every resource has a unique address and a fixed set of operations.</p>
+
+                                <h4>Core REST Principles</h4>
+
+                                <p><strong>1. Client-Server Separation</strong></p>
+                                <ul>
+                                    <li>The client (frontend) and server (backend) are independent</li>
+                                    <li>They communicate only through a well-defined API</li>
+                                    <li>Either side can evolve independently without breaking the other</li>
+                                </ul>
+
+                                <p><strong>2. Statelessness</strong></p>
+                                <ul>
+                                    <li>Each request from client to server must contain all information needed</li>
+                                    <li>The server does not store client session state between requests</li>
+                                    <li>This makes the system easier to scale horizontally</li>
+                                </ul>
+
+                                <p><strong>3. Uniform Interface</strong></p>
+                                <ul>
+                                    <li>Resources are identified by URIs (e.g., <code>/api/users/42</code>)</li>
+                                    <li>Standard HTTP methods: GET, POST, PUT, PATCH, DELETE</li>
+                                    <li>Representations (JSON, XML) transfer resource state</li>
+                                    <li>HATEOAS provides navigation through hypermedia links</li>
+                                </ul>
+
+                                <h4>HTTP Methods in REST</h4>
+
+                                <p><strong>GET</strong> &mdash; Retrieve a resource (idempotent, safe)</p>
+                                <p><strong>POST</strong> &mdash; Create a new resource</p>
+                                <p><strong>PUT</strong> &mdash; Replace an entire resource (idempotent)</p>
+                                <p><strong>PATCH</strong> &mdash; Partially update a resource</p>
+                                <p><strong>DELETE</strong> &mdash; Remove a resource (idempotent)</p>
+
+                                <h4>HTTP Status Codes</h4>
+                                <ul>
+                                    <li><strong>200 OK:</strong> Successful request</li>
+                                    <li><strong>201 Created:</strong> Resource successfully created</li>
+                                    <li><strong>204 No Content:</strong> Successful with no response body</li>
+                                    <li><strong>400 Bad Request:</strong> Invalid client request</li>
+                                    <li><strong>401 Unauthorized:</strong> Authentication required</li>
+                                    <li><strong>404 Not Found:</strong> Resource does not exist</li>
+                                    <li><strong>500 Internal Server Error:</strong> Server-side failure</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Twitter's REST API</h5>
+                                        <p>Twitter's API follows REST conventions: <code>GET /2/tweets/:id</code> retrieves a tweet, <code>POST /2/tweets</code> creates one, and <code>DELETE /2/tweets/:id</code> removes it. Each endpoint operates on a clearly identified resource using standard HTTP methods, making the API predictable and easy to integrate with.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-random"></i> Statelessness</h4>
+                                <p>Every request carries all context needed for processing, making servers easy to scale and replace without session affinity.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-link"></i> Resource-Based URLs</h4>
+                                <p>Resources are identified by clean, hierarchical URIs such as <code>/users/42/orders</code>, making APIs intuitive and self-documenting.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-redo"></i> Idempotency</h4>
+                                <p>GET, PUT, and DELETE are idempotent &mdash; calling them multiple times produces the same result, enabling safe retries.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Cacheability</h4>
+                                <p>REST responses can be marked cacheable or non-cacheable, reducing server load and improving client performance.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>REST stands for Representational State Transfer</li>
+                                <li>Uses standard HTTP methods to operate on resources</li>
+                                <li>Stateless communication enables horizontal scaling</li>
+                                <li>HATEOAS enables discoverability through hypermedia links</li>
+                                <li>Proper status codes communicate request outcomes clearly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +263,290 @@
                                     <p>REST is the architectural style, while RESTful describes an API that follows REST principles. A RESTful API properly implements HTTP methods, status codes, and resource-based URLs.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is idempotency and why does it matter in REST?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Idempotency means making the same request multiple times produces the same result. It matters because:</p>
+                                    <ul>
+                                        <li><strong>Safe retries:</strong> Network failures can cause duplicate requests; idempotent methods handle this gracefully</li>
+                                        <li><strong>GET, PUT, DELETE:</strong> These are idempotent by design in REST</li>
+                                        <li><strong>POST:</strong> Not idempotent &mdash; each call may create a new resource</li>
+                                        <li><strong>Idempotency keys:</strong> Used with POST to make non-idempotent operations safe</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you version a REST API?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common API versioning strategies include:</p>
+                                    <ul>
+                                        <li><strong>URI versioning:</strong> <code>/api/v1/users</code> &mdash; simplest and most visible</li>
+                                        <li><strong>Query parameter:</strong> <code>/api/users?version=1</code></li>
+                                        <li><strong>Header versioning:</strong> Custom header like <code>X-API-Version: 1</code></li>
+                                        <li><strong>Content negotiation:</strong> <code>Accept: application/vnd.myapi.v1+json</code></li>
+                                    </ul>
+                                    <p>URI versioning is the most common approach because it's simple and easy to discover.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of REST & RESTfulness</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">1. What does REST stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Representational State Transfer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Remote Execution Service Technology</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Resource Exchange Standard Template</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Reliable Enterprise Service Transfer</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. Which communication model does REST use?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Stateful sessions stored on the server</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Stateless communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Persistent WebSocket connections</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Peer-to-peer messaging</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. Which HTTP method is idempotent and safe?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>POST</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>PATCH</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>GET</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>DELETE</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What does HTTP status code 201 indicate?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>OK &mdash; request succeeded</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>No Content &mdash; successful with empty body</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Moved Permanently &mdash; resource relocated</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Created &mdash; new resource was created</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. What does HATEOAS provide in a REST API?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Navigation through hypermedia links</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Automatic data encryption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Built-in authentication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Database connection pooling</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-drafting-compass"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design</h4>
+                            <p>Best practices for designing clean and effective APIs</p>
+                        </div>
+                    </a>
+                    <a href="../pages/http.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>HTTP Protocol</h4>
+                            <p>The backbone of web communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/modern-apis.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Modern APIs</h4>
+                            <p>GraphQL, gRPC, and next-generation API paradigms</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

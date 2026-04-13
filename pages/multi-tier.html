@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Tier Architecture - System Design Learning Portal</title>
+
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/concept.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -30,50 +31,540 @@
 
     <main class="concept-main">
         <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Multi-Tier Architecture</span>
+            </nav>
+
+            <!-- Topic Header -->
             <section class="topic-header">
                 <div class="topic-icon">
                     <i class="fas fa-layer-group"></i>
                 </div>
                 <div class="topic-info">
                     <h1>Multi-Tier Architecture</h1>
-                    <p>Layered system design for separation of concerns and scalability</p>
+                    <p class="topic-description">Layered system design for separation of concerns and scalability</p>
                     <div class="topic-meta">
                         <span class="difficulty intermediate">Intermediate</span>
-                        <span class="duration">â± 22 min</span>
+                        <span class="duration">&#9201; 20 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="multi-tier">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
                     </div>
                 </div>
             </section>
 
-            <section class="content-section">
-                <h2>Definition</h2>
-                <p>Multi-tier architecture divides applications into logical layers, each running on separate servers or containers, providing better scalability and maintainability.</p>
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Multi-Tier Architecture?</h3>
+                                <p>Multi-tier architecture divides applications into logical layers, each running on separate servers or containers, providing better scalability and maintainability. It is a software architecture pattern where different responsibilities are organized into distinct tiers that communicate with each other through well-defined interfaces.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> By separating an application into tiers, each layer can be developed, tested, scaled, and maintained independently, leading to more robust and flexible systems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a restaurant. The dining area (presentation tier) is where customers interact. The kitchen (business logic tier) is where food is prepared according to recipes and rules. The pantry and storage (data tier) is where ingredients are kept. Each area has its own staff and responsibilities, but they work together to serve customers. If the kitchen needs to expand, you don't have to rebuild the dining area.</p>
+
+                                <h4>Common Tiers</h4>
+
+                                <p><strong>1. Presentation Tier (UI Layer)</strong></p>
+                                <ul>
+                                    <li>User interface and user experience</li>
+                                    <li>Handles user input and displays output</li>
+                                    <li>Web browsers, mobile apps, desktop clients</li>
+                                    <li>Technologies: HTML/CSS/JavaScript, React, Angular</li>
+                                </ul>
+
+                                <p><strong>2. Business Logic Tier (Application Layer)</strong></p>
+                                <ul>
+                                    <li>Application logic and business rules</li>
+                                    <li>Processes requests from the presentation tier</li>
+                                    <li>Coordinates data flow between tiers</li>
+                                    <li>Technologies: Node.js, Java, Python, .NET</li>
+                                </ul>
+
+                                <p><strong>3. Data Tier (Database Layer)</strong></p>
+                                <ul>
+                                    <li>Database operations and data management</li>
+                                    <li>Data persistence, retrieval, and storage</li>
+                                    <li>Data validation and integrity enforcement</li>
+                                    <li>Technologies: PostgreSQL, MongoDB, MySQL, Redis</li>
+                                </ul>
+
+                                <p><strong>4. Integration Tier (Optional)</strong></p>
+                                <ul>
+                                    <li>External service connections and API gateways</li>
+                                    <li>Third-party service integrations</li>
+                                    <li>Message queues and event buses</li>
+                                </ul>
+
+                                <h4>Benefits</h4>
+                                <ul>
+                                    <li>Separation of concerns</li>
+                                    <li>Independent scaling of tiers</li>
+                                    <li>Better maintainability</li>
+                                    <li>Improved security</li>
+                                    <li>Technology flexibility</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>E-Commerce Platform (Amazon-style)</h5>
+                                        <p>A typical e-commerce platform uses 3-tier architecture: the web/mobile frontend (presentation) handles product browsing and checkout UI; the application servers (business logic) process orders, manage inventory, and handle payment workflows; and the database layer (data tier) stores product catalogs, user accounts, and order history. Each tier can scale independently based on traffic demands.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-v"></i> Vertical Separation</h4>
+                                <p>Each tier has a clear responsibility and communicates only with adjacent tiers through well-defined APIs and interfaces.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-expand-arrows-alt"></i> Independent Scaling</h4>
+                                <p>Tiers can be scaled horizontally or vertically based on their individual load requirements without affecting other layers.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security Boundaries</h4>
+                                <p>Each tier acts as a security boundary. The data tier is never directly exposed to end users, reducing attack surface.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tools"></i> Technology Freedom</h4>
+                                <p>Each tier can use different technologies best suited for its purpose, enabling polyglot architecture and easier upgrades.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Multi-tier architecture separates applications into logical layers</li>
+                                <li>The most common pattern is 3-tier: Presentation, Business Logic, Data</li>
+                                <li>Each tier can be developed, deployed, and scaled independently</li>
+                                <li>Improves maintainability, security, and flexibility</li>
+                                <li>Trade-off: adds complexity and potential latency between tiers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is multi-tier architecture and what are its advantages?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Multi-tier architecture is a software design pattern that organizes an application into separate logical layers. Key advantages include:</p>
+                                    <ul>
+                                        <li><strong>Separation of Concerns:</strong> Each tier handles specific functionality, making code easier to understand and maintain</li>
+                                        <li><strong>Scalability:</strong> Individual tiers can be scaled independently based on demand</li>
+                                        <li><strong>Flexibility:</strong> Technologies can be changed in one tier without affecting others</li>
+                                        <li><strong>Security:</strong> Each tier provides a security boundary, protecting sensitive data</li>
+                                        <li><strong>Reusability:</strong> Business logic tier can serve multiple presentation tiers (web, mobile, API)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between 2-tier and 3-tier architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The key differences are:</p>
+                                    <ul>
+                                        <li><strong>2-Tier:</strong> Client communicates directly with the database. Business logic resides in the client or the database (stored procedures). Simple but less scalable.</li>
+                                        <li><strong>3-Tier:</strong> Adds a middle tier (application server) between client and database. Business logic is centralized in the middle tier. More scalable and maintainable.</li>
+                                        <li><strong>Scalability:</strong> 3-tier scales better because the middle tier can be load-balanced independently</li>
+                                        <li><strong>Security:</strong> 3-tier is more secure because the database is never directly accessible from the client</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does multi-tier architecture compare to microservices?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Both are architectural patterns but differ significantly:</p>
+                                    <ul>
+                                        <li><strong>Multi-Tier:</strong> Organizes by technical layers (UI, logic, data). Each tier is a monolithic unit within its layer.</li>
+                                        <li><strong>Microservices:</strong> Organizes by business capability. Each service owns its full stack (UI to data) for a specific domain.</li>
+                                        <li><strong>Deployment:</strong> Multi-tier deploys entire tiers together; microservices deploy individual services independently</li>
+                                        <li><strong>Complexity:</strong> Multi-tier is simpler to start with; microservices add operational complexity but offer more flexibility</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the drawbacks of multi-tier architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common drawbacks include:</p>
+                                    <ul>
+                                        <li><strong>Increased Latency:</strong> Requests must pass through multiple tiers, adding network hops</li>
+                                        <li><strong>Complexity:</strong> More infrastructure to manage, deploy, and monitor</li>
+                                        <li><strong>Over-engineering:</strong> For simple applications, multi-tier can be unnecessary overhead</li>
+                                        <li><strong>Tight Coupling Risk:</strong> If tiers are not properly designed, changes in one tier can cascade</li>
+                                        <li><strong>Testing Challenges:</strong> Integration testing across tiers can be more complex</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Multi-Tier Architecture</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the most common number of tiers in multi-tier architecture?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>2</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>3</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>5</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>7</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What does the presentation tier handle?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>User interface</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Database queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Business rules</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Network routing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. Which tier is also known as the middle tier?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Presentation tier</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Business logic tier</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Data tier</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Integration tier</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">4. What is a key benefit of multi-tier architecture?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Reduced code complexity</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Faster network speeds</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Separation of concerns</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Lower hardware costs</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">5. What does the data tier primarily manage?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>User authentication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>UI rendering</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>API routing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Database and data storage</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/client-server.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Client-Server Architecture</h4>
+                            <p>The foundational model for networked computing</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices</h4>
+                            <p>Decomposing applications into small, independent services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-gateway.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Gateway</h4>
+                            <p>Centralized entry point for managing API requests</p>
+                        </div>
+                    </a>
+                </div>
             </section>
 
-            <section class="content-section">
-                <h2>Common Tiers</h2>
-                <ul>
-                    <li><strong>Presentation Layer:</strong> User interface and user experience</li>
-                    <li><strong>Business Logic Layer:</strong> Application logic and rules</li>
-                    <li><strong>Data Access Layer:</strong> Database operations and data management</li>
-                    <li><strong>Integration Layer:</strong> External service connections</li>
-                </ul>
-            </section>
-
-            <section class="content-section">
-                <h2>Benefits</h2>
-                <ul>
-                    <li>Separation of concerns</li>
-                    <li>Independent scaling of tiers</li>
-                    <li>Better maintainability</li>
-                    <li>Improved security</li>
-                    <li>Technology flexibility</li>
-                </ul>
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
 
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
 </body>
 </html>
-
-

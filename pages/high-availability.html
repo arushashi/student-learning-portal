@@ -46,26 +46,60 @@
                     <h1>High Availability</h1>
                     <p class="topic-description">Fault tolerance and continuous system operation</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Advanced</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#9201; 35 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="high-availability">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,119 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>High availability eliminates single points of failure through redundancy and automatic failover.</p>
+                                <p><strong>Key Insight:</strong> High availability eliminates single points of failure through redundancy and automatic failover.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a hospital emergency room &mdash; it must be available 24/7, no exceptions. If one doctor becomes unavailable, another immediately steps in. High availability in system design follows the same principle: the system is designed so that if any component fails, backup components seamlessly take over to keep everything running.</p>
+
+                                <h4>How High Availability Works</h4>
+
+                                <p><strong>1. The "Nines" of Availability</strong></p>
+                                <ul>
+                                    <li><strong>99% (Two Nines):</strong> ~3.65 days of downtime per year</li>
+                                    <li><strong>99.9% (Three Nines):</strong> ~8.76 hours of downtime per year</li>
+                                    <li><strong>99.99% (Four Nines):</strong> ~52.6 minutes of downtime per year</li>
+                                    <li><strong>99.999% (Five Nines):</strong> ~5.26 minutes of downtime per year</li>
+                                </ul>
+
+                                <p><strong>2. Key HA Patterns</strong></p>
+                                <ul>
+                                    <li><strong>Active-Passive (Failover):</strong> A standby node takes over when the active node fails</li>
+                                    <li><strong>Active-Active:</strong> Multiple nodes handle traffic simultaneously; if one fails, others absorb the load</li>
+                                    <li><strong>N+1 Redundancy:</strong> Deploy one extra component beyond what is needed to handle the load</li>
+                                    <li><strong>Geographic Redundancy:</strong> Distribute systems across multiple data centers or regions</li>
+                                </ul>
+
+                                <h4>HA Components</h4>
+                                <p><strong>Load Balancers:</strong> Distribute traffic and detect unhealthy nodes</p>
+                                <p><strong>Health Checks:</strong> Continuously monitor system components for failures</p>
+                                <p><strong>Auto-scaling:</strong> Dynamically add or remove instances based on demand</p>
+                                <p><strong>Data Replication:</strong> Keep data synchronized across multiple nodes</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-aws"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>AWS Multi-AZ Deployments</h5>
+                                        <p>AWS provides high availability through Multi-AZ (Availability Zone) deployments. Services like RDS automatically replicate data to a standby instance in a different AZ, enabling automatic failover within minutes if the primary instance fails.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-percentage"></i> Availability Nines</h4>
+                                <p>Each additional nine dramatically reduces allowed downtime, from days to minutes per year.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Failover Strategies</h4>
+                                <p>Active-passive and active-active patterns provide different trade-offs between cost and recovery time.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Redundancy</h4>
+                                <p>Eliminating single points of failure through redundant components at every layer of the stack.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-heartbeat"></i> Health Monitoring</h4>
+                                <p>Continuous health checks and automated alerting enable rapid detection and response to failures.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>High availability targets minimal downtime through redundancy and failover</li>
+                                <li>Five nines (99.999%) allows only ~5 minutes of downtime per year</li>
+                                <li>Active-passive uses standby nodes; active-active distributes load across all nodes</li>
+                                <li>Redundancy at every layer eliminates single points of failure</li>
+                                <li>Health checks and monitoring are essential for detecting and responding to failures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +244,289 @@
                                     <p>High availability focuses on minimizing downtime through redundancy, while fault tolerance enables the system to continue operating despite failures. Both are essential for reliable systems.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you design a system for 99.999% availability?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Achieving five-nines availability requires a comprehensive approach:</p>
+                                    <ul>
+                                        <li><strong>Multi-region deployment:</strong> Distribute across geographically separate data centers</li>
+                                        <li><strong>Automated failover:</strong> Zero-downtime switching with health check-driven automation</li>
+                                        <li><strong>Redundancy at every layer:</strong> Duplicate load balancers, app servers, databases, and network paths</li>
+                                        <li><strong>Chaos engineering:</strong> Regularly test failure scenarios to validate resilience</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between active-passive and active-active failover?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>These are two fundamental high availability patterns:</p>
+                                    <ul>
+                                        <li><strong>Active-Passive:</strong> One node handles all traffic while a standby node waits idle; failover switches traffic to the standby when the active node fails</li>
+                                        <li><strong>Active-Active:</strong> All nodes handle traffic simultaneously; if one fails, remaining nodes absorb the additional load</li>
+                                        <li><strong>Trade-offs:</strong> Active-active offers better resource utilization and lower latency but is more complex to implement</li>
+                                        <li><strong>Data considerations:</strong> Active-active requires data synchronization strategies to maintain consistency</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of High Availability</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What does "five nines" availability mean?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>99.9% uptime</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>99.99% uptime</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>99.999% uptime</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>99.9999% uptime</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What does failover do in a high availability system?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Switches to a backup system when the primary fails</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Shuts down the system gracefully</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Increases the system's processing power</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Encrypts data during transmission</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. What characterizes an active-passive configuration?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>All nodes handle traffic equally</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>A standby node waits to take over if the active fails</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Traffic is load-balanced across regions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Data is stored in a single location</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is the primary purpose of redundancy in HA systems?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Reducing hardware costs</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Improving data encryption</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Simplifying system architecture</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Eliminating single points of failure</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What is the role of health checks in high availability?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Optimizing database queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Detecting system failures automatically</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Managing user authentication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Compressing network traffic</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Building dependable systems that consistently perform as expected</p>
+                        </div>
+                    </a>
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distributing traffic across multiple servers for optimal performance</p>
+                        </div>
+                    </a>
+                    <a href="../pages/backup-recovery.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Backup & Recovery</h4>
+                            <p>Data protection and disaster recovery strategies</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

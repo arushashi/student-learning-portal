@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventual Consistency - System Design Learning Portal</title>
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Eventual Consistency</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Eventual Consistency</h1>
+                    <p class="topic-description">Understand consistency models from strong to eventual, CAP theorem implications, and conflict resolution strategies in distributed systems</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#8986; 20 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="eventual-consistency">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Eventual Consistency?</h3>
+                                <p>Eventual consistency is a consistency model in distributed computing that guarantees if no new updates are made to a given data item, eventually all accesses to that item will return the last updated value. Unlike strong consistency (where reads always return the most recent write), eventual consistency allows temporary divergence between replicas &mdash; different nodes may return different values for a brief period after a write, but all replicas will converge to the same value given sufficient time. This model is a cornerstone of the CAP theorem, which states that a distributed system can provide at most two of three guarantees: Consistency, Availability, and Partition tolerance.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Eventual consistency is not the absence of consistency &mdash; it is a deliberate trade-off that favors availability and partition tolerance over immediate consistency. The system guarantees convergence: given enough time without new writes, all replicas will agree. This makes it ideal for globally distributed systems where network latency makes strong consistency impractical.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of eventual consistency like updating your profile picture on a social media platform. You upload a new photo, and your friend in New York sees it immediately, but your friend in Tokyo still sees the old photo for a few seconds. Eventually, all servers worldwide update, and everyone sees your new picture. The system was temporarily inconsistent, but it converged to the correct state without any downtime.</p>
+
+                                <p>Distributed systems use different consistency models depending on their requirements. Here is the spectrum from strongest to weakest:</p>
+
+                                <ul>
+                                    <li><strong>Strong Consistency (Linearizability):</strong> Every read returns the most recent write. All nodes agree instantly. Requires synchronous replication or consensus protocols. Used by Google Spanner and CockroachDB. High latency cost because writes must wait for all replicas to acknowledge.</li>
+                                    <li><strong>Causal Consistency:</strong> Preserves cause-and-effect ordering. If user A posts a comment and user B replies, everyone sees the comment before the reply. But unrelated operations may appear in different orders on different nodes. Weaker than strong but captures most real-world ordering needs.</li>
+                                    <li><strong>Eventual Consistency:</strong> Replicas may diverge temporarily but will converge over time. No ordering guarantee during the convergence window. Used by Amazon DynamoDB, Cassandra, and DNS. Offers the best availability and lowest latency.</li>
+                                    <li><strong>CAP Theorem Connection:</strong> During a network partition, you must choose between Consistency (CP systems like ZooKeeper refuse writes) and Availability (AP systems like Cassandra accept writes on both sides of the partition, resolving conflicts later).</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon Shopping Cart (Dynamo) &amp; DNS Propagation</h5>
+                                        <p>Amazon's original Dynamo system (described in the 2007 paper) used eventual consistency for shopping carts. If you add an item to your cart from your phone while simultaneously removing an item from your laptop, both writes are accepted even during a network partition. Conflicts are resolved later using vector clocks and "last writer wins" or by merging (keeping the union of both carts &mdash; Amazon's philosophy of "never lose an add"). Similarly, DNS propagation is eventually consistent: when you update a domain's IP address, it takes up to 48 hours for all DNS resolvers worldwide to reflect the change, but it eventually converges everywhere.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-balance-scale"></i> CAP Theorem</h4>
+                                <p>The CAP theorem (Brewer's theorem) states that a distributed data store can guarantee at most two of: Consistency (all reads return latest write), Availability (every request receives a response), and Partition tolerance (system operates despite network splits). Since partitions are inevitable, the real choice is between CP (consistent but unavailable during partitions) and AP (available but eventually consistent).</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-code-branch"></i> Conflict Resolution</h4>
+                                <p>When replicas diverge, conflicts must be resolved. Strategies include: Last-Writer-Wins (LWW) using timestamps (simple but may lose data), Vector Clocks (track causality to detect concurrent writes), Read Repair (fix stale replicas when a read detects inconsistency), and Anti-entropy protocols (background synchronization using Merkle trees).</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-puzzle-piece"></i> CRDTs</h4>
+                                <p>Conflict-free Replicated Data Types (CRDTs) are data structures that can be updated independently on different replicas and automatically merge without conflicts. Examples include G-Counters (grow-only counters), PN-Counters (positive-negative counters), OR-Sets (observed-remove sets), and LWW-Registers. Used in Redis Enterprise, Riak, and collaborative editing tools.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sliders-h"></i> Tunable Consistency</h4>
+                                <p>Systems like Cassandra allow tunable consistency per query. With W (write quorum), R (read quorum), and N (replication factor): if W + R &gt; N, you get strong consistency. Lower values of W and R improve latency but reduce consistency. For example, with N=3: W=2,R=2 gives strong consistency; W=1,R=1 gives eventual consistency with lower latency.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Eventual consistency guarantees replicas converge given sufficient time</li>
+                                <li>Consistency spectrum: Strong &gt; Causal &gt; Read-your-writes &gt; Eventual</li>
+                                <li>CAP theorem forces a choice between consistency and availability during partitions</li>
+                                <li>Conflict resolution: LWW, vector clocks, CRDTs, read repair</li>
+                                <li>Tunable consistency (Cassandra) lets you choose per-query trade-offs</li>
+                                <li>Used in DynamoDB, Cassandra, DNS, S3, and social media platforms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Consistency Models Spectrum</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <p>From strongest to weakest consistency guarantees</p>
+                                    <div style="text-align: center; margin-top: 20px; padding: 10px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                            <div style="width: 110px; height: 50px; background: #667eea; color: white; border-radius: 8px; line-height: 25px; padding-top: 2px; font-size: 11px;">Strong<br>(Linearizable)</div>
+                                            <div style="font-size: 18px; color: #666;">&rarr;</div>
+                                            <div style="width: 100px; height: 50px; background: #28a745; color: white; border-radius: 8px; line-height: 25px; padding-top: 2px; font-size: 11px;">Sequential<br>Consistency</div>
+                                            <div style="font-size: 18px; color: #666;">&rarr;</div>
+                                            <div style="width: 90px; height: 50px; background: #ffc107; color: #333; border-radius: 8px; line-height: 25px; padding-top: 2px; font-size: 11px;">Causal<br>Consistency</div>
+                                            <div style="font-size: 18px; color: #666;">&rarr;</div>
+                                            <div style="width: 90px; height: 50px; background: #dc3545; color: white; border-radius: 8px; line-height: 25px; padding-top: 2px; font-size: 11px;">Eventual<br>Consistency</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 12px; color: #666; padding: 0 10px;">
+                                            <span>&larr; Stronger guarantees, higher latency</span>
+                                            <span>Weaker guarantees, lower latency &rarr;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Eventual Consistency Convergence</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <p>Replicas diverge temporarily then converge</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 15px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="font-size: 13px;">T0: Write "v2" to Replica A</strong>
+                                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">A: v2</div>
+                                                <div style="padding: 4px 12px; background: #dc3545; color: white; border-radius: 4px; font-size: 12px;">B: v1</div>
+                                                <div style="padding: 4px 12px; background: #dc3545; color: white; border-radius: 4px; font-size: 12px;">C: v1</div>
+                                                <span style="font-size: 12px; color: #dc3545; line-height: 28px;">&larr; Inconsistent!</span>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="font-size: 13px;">T1: Replication propagates to B</strong>
+                                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">A: v2</div>
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">B: v2</div>
+                                                <div style="padding: 4px 12px; background: #dc3545; color: white; border-radius: 4px; font-size: 12px;">C: v1</div>
+                                                <span style="font-size: 12px; color: #ffc107; line-height: 28px;">&larr; Converging...</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 13px;">T2: All replicas synchronized</strong>
+                                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">A: v2</div>
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">B: v2</div>
+                                                <div style="padding: 4px 12px; background: #28a745; color: white; border-radius: 4px; font-size: 12px;">C: v2</div>
+                                                <span style="font-size: 12px; color: #28a745; line-height: 28px;">&larr; Consistent!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between strong consistency and eventual consistency?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>These two models differ in their guarantees about when reads reflect the latest writes:</p>
+                                    <ul>
+                                        <li><strong>Strong Consistency:</strong> After a write completes, any subsequent read (from any node) is guaranteed to return the written value. This requires synchronous replication or consensus (like Raft), adding latency. Examples: Google Spanner, CockroachDB.</li>
+                                        <li><strong>Eventual Consistency:</strong> After a write, reads may temporarily return stale data. However, if no further writes occur, all replicas will eventually converge to the same value. This allows asynchronous replication with much lower latency. Examples: DynamoDB, Cassandra (at low consistency levels), DNS.</li>
+                                        <li><strong>Convergence Window:</strong> The time between a write and all replicas reflecting it is called the "inconsistency window." In practice, this is typically milliseconds to seconds, not minutes or hours.</li>
+                                        <li><strong>Trade-off:</strong> Strong consistency increases latency (waiting for all/majority replicas) and reduces availability during partitions. Eventual consistency provides lower latency and higher availability but requires application-level handling of stale reads.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does the CAP theorem relate to eventual consistency?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The CAP theorem directly drives the adoption of eventual consistency:</p>
+                                    <ul>
+                                        <li><strong>Partition Inevitability:</strong> Network partitions are unavoidable in distributed systems. When they occur, you must choose between Consistency (reject writes to maintain correctness) or Availability (accept writes on both sides of the partition).</li>
+                                        <li><strong>AP Systems:</strong> Systems choosing Availability + Partition tolerance (AP) accept writes during partitions, leading to divergent replicas that must be reconciled later &mdash; this is eventual consistency. Examples: Cassandra, DynamoDB, CouchDB.</li>
+                                        <li><strong>CP Systems:</strong> Systems choosing Consistency + Partition tolerance (CP) refuse writes (or become unavailable) during partitions to ensure reads always return the latest value. Examples: ZooKeeper, etcd, HBase.</li>
+                                        <li><strong>PACELC Extension:</strong> The PACELC theorem extends CAP: during a Partition, choose between Availability and Consistency; Else (no partition), choose between Latency and Consistency. This explains why even without partitions, eventual consistency is chosen for lower latency.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are CRDTs and how do they solve conflict resolution?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CRDTs (Conflict-free Replicated Data Types) are data structures designed to be updated independently and concurrently on different replicas, with a mathematically guaranteed merge operation that always converges:</p>
+                                    <ul>
+                                        <li><strong>How They Work:</strong> CRDTs define merge functions that are commutative, associative, and idempotent. This means replicas can apply updates in any order and still converge to the same state.</li>
+                                        <li><strong>G-Counter:</strong> Each node maintains its own counter. The global count is the sum of all node counters. Merging takes the max of each node's counter. Can only increment.</li>
+                                        <li><strong>PN-Counter:</strong> Combines two G-Counters (one for increments, one for decrements) to support both add and subtract operations.</li>
+                                        <li><strong>OR-Set (Observed-Remove Set):</strong> Supports add and remove operations. Each add is tagged with a unique ID. Remove only removes observed tags, preventing the "add wins" problem.</li>
+                                        <li><strong>Real-World Use:</strong> Redis Enterprise uses CRDTs for active-active geo-replication. Figma uses CRDTs for real-time collaborative design. Riak uses CRDTs for its data types.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does tunable consistency work in Apache Cassandra?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Cassandra allows you to tune consistency on a per-query basis using quorum settings:</p>
+                                    <ul>
+                                        <li><strong>Parameters:</strong> N = replication factor (total copies), W = write consistency level (nodes that must acknowledge a write), R = read consistency level (nodes that must respond to a read).</li>
+                                        <li><strong>Strong Consistency:</strong> When W + R &gt; N, at least one node in every read quorum has the latest write. Example: N=3, W=2, R=2 (overlap guarantees freshness).</li>
+                                        <li><strong>Eventual Consistency:</strong> When W + R &le; N, reads may return stale data. Example: N=3, W=1, R=1 (fastest but may read stale data).</li>
+                                        <li><strong>Consistency Levels:</strong> ONE (fastest, one replica), QUORUM (majority of replicas), ALL (all replicas, slowest), LOCAL_QUORUM (majority in local datacenter).</li>
+                                        <li><strong>Use Case Example:</strong> A social media app might use QUORUM for reading user profiles (need accuracy) but ONE for writing analytics events (speed matters more than immediate consistency).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Eventual Consistency</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What does eventual consistency guarantee?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>All reads always return the latest write</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>If no new updates occur, all replicas will eventually return the same value</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Data is never replicated across nodes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Writes are always rejected during network partitions</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. According to the CAP theorem, during a network partition you must choose between:</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Speed and Security</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Durability and Scalability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Consistency and Availability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Latency and Throughput</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is a CRDT?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>A data structure that can be updated independently on different replicas and merges automatically without conflicts</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>A consensus algorithm for leader election</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>A type of database index for faster queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>A network protocol for data compression</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. In Cassandra with N=3, which quorum settings guarantee strong consistency?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>W=1, R=1</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>W=1, R=2</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>W=3, R=1</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>W=2, R=2 (because W + R > N)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which is a real-world example of eventual consistency?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>A single-server SQL database transaction</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>DNS propagation after updating a domain record</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Reading from a primary database in a synchronous replication setup</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>A file saved to a single local disk</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/cap-theorem.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>CAP Theorem</h4>
+                            <p>Understand the fundamental trade-offs in distributed systems</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-clone"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Replicate data across multiple nodes for reliability</p>
+                        </div>
+                    </a>
+                    <a href="../pages/consistent-hashing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-circle-notch"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Consistent Hashing</h4>
+                            <p>Distribute data across nodes with minimal redistribution</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Martin Kleppmann's talks on consistency models and CRDTs</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Amazon Dynamo paper and Designing Data-Intensive Applications</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>CRDT implementations and vector clock examples in Python</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

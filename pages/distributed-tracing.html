@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Tracing - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>Distributed Tracing</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Distributed Tracing</h1>
+                    <p class="topic-description">Learn how to track and visualize requests as they propagate across microservice boundaries using trace IDs, spans, and context propagation to diagnose latency bottlenecks and failures in distributed systems.</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="bookmark-btn" data-topic="distributed-tracing">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-target="definition">1. Definition</div>
+                    <div class="step" data-target="explanation">2. Explanation</div>
+                    <div class="step" data-target="key-points">3. Key Points</div>
+                    <div class="step" data-target="interview">4. Interview Q&A</div>
+                    <div class="step" data-target="quiz">5. Quiz</div>
+                </div>
+            </section>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Section 1: Definition -->
+                <section id="definition" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <button class="toggle-btn" onclick="toggleSection('definition')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Distributed Tracing?</h3>
+                                <p>Distributed tracing is an observability technique used to track and visualize the journey of a single request as it propagates through multiple services in a distributed system. Each request is assigned a unique trace ID at the entry point, and as it flows through different services, each service creates a span — a named, timed operation that represents a unit of work. Together, the collection of spans sharing the same trace ID forms a complete trace that reveals the end-to-end request path, including timing, dependencies, and any errors encountered along the way.</p>
+                                <p>In modern microservice architectures where a single user action might trigger calls across dozens of services, distributed tracing provides the critical ability to understand causal relationships between service interactions. Without it, debugging why a request is slow or failing becomes nearly impossible when the request touches authentication, business logic, database, cache, and external API services in sequence or in parallel. Standards like OpenTelemetry, and tools like Jaeger, Zipkin, and AWS X-Ray have made distributed tracing accessible and interoperable across technology stacks.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Key Insight:</strong> A trace is essentially a directed acyclic graph (DAG) of spans. Each span has a parent-child relationship that mirrors the calling relationship between services. The root span represents the initial request (e.g., an HTTP call from the API gateway), and child spans represent downstream calls. This tree structure allows you to see not just which services were involved, but the exact sequence and parallelism of operations, making it possible to pinpoint latency bottlenecks to specific service calls or database queries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Explanation -->
+                <section id="explanation" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Detailed Explanation</h2>
+                        <button class="toggle-btn" onclick="toggleSection('explanation')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of distributed tracing like a package tracking system for deliveries. When you order a product online, you receive a unique tracking number (trace ID). As the package moves through the supply chain — warehouse picking, packing, sorting facility, truck loading, regional hub, local delivery — each step is recorded with timestamps and location details (spans). You can view the entire journey on a tracking page, see where delays occurred, and identify exactly which facility caused a slowdown. Distributed tracing does the same thing for requests flowing through your microservices — each service records its processing step with timing, and the complete trace shows the request's journey through your system.</p>
+                                <ul>
+                                    <li><strong>Trace Context Propagation:</strong> When Service A calls Service B, it must pass the trace context (trace ID, parent span ID, and sampling flags) in the request headers. The W3C Trace Context standard defines the <code>traceparent</code> and <code>tracestate</code> HTTP headers for this purpose. OpenTelemetry's SDKs handle this automatically for common frameworks and HTTP clients, injecting context on outgoing requests and extracting it on incoming ones. Without proper context propagation, traces would be fragmented — you'd see isolated spans from individual services but couldn't connect them into a coherent end-to-end trace.</li>
+                                    <li><strong>Spans and Trace Structure:</strong> A span is the fundamental building block of a trace. Each span contains: a span name (e.g., "GET /api/orders"), a trace ID linking it to the overall trace, a span ID uniquely identifying it, a parent span ID establishing the hierarchy, start and end timestamps for duration calculation, status (OK, ERROR), attributes (key-value metadata like http.method, db.statement), and events (time-stamped annotations). Spans can represent HTTP calls, database queries, message queue publishes, cache lookups, or any meaningful operation within a service.</li>
+                                    <li><strong>Sampling Strategies:</strong> In high-traffic systems, tracing every single request is prohibitively expensive in terms of network bandwidth, storage, and processing. Sampling strategies determine which requests get traced. Head-based sampling makes the decision at the request entry point (e.g., trace 1% of all requests) — it's simple but might miss rare errors. Tail-based sampling collects all spans temporarily and makes the keep/drop decision after the trace completes, allowing you to always keep error traces and slow traces while dropping routine successful ones. Adaptive sampling dynamically adjusts rates based on traffic volume.</li>
+                                    <li><strong>Performance Overhead and Instrumentation:</strong> Tracing adds latency overhead from context propagation, span creation, and data export. Well-implemented tracing libraries like OpenTelemetry add less than 1ms of overhead per span. Auto-instrumentation libraries can instrument common frameworks (Spring Boot, Express.js, Django) without code changes, while manual instrumentation provides finer control for business-specific spans. The data export typically uses asynchronous batching — spans are buffered in memory and periodically flushed to a collector (OpenTelemetry Collector, Jaeger Agent) via gRPC or HTTP, minimizing impact on request latency.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-car"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Uber: Tracing Ride Requests Across 4000+ Microservices</h5>
+                                        <p>Uber operates over 4,000 microservices that collectively handle millions of ride requests daily. When a rider taps "Request Ride," the request flows through services for user authentication, rider profile lookup, driver matching, surge pricing calculation, route estimation, payment authorization, notification dispatch, and real-time tracking. Uber built Jaeger, an open-source distributed tracing system (now a CNCF graduated project), to make sense of this complexity. Each ride request generates a trace with hundreds of spans, enabling engineers to pinpoint that, for example, a 2-second delay in ride matching is caused by a slow database query in the driver-availability service, not by the matching algorithm itself. Uber's tracing system processes billions of spans per day and uses adaptive sampling to keep costs manageable — always tracing errored and slow requests while sampling a percentage of normal requests. The tracing data is also used for dependency mapping, capacity planning, and automated anomaly detection, making it a cornerstone of their observability infrastructure.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Key Points -->
+                <section id="key-points" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points</h2>
+                        <button class="toggle-btn" onclick="toggleSection('key-points')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Trace Context Propagation</h4>
+                                <p>Context propagation is the mechanism that links spans across service boundaries into a unified trace. The W3C Trace Context standard defines <code>traceparent</code> (containing trace ID, parent span ID, and trace flags) and <code>tracestate</code> (vendor-specific data) HTTP headers. For asynchronous communication via message queues, trace context is embedded in message headers. OpenTelemetry propagators handle injection (adding context to outgoing requests) and extraction (reading context from incoming requests) automatically for HTTP, gRPC, and messaging protocols. Without consistent propagation, you get broken traces — disconnected spans that can't be assembled into a coherent request story.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sitemap"></i> Spans and Traces</h4>
+                                <p>A trace represents the complete journey of a request through a distributed system, while spans are the individual units of work within that journey. Each span records operation name, timing (start/end), status, parent-child relationships, attributes (metadata), and events (time-stamped log entries). Spans form a tree structure: the root span is the entry point, and child spans represent downstream calls. Span kinds include CLIENT (outgoing call), SERVER (incoming call), PRODUCER (message publish), CONSUMER (message receive), and INTERNAL (in-process operation). This hierarchy reveals not just which services were touched, but the exact ordering, parallelism, and latency distribution across the call chain.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-filter"></i> Sampling Strategies</h4>
+                                <p>Sampling controls which requests generate trace data, balancing observability coverage against cost and performance overhead. Head-based sampling decides at the trace root (e.g., probabilistic 1% sampling) — it's simple and predictable but may miss rare important traces. Tail-based sampling buffers all spans temporarily and decides after trace completion — it can always keep error traces and slow traces but requires more infrastructure (a collector with sufficient memory and the ability to reassemble complete traces). Rate-limiting sampling caps the number of traces per second per service. Priority sampling allows services to mark specific traces as high-priority (e.g., traces from VIP customers or traces that encountered errors).</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tachometer-alt"></i> Performance Overhead</h4>
+                                <p>Distributed tracing introduces overhead in three areas: computation (creating span objects, serializing context), network (exporting span data to collectors), and storage (persisting spans in a backend). Well-optimized implementations like OpenTelemetry add less than 1ms per span for computation. Network overhead is minimized through asynchronous batched export — spans accumulate in an in-memory buffer and are flushed periodically (e.g., every 5 seconds or when the buffer reaches 512 spans). The collector architecture (OpenTelemetry Collector) offloads processing from application instances, handling sampling, enrichment, and routing to backends like Jaeger, Zipkin, or cloud-native solutions. Production deployments typically see less than 2-3% overall throughput impact with properly configured sampling.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Distributed tracing assigns a unique trace ID at the request entry point and propagates it across all service boundaries</li>
+                                <li>Spans represent individual units of work and form a tree structure that mirrors the service call hierarchy</li>
+                                <li>W3C Trace Context standard and OpenTelemetry provide interoperable context propagation across languages and frameworks</li>
+                                <li>Tail-based sampling preserves important traces (errors, slow requests) while controlling costs for high-traffic systems</li>
+                                <li>Jaeger and Zipkin are popular open-source tracing backends; cloud providers offer managed alternatives like AWS X-Ray and Google Cloud Trace</li>
+                                <li>Tracing data enables dependency mapping, latency analysis, root cause diagnosis, and capacity planning beyond just debugging</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Diagrams -->
+                <section id="diagrams" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Diagrams</h2>
+                        <button class="toggle-btn" onclick="toggleSection('diagrams')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Distributed Trace Across Microservices</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 13px;">
+                                        <div style="border: 2px solid #2c3e50; border-radius: 8px; padding: 10px 20px; text-align: center; background: #f8f9fa; margin-bottom: 8px;">
+                                            <div style="font-weight: bold;">Client Request</div>
+                                            <div style="font-size: 11px;">TraceID: abc123 generated</div>
+                                        </div>
+                                        <div style="font-size: 18px; margin-bottom: 5px;">&#8595;</div>
+                                        <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 20px; text-align: center; background: #eaf2fd; margin-bottom: 5px; width: 85%;">
+                                            <div style="font-weight: bold;">API Gateway</div>
+                                            <div style="font-size: 11px;">Span A (root) — 450ms total</div>
+                                        </div>
+                                        <div style="display: flex; gap: 30px; margin-top: 5px; width: 90%; justify-content: center;">
+                                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                                <div style="font-size: 18px;">&#8595;</div>
+                                                <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 10px 12px; text-align: center; background: #fdf2e9; margin-bottom: 5px; width: 100%;">
+                                                    <div style="font-weight: bold;">Auth Service</div>
+                                                    <div style="font-size: 11px;">Span B — 30ms</div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                                <div style="font-size: 18px;">&#8595;</div>
+                                                <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 10px 12px; text-align: center; background: #e9f7ef; margin-bottom: 5px; width: 100%;">
+                                                    <div style="font-weight: bold;">Order Service</div>
+                                                    <div style="font-size: 11px;">Span C — 350ms</div>
+                                                </div>
+                                                <div style="display: flex; gap: 10px; width: 100%;">
+                                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                                        <div style="font-size: 16px;">&#8595;</div>
+                                                        <div style="border: 2px solid #8e44ad; border-radius: 6px; padding: 8px 6px; text-align: center; background: #f4ecf7; font-size: 11px;">
+                                                            <div style="font-weight: bold;">DB Query</div>
+                                                            <div>Span D — 200ms</div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                                        <div style="font-size: 16px;">&#8595;</div>
+                                                        <div style="border: 2px solid #c0392b; border-radius: 6px; padding: 8px 6px; text-align: center; background: #fdedec; font-size: 11px;">
+                                                            <div style="font-weight: bold;">Payment Svc</div>
+                                                            <div>Span E — 120ms</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; padding: 8px 12px; background: #fff3cd; border-radius: 6px; font-size: 11px; text-align: center;">
+                                            All spans share TraceID: abc123 | Parent-child links form the trace tree
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diagram-card">
+                                <h4>Tracing Infrastructure Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 13px;">
+                                        <div style="display: flex; gap: 12px; margin-bottom: 15px; flex-wrap: wrap; justify-content: center;">
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 8px 12px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold; font-size: 12px;">Service A</div>
+                                                <div style="font-size: 10px;">OTel SDK</div>
+                                            </div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 8px 12px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold; font-size: 12px;">Service B</div>
+                                                <div style="font-size: 10px;">OTel SDK</div>
+                                            </div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 8px 12px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold; font-size: 12px;">Service C</div>
+                                                <div style="font-size: 10px;">OTel SDK</div>
+                                            </div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 8px 12px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold; font-size: 12px;">Service D</div>
+                                                <div style="font-size: 10px;">OTel SDK</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 18px; margin-bottom: 8px;">&#8595; &#8595; &#8595; &#8595;</div>
+                                        <div style="font-size: 11px; color: #666; margin-bottom: 8px;">OTLP (gRPC/HTTP)</div>
+                                        <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 12px 25px; text-align: center; background: #fdf2e9; margin-bottom: 15px;">
+                                            <div style="font-weight: bold;">OpenTelemetry Collector</div>
+                                            <div style="font-size: 11px;">Receive → Process → Export</div>
+                                            <div style="font-size: 10px; color: #888;">(Batching, Sampling, Enrichment)</div>
+                                        </div>
+                                        <div style="font-size: 18px; margin-bottom: 8px;">&#8595;</div>
+                                        <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 10px 15px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Jaeger / Zipkin</div>
+                                                <div style="font-size: 11px;">Trace Storage & UI</div>
+                                            </div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 10px 15px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">Elasticsearch</div>
+                                                <div style="font-size: 11px;">Trace Indexing</div>
+                                            </div>
+                                            <div style="border: 2px solid #c0392b; border-radius: 8px; padding: 10px 15px; text-align: center; background: #fdedec;">
+                                                <div style="font-weight: bold;">Grafana Tempo</div>
+                                                <div style="font-size: 11px;">Cost-Effective Backend</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Interview Q&A -->
+                <section id="interview" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions</h2>
+                        <button class="toggle-btn" onclick="toggleSection('interview')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q1: How does distributed tracing work and why is it important in microservice architectures?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Distributed tracing works by propagating a unique trace identifier across service boundaries and recording timing data at each step:</p>
+                                    <ul>
+                                        <li><strong>Trace Initiation:</strong> When a request enters the system (e.g., at the API gateway), a unique trace ID is generated. This ID is attached to the request and propagated to every downstream service call via HTTP headers (W3C Trace Context standard: <code>traceparent</code> header).</li>
+                                        <li><strong>Span Creation:</strong> Each service creates a span recording its operation name, start/end time, status, and relationship to the parent span. A service making downstream calls creates child spans. This builds a tree of spans representing the request's complete journey.</li>
+                                        <li><strong>Data Collection:</strong> Spans are exported asynchronously to a tracing backend (Jaeger, Zipkin, Tempo) via a collector that handles batching, sampling, and routing. The backend assembles spans into complete traces and provides a UI for visualization.</li>
+                                        <li><strong>Importance:</strong> In monolithic architectures, a stack trace reveals the full call chain. In microservices, requests cross process and network boundaries, making stack traces useless for end-to-end debugging. Distributed tracing restores this visibility, enabling teams to identify latency bottlenecks, understand service dependencies, detect cascading failures, and perform root cause analysis across service boundaries.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q2: Compare head-based and tail-based sampling. When would you use each approach?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Both approaches control which traces are retained, but they make decisions at different points in the trace lifecycle:</p>
+                                    <ul>
+                                        <li><strong>Head-Based Sampling:</strong> The sampling decision is made at the trace root (entry point) before any work is done. Common strategies include probabilistic (e.g., sample 1% of traces), rate-limiting (max 10 traces/second), and priority-based (always trace requests from certain users). Pros: simple to implement, predictable overhead, no additional infrastructure needed. Cons: you might miss rare but important traces like errors or slow requests since the decision is made before outcomes are known.</li>
+                                        <li><strong>Tail-Based Sampling:</strong> All spans are collected temporarily, and the sampling decision is made after the trace completes. A tail-sampling processor examines the completed trace and applies rules like "keep all traces with errors," "keep traces slower than 2 seconds," "keep traces from the payment service." Pros: guarantees you keep interesting/important traces. Cons: requires a stateful collector with enough memory to buffer in-flight traces, adds complexity, and the collector becomes a critical infrastructure component.</li>
+                                        <li><strong>When to Use Each:</strong> Use head-based sampling for high-traffic, cost-sensitive environments where statistical coverage is sufficient. Use tail-based sampling when you cannot afford to miss error traces or slow requests — critical for payment systems, SLA-bound services, and environments where rare failures have high business impact. Many organizations use a hybrid approach: head-based sampling at 10% plus tail-based sampling to always retain anomalous traces.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q3: What is OpenTelemetry and how does it unify observability instrumentation?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>OpenTelemetry (OTel) is a CNCF project that provides a unified, vendor-neutral observability framework:</p>
+                                    <ul>
+                                        <li><strong>Unified Instrumentation:</strong> OTel merges the previously separate OpenTracing and OpenCensus projects into a single standard. It provides APIs, SDKs, and auto-instrumentation libraries for all three observability signals: traces, metrics, and logs. This means one instrumentation framework covers everything rather than separate libraries for each pillar.</li>
+                                        <li><strong>Language Support:</strong> OTel provides SDKs for Java, Python, Go, JavaScript/Node.js, .NET, Ruby, PHP, and more. Auto-instrumentation agents can instrument popular frameworks (Spring Boot, Express, Django, Flask) without code changes, automatically creating spans for HTTP requests, database calls, and cache operations.</li>
+                                        <li><strong>OpenTelemetry Collector:</strong> A vendor-agnostic data pipeline that receives telemetry data via OTLP (OpenTelemetry Protocol), processes it (batching, filtering, sampling, enrichment), and exports to multiple backends simultaneously. You can send traces to Jaeger and metrics to Prometheus from the same collector.</li>
+                                        <li><strong>Vendor Neutrality:</strong> Applications instrumented with OTel can switch between backends (Jaeger to Zipkin, Datadog to Grafana Tempo) without changing application code — only the collector's export configuration changes. This prevents vendor lock-in and future-proofs observability investments.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q4: How do you handle trace context propagation in asynchronous/event-driven architectures?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Asynchronous communication (message queues, event streams) requires special handling for trace context propagation:</p>
+                                    <ul>
+                                        <li><strong>Message Header Injection:</strong> When a service publishes a message to Kafka, RabbitMQ, or SQS, the trace context (trace ID, span ID, trace flags) is injected into the message headers/attributes. The publishing service creates a PRODUCER span, and the consuming service creates a CONSUMER span linked to the producer's context. OpenTelemetry provides propagators for common messaging systems.</li>
+                                        <li><strong>Causal Ordering Challenges:</strong> Unlike synchronous calls where the caller waits for a response, async messages may be consumed much later. The trace timeline may show large gaps between producer and consumer spans. Trace visualization tools handle this by showing the causal link (producer → consumer) even when there's significant time between them.</li>
+                                        <li><strong>Fan-Out Patterns:</strong> When one message triggers multiple consumers (pub/sub), each consumer creates a separate child span linked to the producer span. The resulting trace shows a fan-out pattern where one publish operation spawns multiple parallel processing branches.</li>
+                                        <li><strong>Batch Processing:</strong> For batch consumers that process multiple messages together, you can create a new trace that links back to the original traces using trace links (rather than parent-child relationships). This preserves the connection without creating artificially long traces. OpenTelemetry's Span Links feature supports this pattern explicitly.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Quiz -->
+                <section id="quiz" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Quiz</h2>
+                        <button class="toggle-btn" onclick="toggleSection('quiz')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of distributed tracing concepts.</p>
+                                <div class="quiz-stats">
+                                    <span>Question: <strong id="currentQuestion">1</strong>/<strong id="totalQuestions">5</strong></span>
+                                    <span>Score: <strong id="quizScore">0</strong></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>1.</strong> What is the fundamental building block of a distributed trace?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Log entry</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Span</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Metric data point</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>HTTP header</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>2.</strong> Which sampling strategy makes the keep/drop decision after a trace is complete?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Head-based sampling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Probabilistic sampling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Tail-based sampling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Rate-limiting sampling</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">
+                                        <p><strong>3.</strong> Which W3C standard header carries trace context between services?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>X-Request-ID</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>X-Trace-Context</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>X-Correlation-ID</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>traceparent</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">
+                                        <p><strong>4.</strong> What project merged OpenTracing and OpenCensus into a unified observability framework?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>OpenTelemetry</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Prometheus</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Jaeger</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Grafana</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>5.</strong> In a trace, what does a parent-child span relationship represent?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Two independent operations happening in parallel</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>A causal calling relationship where the parent invoked the child operation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>A temporal ordering where the parent completed before the child started</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>A data dependency where the child reads data written by the parent</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button id="submitQuiz" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                                <button id="resetQuiz" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/logging-monitoring.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Logging & Monitoring</h4>
+                            <p>Explore the complementary pillars of observability including structured logging, metrics collection, and alerting.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-cubes"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Understand the distributed architecture that makes distributed tracing essential for debugging.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Learn how tracing contributes to building and maintaining reliable distributed systems.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-video"></i></div>
+                        <h4>Video</h4>
+                        <p>Jaeger: Distributed Tracing at Uber Scale — Deep dive into how Uber built and scaled their distributed tracing infrastructure to handle billions of spans daily.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4>Documentation</h4>
+                        <p>OpenTelemetry Official Documentation — Comprehensive guide covering instrumentation, context propagation, the collector architecture, and language-specific SDK guides.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-code"></i></div>
+                        <h4>Code</h4>
+                        <p>Hands-On Distributed Tracing Lab — Step-by-step tutorial instrumenting a multi-service application with OpenTelemetry and visualizing traces in Jaeger.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Design Portal</h4>
+                <p>A comprehensive learning platform for mastering system design concepts, from fundamentals to advanced distributed systems topics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../pages/logging-monitoring.html">Logging & Monitoring</a></li>
+                    <li><a href="../pages/distributed-tracing.html">Distributed Tracing</a></li>
+                    <li><a href="../pages/docker-kubernetes.html">Docker & Kubernetes</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Video Tutorials</a></li>
+                    <li><a href="#">Practice Problems</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

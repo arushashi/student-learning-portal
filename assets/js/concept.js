@@ -202,7 +202,7 @@ function initializeQuiz() {
         submitBtn.textContent = 'Submit Quiz';
         
         // Hide results
-        hideQuizResults();
+        if (window.hideQuizResults) window.hideQuizResults();
         
         // Scroll to first question
         const firstQuestion = document.querySelector('.question-card');
@@ -278,12 +278,13 @@ function initializeQuiz() {
         quizContainer.insertAdjacentHTML('beforeend', resultsHtml);
     }
     
-    function hideQuizResults() {
+    // Expose hideQuizResults globally for inline onclick handler
+    window.hideQuizResults = function() {
         const results = document.querySelector('.quiz-results');
         if (results) {
             results.remove();
         }
-    }
+    };
 }
 
 // Collapsible Sections
@@ -516,6 +517,13 @@ function showNotification(message) {
 
 // Keyboard Navigation
 document.addEventListener('keydown', function(e) {
+    // Skip shortcuts when typing in input/textarea fields
+    const activeTag = document.activeElement.tagName.toLowerCase();
+    if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+        // Only allow Escape key when typing
+        if (e.key !== 'Escape') return;
+    }
+    
     // Press 'Escape' to close expanded sections
     if (e.key === 'Escape') {
         document.querySelectorAll('.question-card.expanded').forEach(card => {

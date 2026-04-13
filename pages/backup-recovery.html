@@ -46,26 +46,60 @@
                     <h1>Backup & Recovery</h1>
                     <p class="topic-description">Data protection and disaster recovery strategies</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Intermediate</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 25 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="backup-recovery">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,118 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Regular backups and tested recovery procedures are essential for business continuity.</p>
+                                <p><strong>Key Insight:</strong> Regular backups and tested recovery procedures are essential for business continuity.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of backup and recovery like an insurance policy for your data. Just as you keep copies of important documents in a safe or a safety deposit box, backup systems create copies of digital data so it can be restored if something goes wrong.</p>
+
+                                <h4>How Backup & Recovery Works</h4>
+
+                                <p><strong>1. Backup Strategies</strong></p>
+                                <ul>
+                                    <li><strong>Full Backup:</strong> A complete copy of all data, providing the simplest restoration but requiring the most storage and time</li>
+                                    <li><strong>Incremental Backup:</strong> Copies only data changed since the last backup of any type, saving storage but requiring multiple backups for restoration</li>
+                                    <li><strong>Differential Backup:</strong> Copies all data changed since the last full backup, balancing storage efficiency and recovery speed</li>
+                                    <li><strong>Continuous Data Protection (CDP):</strong> Real-time replication that captures every change as it occurs</li>
+                                </ul>
+
+                                <p><strong>2. Key Metrics</strong></p>
+                                <ul>
+                                    <li><strong>RPO (Recovery Point Objective):</strong> Maximum acceptable amount of data loss measured in time</li>
+                                    <li><strong>RTO (Recovery Time Objective):</strong> Maximum acceptable downtime before recovery completes</li>
+                                    <li><strong>Retention Period:</strong> How long backup copies are kept before deletion</li>
+                                    <li><strong>Backup Window:</strong> The time allocated for backup operations to complete</li>
+                                </ul>
+
+                                <h4>The 3-2-1 Backup Rule</h4>
+                                <p><strong>3 Copies:</strong> Keep at least three copies of your data</p>
+                                <p><strong>2 Media Types:</strong> Store backups on at least two different media types</p>
+                                <p><strong>1 Off-site:</strong> Keep at least one copy in an off-site location</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-aws"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>AWS Backup Service</h5>
+                                        <p>AWS Backup provides a centralized service for managing backups across AWS resources. It supports automated backup scheduling, lifecycle policies, and cross-region replication to ensure data durability and compliance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> RPO & RTO</h4>
+                                <p>Recovery Point Objective defines max data loss tolerance; Recovery Time Objective defines max acceptable downtime.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Backup Types</h4>
+                                <p>Full, incremental, and differential backups each offer different trade-offs between storage, speed, and recovery complexity.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-fire-extinguisher"></i> Disaster Recovery</h4>
+                                <p>DR plans ensure business continuity with strategies like hot, warm, and cold standby sites.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-vial"></i> Testing</h4>
+                                <p>Regularly test recovery procedures to ensure backups are valid and restoration meets RTO/RPO targets.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Backups protect against data loss from failures, disasters, and human error</li>
+                                <li>RPO and RTO define acceptable data loss and downtime thresholds</li>
+                                <li>The 3-2-1 rule provides a proven backup framework</li>
+                                <li>Hot backups allow operations to continue during backup</li>
+                                <li>Regular testing is critical to validate recovery procedures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +243,289 @@
                                     <p>The 3-2-1 rule states: keep 3 copies of data, on 2 different media types, with 1 copy off-site. This provides protection against various failure scenarios including hardware failure, natural disasters, and human error.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between RPO and RTO?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>RPO and RTO are critical disaster recovery metrics:</p>
+                                    <ul>
+                                        <li><strong>RPO (Recovery Point Objective):</strong> Maximum acceptable data loss, measured in time (e.g., 1 hour RPO means you can lose up to 1 hour of data)</li>
+                                        <li><strong>RTO (Recovery Time Objective):</strong> Maximum acceptable downtime before system recovery (e.g., 4 hour RTO means the system must be back within 4 hours)</li>
+                                        <li><strong>Trade-offs:</strong> Lower RPO/RTO requires more expensive infrastructure and more frequent backups</li>
+                                        <li><strong>Business Impact:</strong> These metrics are driven by business requirements and compliance needs</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are hot, warm, and cold disaster recovery sites?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Disaster recovery sites differ in readiness and cost:</p>
+                                    <ul>
+                                        <li><strong>Hot Site:</strong> Fully operational duplicate infrastructure with real-time data replication; instant failover but highest cost</li>
+                                        <li><strong>Warm Site:</strong> Pre-configured hardware with periodic data updates; recovery in hours at moderate cost</li>
+                                        <li><strong>Cold Site:</strong> Basic infrastructure requiring setup and data restoration; recovery in days but lowest cost</li>
+                                        <li><strong>Cloud DR:</strong> Cloud-based recovery using services like AWS, Azure, or GCP for flexible, pay-as-you-go disaster recovery</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Backup & Recovery</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What does RPO (Recovery Point Objective) measure?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Maximum acceptable downtime</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Maximum acceptable data loss tolerance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Backup storage capacity</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Network bandwidth requirements</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What does a full backup do?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Copies all data completely</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Copies only changed files</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Copies changes since last full backup</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Compresses data before copying</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What does an incremental backup copy?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>All data from scratch</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Changes since the last full backup only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Changes since the last backup of any type</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Only system configuration files</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">4. What is a key characteristic of a hot backup?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Requires system shutdown</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Allows continued operations during backup</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Only works with cloud storage</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Stores data in encrypted format only</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">5. What is the primary goal of disaster recovery?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Reducing storage costs</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Improving application performance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Encrypting sensitive data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Ensuring business continuity</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Building dependable systems that consistently perform as expected</p>
+                        </div>
+                    </a>
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Fault tolerance and continuous system operation</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Data redundancy and high availability through database copying</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

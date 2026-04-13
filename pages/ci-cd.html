@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Pipelines - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>CI/CD Pipelines</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>CI/CD Pipelines</h1>
+                    <p class="topic-description">Master Continuous Integration and Continuous Deployment — the automated software delivery practices that enable teams to build, test, and release software changes rapidly, reliably, and repeatedly using build pipelines, automated testing, and deployment strategies.</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="bookmark-btn" data-topic="ci-cd">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-target="definition">1. Definition</div>
+                    <div class="step" data-target="explanation">2. Explanation</div>
+                    <div class="step" data-target="key-points">3. Key Points</div>
+                    <div class="step" data-target="interview">4. Interview Q&A</div>
+                    <div class="step" data-target="quiz">5. Quiz</div>
+                </div>
+            </section>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Section 1: Definition -->
+                <section id="definition" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <button class="toggle-btn" onclick="toggleSection('definition')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is CI/CD?</h3>
+                                <p>CI/CD stands for Continuous Integration and Continuous Delivery/Deployment — a set of software engineering practices and automated pipelines that enable teams to deliver code changes more frequently, reliably, and with confidence. Continuous Integration (CI) is the practice of automatically building and testing code every time a developer merges changes into a shared repository, catching integration bugs early before they compound. Continuous Delivery (CD) extends CI by automatically preparing every successful build for release to production through a series of staging environments, requiring only a manual approval to deploy. Continuous Deployment goes one step further — every change that passes all automated tests is automatically deployed to production without human intervention.</p>
+                                <p>A CI/CD pipeline is the automated workflow that implements these practices: code commit triggers a build, which triggers unit tests, integration tests, security scans, artifact creation, deployment to staging, acceptance tests, and finally deployment to production. Modern CI/CD tools include Jenkins, GitHub Actions, GitLab CI/CD, CircleCI, and AWS CodePipeline. The pipeline ensures that every change goes through the same rigorous, repeatable process, eliminating manual deployment steps that are error-prone and slow.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Key Insight:</strong> The distinction between Continuous Delivery and Continuous Deployment is often confused in interviews. Continuous Delivery means every commit is automatically built, tested, and prepared for production release — but deployment requires a human click to approve. Continuous Deployment removes that manual gate entirely — every commit that passes all automated checks is deployed to production automatically. Amazon practices true Continuous Deployment, averaging one production deployment every 11.7 seconds across all their services. The key enabler is not faster pipelines but comprehensive automated testing and deployment strategies (blue-green, canary) that make deploying as safe as not deploying.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Explanation -->
+                <section id="explanation" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Detailed Explanation</h2>
+                        <button class="toggle-btn" onclick="toggleSection('explanation')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of CI/CD like a car manufacturing assembly line. In the early days of auto manufacturing, cars were built one at a time by skilled craftsmen — slow, inconsistent, and error-prone. Henry Ford's assembly line revolutionized this: each car moved through standardized stations (chassis, engine, body, paint, quality check) in a predictable, repeatable flow. If a defect was found at the quality check station, the line stopped and the issue was fixed immediately rather than discovering it after 100 more cars were built with the same defect. CI/CD applies the same philosophy to software: every code change moves through an automated assembly line (build → test → stage → deploy), defects are caught immediately at the relevant station, and the entire process is standardized and repeatable regardless of which developer made the change.</p>
+                                <ul>
+                                    <li><strong>CI: Build and Test Automation:</strong> Continuous Integration begins when a developer pushes code to a shared repository (Git). The CI server (Jenkins, GitHub Actions) detects the change, checks out the code, compiles it (if needed), and runs a comprehensive test suite: unit tests verify individual functions and methods, integration tests verify interactions between components, and static analysis tools (SonarQube, ESLint) check code quality and security vulnerabilities. If any step fails, the developer is immediately notified and the merge is blocked. This "fail fast" approach catches bugs within minutes of introduction, when the context is fresh and the fix is cheap — rather than discovering integration problems days or weeks later.</li>
+                                    <li><strong>Pipeline Stages — From Commit to Production:</strong> A well-designed pipeline typically has these stages: (1) Source — triggered by git push or pull request; (2) Build — compile code, resolve dependencies, create artifacts; (3) Unit Test — run fast, isolated tests (< 5 minutes); (4) Integration Test — test component interactions, database queries, API contracts; (5) Security Scan — SAST (static application security testing), dependency vulnerability scanning, container image scanning; (6) Artifact Publish — push Docker images to registry, store build artifacts; (7) Deploy to Staging — deploy to a production-like environment; (8) Acceptance Test — end-to-end tests, smoke tests, performance tests; (9) Production Deployment — deploy using a safe strategy (blue-green, canary, rolling).</li>
+                                    <li><strong>Deployment Strategies:</strong> How you deploy to production is as important as what you deploy. Blue-Green deployment maintains two identical production environments — "blue" (current) and "green" (new). Traffic is switched from blue to green atomically via DNS or load balancer; if issues arise, you switch back instantly. Canary deployment routes a small percentage of traffic (e.g., 5%) to the new version while the majority stays on the old version. If metrics look good, traffic is gradually shifted. Rolling deployment updates instances incrementally — Kubernetes' default strategy replaces Pods one by one. Feature flags allow deploying code changes without activating them for users, decoupling deployment from release.</li>
+                                    <li><strong>Rollback Mechanisms:</strong> No deployment strategy is complete without a rollback plan. Automated rollback triggers when health checks fail — if error rates spike above a threshold or latency exceeds SLO targets within minutes of deployment, the system automatically reverts to the previous version. Blue-green deployments enable instant rollback by switching the load balancer back. Container-based rollbacks are fast because the previous Docker image is still available in the registry. Database rollbacks are harder — schema migrations should be designed as backwards-compatible (expand-contract pattern) so that the old application version can still work with the new schema, enabling safe rollback without data loss.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon: Deploying Every 11.7 Seconds</h5>
+                                        <p>Amazon is the gold standard for Continuous Deployment at scale. Across their thousands of microservices, Amazon averages one production deployment every 11.7 seconds — that's over 7,000 deployments per hour. This is made possible by their fully automated deployment pipeline called Apollo. When an engineer commits code, it automatically progresses through build, unit tests, integration tests, and a series of increasingly realistic test environments called "pipelines." Each service team owns their pipeline configuration, but the tooling is standardized across the organization. Amazon uses a combination of canary deployments and automatic rollback: new versions are first deployed to a single availability zone, and automated systems monitor error rates, latency, and business metrics. If any alarm fires within the bake time (typically 30-60 minutes), the deployment is automatically rolled back without human intervention. This aggressive deployment pace actually makes their systems more reliable — changes are small (often just a few lines of code), easy to understand, easy to debug, and easy to revert. The alternative of deploying large batches of changes infrequently creates "big bang" releases that are risky, hard to debug, and terrifying to rollback.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Key Points -->
+                <section id="key-points" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points</h2>
+                        <button class="toggle-btn" onclick="toggleSection('key-points')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-code-branch"></i> CI vs CD vs CD</h4>
+                                <p>Continuous Integration (CI) focuses on automatically building and testing every code change when merged to the main branch, ensuring that integration bugs are caught immediately. Continuous Delivery extends CI by automatically promoting passing builds through staging environments and preparing them for production release — but a human makes the final deployment decision. Continuous Deployment goes further by eliminating the manual gate: every commit that passes all automated quality gates is deployed to production automatically. The maturity progression is: CI (automated build & test) → Continuous Delivery (automated release preparation) → Continuous Deployment (fully automated production deployment). Most organizations start with CI and gradually mature toward Continuous Deployment as their test coverage, monitoring, and rollback capabilities improve.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tasks"></i> Pipeline Stages</h4>
+                                <p>A CI/CD pipeline is composed of sequential and parallel stages that transform source code into a production deployment. Key stages include: Source (git trigger), Build (compile, dependency resolution), Test (unit, integration, E2E), Security Scan (SAST, DAST, dependency audit), Artifact (Docker image build, push to registry), Deploy to Staging (production-like environment), Acceptance (smoke tests, performance tests, manual QA), and Production Deploy. Stages should be ordered from fastest/cheapest to slowest/most expensive — run unit tests before integration tests, run integration tests before E2E tests. Parallel execution (running tests across multiple agents) reduces total pipeline time. A good CI pipeline completes in under 10 minutes to maintain developer productivity.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Deployment Strategies</h4>
+                                <p>Blue-Green maintains two identical environments and switches traffic atomically — zero downtime and instant rollback, but requires double the infrastructure during deployment. Canary releases gradually shift traffic (1% → 5% → 25% → 100%) while monitoring error rates and latency — limits blast radius but is slower to complete. Rolling updates replace instances incrementally (Kubernetes default) — resource-efficient but multiple versions coexist during the update window. A/B testing routes specific user segments to different versions for business metric comparison. Feature flags decouple deployment from release, allowing code to be deployed but not activated until toggled on. The choice depends on risk tolerance, infrastructure cost, and recovery time requirements.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-undo-alt"></i> Rollback Mechanisms</h4>
+                                <p>Effective rollback is the safety net that makes frequent deployments sustainable. Automated rollback triggers include error rate spikes, latency SLO violations, failed health checks, and anomalous business metrics (sudden drop in conversions or sign-ups). Blue-green rollback is instant — switch the load balancer back to the previous environment. Container-based rollback re-deploys the previous Docker image tag. Database rollbacks require forward-compatible schema migrations: use the expand-contract pattern where you add new columns/tables first, migrate data, update the application, then remove old columns — so the old application version always works with the current schema. Feature flag rollback is the fastest — disable the flag without any deployment. Runbook automation (PagerDuty, Opsgenie) can trigger rollbacks automatically based on alerting rules.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>CI automatically builds and tests every code change; CD automates the path to production (Delivery = manual gate, Deployment = fully automated)</li>
+                                <li>Pipeline stages progress from fast/cheap checks (lint, unit tests) to slow/expensive ones (E2E tests, security scans, staging deployment)</li>
+                                <li>Blue-green deployment provides instant rollback; canary deployment limits blast radius by gradually shifting traffic</li>
+                                <li>Automated rollback based on SLO violations is essential for safe Continuous Deployment at scale</li>
+                                <li>Feature flags decouple deployment from release, enabling dark launches and gradual feature rollouts</li>
+                                <li>Database schema changes should be backwards-compatible to support safe rollback without data loss</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Diagrams -->
+                <section id="diagrams" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Diagrams</h2>
+                        <button class="toggle-btn" onclick="toggleSection('diagrams')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>CI/CD Pipeline Stages</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 12px;">
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                                            <div style="border: 2px solid #2c3e50; border-radius: 8px; padding: 10px 14px; text-align: center; background: #f8f9fa;">
+                                                <div style="font-weight: bold;">Source</div>
+                                                <div style="font-size: 10px;">Git Push</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 14px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold;">Build</div>
+                                                <div style="font-size: 10px;">Compile + Deps</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 10px 14px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Unit Test</div>
+                                                <div style="font-size: 10px;">Fast Tests</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 10px 14px; text-align: center; background: #fdf2e9;">
+                                                <div style="font-weight: bold;">Integration</div>
+                                                <div style="font-size: 10px;">API + DB Tests</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 18px; color: #3498db; margin: 10px 0;">&#8595;</div>
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                                            <div style="border: 2px solid #c0392b; border-radius: 8px; padding: 10px 14px; text-align: center; background: #fdedec;">
+                                                <div style="font-weight: bold;">Security</div>
+                                                <div style="font-size: 10px;">SAST + CVE Scan</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 10px 14px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">Artifact</div>
+                                                <div style="font-size: 10px;">Docker Build</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #16a085; border-radius: 8px; padding: 10px 14px; text-align: center; background: #e8f6f3;">
+                                                <div style="font-weight: bold;">Staging</div>
+                                                <div style="font-size: 10px;">Deploy + E2E</div>
+                                            </div>
+                                            <div style="font-size: 18px; color: #3498db;">&#8594;</div>
+                                            <div style="border: 2px solid #2ecc71; border-radius: 8px; padding: 10px 14px; text-align: center; background: #d5f5e3; border-width: 3px;">
+                                                <div style="font-weight: bold;">Production</div>
+                                                <div style="font-size: 10px;">Canary Deploy</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; display: flex; gap: 15px; font-size: 11px;">
+                                            <div style="padding: 5px 10px; background: #d4efdf; border-radius: 4px;">CI: Source → Integration</div>
+                                            <div style="padding: 5px 10px; background: #d6eaf8; border-radius: 4px;">CD: Security → Production</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diagram-card">
+                                <h4>Blue-Green vs Canary Deployment</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; gap: 30px; padding: 20px; font-family: monospace; font-size: 12px; justify-content: center;">
+                                        <div style="flex: 1; max-width: 250px;">
+                                            <div style="text-align: center; font-weight: bold; margin-bottom: 12px; font-size: 13px;">Blue-Green</div>
+                                            <div style="border: 2px solid #2c3e50; border-radius: 6px; padding: 8px; text-align: center; background: #f8f9fa; margin-bottom: 8px;">
+                                                <div style="font-weight: bold;">Load Balancer</div>
+                                                <div style="font-size: 10px;">100% traffic switch</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px;">
+                                                <div style="border: 2px solid #3498db; border-radius: 6px; padding: 10px; flex: 1; text-align: center; background: #eaf2fd;">
+                                                    <div style="font-weight: bold; color: #2980b9;">BLUE</div>
+                                                    <div style="font-size: 10px;">v1.0 (current)</div>
+                                                    <div style="font-size: 10px; color: #27ae60;">&#9679; Active</div>
+                                                </div>
+                                                <div style="border: 2px solid #27ae60; border-radius: 6px; padding: 10px; flex: 1; text-align: center; background: #e9f7ef;">
+                                                    <div style="font-weight: bold; color: #27ae60;">GREEN</div>
+                                                    <div style="font-size: 10px;">v2.0 (new)</div>
+                                                    <div style="font-size: 10px; color: #e67e22;">&#9679; Standby</div>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center; margin-top: 8px; font-size: 10px; color: #666;">Switch traffic atomically</div>
+                                            <div style="text-align: center; font-size: 10px; color: #27ae60;">&#10003; Instant rollback</div>
+                                        </div>
+                                        <div style="flex: 1; max-width: 250px;">
+                                            <div style="text-align: center; font-weight: bold; margin-bottom: 12px; font-size: 13px;">Canary</div>
+                                            <div style="border: 2px solid #2c3e50; border-radius: 6px; padding: 8px; text-align: center; background: #f8f9fa; margin-bottom: 8px;">
+                                                <div style="font-weight: bold;">Load Balancer</div>
+                                                <div style="font-size: 10px;">Weighted routing</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px;">
+                                                <div style="border: 2px solid #3498db; border-radius: 6px; padding: 10px; flex: 3; text-align: center; background: #eaf2fd;">
+                                                    <div style="font-weight: bold;">v1.0</div>
+                                                    <div style="font-size: 10px;">95% traffic</div>
+                                                </div>
+                                                <div style="border: 2px solid #e67e22; border-radius: 6px; padding: 10px; flex: 1; text-align: center; background: #fdf2e9;">
+                                                    <div style="font-weight: bold; font-size: 11px;">v2.0</div>
+                                                    <div style="font-size: 10px;">5%</div>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center; margin-top: 8px; font-size: 10px; color: #666;">Gradually shift 5→25→100%</div>
+                                            <div style="text-align: center; font-size: 10px; color: #27ae60;">&#10003; Limited blast radius</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Interview Q&A -->
+                <section id="interview" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions</h2>
+                        <button class="toggle-btn" onclick="toggleSection('interview')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q1: What is the difference between Continuous Delivery and Continuous Deployment?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>While often used interchangeably, these are distinct practices with different levels of automation:</p>
+                                    <ul>
+                                        <li><strong>Continuous Delivery:</strong> Every code change that passes all automated tests is automatically built, tested, and prepared for production release — but the actual deployment to production requires manual approval (a human clicks "deploy"). The software is always in a deployable state, and the team can release at any time with confidence, but they choose when to release based on business timing, regulatory requirements, or coordination needs.</li>
+                                        <li><strong>Continuous Deployment:</strong> Every code change that passes all automated quality gates is automatically deployed to production without any manual intervention. There is no human in the loop between a developer's commit and production. This requires extremely mature testing, monitoring, and automated rollback capabilities to be safe.</li>
+                                        <li><strong>Trust Gradient:</strong> The progression from CI → Continuous Delivery → Continuous Deployment represents increasing trust in automation. Organizations move along this spectrum as they improve test coverage, monitoring, deployment strategies, and incident response automation.</li>
+                                        <li><strong>In Practice:</strong> Most organizations practice Continuous Delivery for user-facing services (with manual approval for production) and Continuous Deployment for internal services, configuration changes, and non-critical systems where the risk tolerance is higher.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q2: Compare blue-green, canary, and rolling deployment strategies. When would you use each?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Each strategy offers different trade-offs between safety, speed, cost, and complexity:</p>
+                                    <ul>
+                                        <li><strong>Blue-Green:</strong> Maintain two identical production environments. Deploy the new version to the inactive environment, run smoke tests, then switch all traffic via load balancer or DNS. Pros: instant rollback (switch back), zero downtime, simple to understand. Cons: requires double infrastructure cost during deployment, database migrations must be handled carefully. Best for: mission-critical systems where instant rollback is essential and infrastructure cost is acceptable.</li>
+                                        <li><strong>Canary:</strong> Deploy the new version alongside the old one and gradually shift traffic (1% → 5% → 25% → 50% → 100%) while monitoring metrics. If any issues are detected, roll back the canary. Pros: limits blast radius, real production testing, data-driven rollout decisions. Cons: complex routing configuration, multiple versions coexist, slower to complete. Best for: large-scale systems where you need to validate with real traffic before full rollout, especially with diverse user populations.</li>
+                                        <li><strong>Rolling:</strong> Replace instances one at a time (or in small batches). Kubernetes does this by default with maxSurge and maxUnavailable parameters. Pros: resource-efficient (no double infrastructure), built into Kubernetes. Cons: multiple versions coexist during rollout, rollback requires a new rolling update, slower for large deployments. Best for: standard microservice deployments where brief version coexistence is acceptable.</li>
+                                        <li><strong>Recommendation:</strong> Use canary for high-traffic, user-facing services. Use blue-green for databases and stateful services. Use rolling for internal services and batch processing. Combine with feature flags for maximum control.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q3: How do you handle database schema changes in a CI/CD pipeline?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Database migrations are the hardest part of CI/CD because unlike application deployments, schema changes can't be simply rolled back:</p>
+                                    <ul>
+                                        <li><strong>Expand-Contract Pattern:</strong> Phase 1 (Expand) — add the new column/table alongside the old one. Phase 2 (Migrate) — update the application to write to both old and new, backfill historical data. Phase 3 (Contract) — once all application versions use the new schema, remove the old column/table. Each phase is a separate deployment, ensuring the application is always compatible with the current schema.</li>
+                                        <li><strong>Backwards-Compatible Migrations:</strong> Every schema change must be compatible with both the current and previous application version. Never rename or remove a column in the same deployment that stops using it. Instead: add the new column (deploy #1), update the app to use the new column (deploy #2), remove the old column (deploy #3). This enables safe rollback at any point.</li>
+                                        <li><strong>Migration Tools:</strong> Use versioned migration tools like Flyway, Liquibase, or Alembic that track which migrations have been applied. Migrations run as part of the CI/CD pipeline, typically before the application deployment. Each migration is an immutable, version-controlled script.</li>
+                                        <li><strong>Testing:</strong> Run migrations against a production-cloned database in the CI pipeline to catch issues before production. Test both the forward migration and the rollback migration. For large tables, test migration performance to ensure it completes within maintenance windows or use online schema change tools (pt-online-schema-change, gh-ost) for zero-downtime migrations.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q4: How would you design a CI/CD pipeline for a microservices architecture with 50+ services?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Scaling CI/CD across many microservices requires standardization, independence, and shared infrastructure:</p>
+                                    <ul>
+                                        <li><strong>Independent Pipelines:</strong> Each microservice should have its own CI/CD pipeline triggered by changes to its code directory (monorepo) or repository (polyrepo). Services should be independently deployable — changing Service A should not require rebuilding or redeploying Service B. This is enabled by maintaining stable API contracts between services.</li>
+                                        <li><strong>Standardized Pipeline Templates:</strong> Create reusable pipeline templates (GitHub Actions reusable workflows, Jenkins shared libraries) that encapsulate your organization's build, test, security scan, and deployment stages. Each service configures the template with service-specific parameters (language, test command, deployment target) rather than defining the entire pipeline from scratch.</li>
+                                        <li><strong>Contract Testing:</strong> With 50+ services, integration testing every combination is impractical. Use contract testing (Pact, Spring Cloud Contract) where each service independently verifies that it fulfills its provider contracts and that its consumer expectations are met. This replaces expensive end-to-end tests with fast, focused contract verification.</li>
+                                        <li><strong>Progressive Delivery:</strong> Use an automated progressive delivery tool (Argo Rollouts, Flagger) that automates canary analysis. After deployment, the tool monitors SLIs (error rate, latency) and automatically promotes or rolls back the canary based on predefined success criteria — no human monitoring required for each of the 50+ service deployments happening daily.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Quiz -->
+                <section id="quiz" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Quiz</h2>
+                        <button class="toggle-btn" onclick="toggleSection('quiz')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of CI/CD concepts and deployment strategies.</p>
+                                <div class="quiz-stats">
+                                    <span>Question: <strong id="currentQuestion">1</strong>/<strong id="totalQuestions">5</strong></span>
+                                    <span>Score: <strong id="quizScore">0</strong></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>1.</strong> What distinguishes Continuous Deployment from Continuous Delivery?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Continuous Deployment includes automated testing while Delivery does not</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Continuous Deployment automatically releases to production without manual approval</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Continuous Deployment only works with containerized applications</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Continuous Deployment deploys faster than Continuous Delivery</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>2.</strong> In a blue-green deployment, how is rollback typically performed?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>By redeploying the previous version from the container registry</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>By reverting the git commit and triggering a new pipeline</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>By switching the load balancer back to the previous environment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>By scaling down the new version and scaling up the old version</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">
+                                        <p><strong>3.</strong> What is the expand-contract pattern used for in CI/CD?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Making database schema changes backwards-compatible for safe rollback</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Scaling up infrastructure during deployment and scaling down after</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Expanding test coverage before contracting the deployment window</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Adding new pipeline stages before removing old manual processes</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">
+                                        <p><strong>4.</strong> Which deployment strategy routes a small percentage of traffic to the new version while monitoring metrics?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Blue-green deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Rolling deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Feature flag deployment</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Canary deployment</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>5.</strong> What is the primary benefit of running unit tests before integration tests in a CI pipeline?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Unit tests are more comprehensive than integration tests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Fail fast — catch simple bugs quickly before running expensive tests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Integration tests depend on unit test output artifacts</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Unit tests require fewer permissions to execute</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button id="submitQuiz" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                                <button id="resetQuiz" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/docker-kubernetes.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fab fa-docker"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Docker & Kubernetes</h4>
+                            <p>Learn about containerization and orchestration — the infrastructure that CI/CD pipelines deploy to.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Understand how CI/CD practices contribute to building and maintaining reliable production systems.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-server"></i></div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Explore how zero-downtime deployment strategies maintain availability during releases.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-video"></i></div>
+                        <h4>Video</h4>
+                        <p>Amazon's CI/CD Pipeline Deep Dive — Learn how Amazon achieves deployment frequencies of every 11.7 seconds with automated testing and canary deployments.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4>Documentation</h4>
+                        <p>GitHub Actions Documentation — Complete guide to building CI/CD workflows with GitHub's built-in automation platform, including reusable workflows and matrix builds.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-code"></i></div>
+                        <h4>Code</h4>
+                        <p>CI/CD Pipeline Template Repository — Production-ready pipeline configurations for Jenkins, GitHub Actions, and GitLab CI with blue-green and canary deployment examples.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Design Portal</h4>
+                <p>A comprehensive learning platform for mastering system design concepts, from fundamentals to advanced distributed systems topics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../pages/logging-monitoring.html">Logging & Monitoring</a></li>
+                    <li><a href="../pages/distributed-tracing.html">Distributed Tracing</a></li>
+                    <li><a href="../pages/ci-cd.html">CI/CD Pipelines</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Video Tutorials</a></li>
+                    <li><a href="#">Practice Problems</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

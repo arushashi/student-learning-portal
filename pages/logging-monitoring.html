@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging & Monitoring - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>Logging & Monitoring</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Logging & Monitoring</h1>
+                    <p class="topic-description">Master the fundamentals of observability including logging, metrics collection, alerting strategies, and the three pillars of observability that keep modern distributed systems reliable and debuggable.</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="bookmark-btn" data-topic="logging-monitoring">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-target="definition">1. Definition</div>
+                    <div class="step" data-target="explanation">2. Explanation</div>
+                    <div class="step" data-target="key-points">3. Key Points</div>
+                    <div class="step" data-target="interview">4. Interview Q&A</div>
+                    <div class="step" data-target="quiz">5. Quiz</div>
+                </div>
+            </section>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Section 1: Definition -->
+                <section id="definition" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <button class="toggle-btn" onclick="toggleSection('definition')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Logging & Monitoring?</h3>
+                                <p>Logging and Monitoring are fundamental observability practices in system design that involve systematically recording events (logging), collecting quantitative measurements about system behavior (metrics), and setting up automated notifications when systems deviate from expected behavior (alerting). Together, they form the backbone of observability — the ability to understand the internal state of a system by examining its external outputs.</p>
+                                <p>Logging captures discrete events such as errors, state transitions, and user actions as structured or unstructured text records. Monitoring continuously collects and aggregates time-series metrics like CPU usage, request latency, error rates, and throughput. Alerting uses predefined thresholds and conditions on these metrics to notify operators before issues impact users. Modern observability extends these concepts with distributed tracing to form the three pillars: logs, metrics, and traces.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Key Insight:</strong> The three pillars of observability — logs, metrics, and traces — are complementary, not interchangeable. Metrics tell you something is wrong, logs tell you why it's wrong, and traces tell you where in the distributed call chain the problem occurred. A robust observability strategy requires all three working in concert with correlated identifiers linking them together.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Explanation -->
+                <section id="explanation" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Detailed Explanation</h2>
+                        <button class="toggle-btn" onclick="toggleSection('explanation')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of logging and monitoring like the instrument panel and black box recorder in an aircraft. The instrument panel (monitoring) gives pilots real-time gauges showing altitude, speed, fuel, and engine health — continuous numeric readings that indicate whether the plane is operating within safe parameters. The black box (logging) records every event, communication, and action in detail so that investigators can reconstruct exactly what happened during any incident. Just as pilots need both real-time instruments and detailed event recordings to fly safely, engineers need both monitoring dashboards and comprehensive logs to operate distributed systems reliably.</p>
+                                <ul>
+                                    <li><strong>Structured Logging:</strong> Instead of free-text log messages, structured logging emits events as key-value pairs or JSON objects. This enables efficient parsing, searching, and analysis at scale. Fields like timestamp, service name, trace ID, severity level, and contextual metadata make logs machine-queryable while remaining human-readable. Tools like the ELK stack (Elasticsearch, Logstash, Kibana) and Splunk ingest and index these structured logs for real-time search and historical analysis.</li>
+                                    <li><strong>Metrics Collection & Time-Series Data:</strong> Metrics are numeric measurements collected at regular intervals — CPU utilization at 72%, request latency at 45ms, error rate at 0.1%. Prometheus, a leading open-source monitoring system, scrapes metrics endpoints exposed by services and stores them as time-series data. Grafana provides rich visualization dashboards that transform raw metrics into actionable charts, heatmaps, and alert panels. Key metric types include counters (monotonically increasing values), gauges (values that go up and down), histograms (distribution of values), and summaries.</li>
+                                    <li><strong>Alerting and SLI/SLO/SLA:</strong> Alerting bridges the gap between passive observation and active incident response. Service Level Indicators (SLIs) are specific metrics like request latency or availability percentage. Service Level Objectives (SLOs) define the target values for SLIs — for example, "99.9% of requests should complete within 200ms." Service Level Agreements (SLAs) are contractual commitments with business consequences. Effective alerting fires on SLO violations, not individual metric thresholds, reducing alert fatigue while catching real user-impacting issues.</li>
+                                    <li><strong>Log Aggregation at Scale:</strong> In distributed systems with hundreds or thousands of service instances, logs are generated at enormous volumes — often terabytes per day. Log aggregation pipelines collect logs from all sources, enrich them with metadata, and centralize them in searchable datastores. Architectures typically involve log shippers (Filebeat, Fluentd), message queues (Kafka) for buffering, processing pipelines (Logstash), and storage/search engines (Elasticsearch). Retention policies, sampling strategies, and log levels help manage storage costs while preserving essential diagnostic data.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-film"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Netflix: Monitoring Millions of Microservice Instances</h5>
+                                        <p>Netflix operates one of the world's most complex microservice architectures, with thousands of microservices running across millions of container instances in AWS. Their observability platform processes over 2.5 billion metrics time-series per day using their custom-built Atlas time-series database. When a user presses play, the request flows through dozens of services — authentication, content delivery, recommendation, streaming optimization — each generating logs, metrics, and traces. Netflix's monitoring system detects anomalies within seconds using statistical models that compare current behavior against historical baselines. Their alerting strategy focuses on customer-facing SLOs like "stream start time under 4 seconds" rather than infrastructure metrics, ensuring engineers are alerted about problems that actually affect user experience. During peak hours serving 200+ million subscribers, their logging infrastructure ingests petabytes of log data that flows through Apache Kafka into Elasticsearch clusters for real-time debugging.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Key Points -->
+                <section id="key-points" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points</h2>
+                        <button class="toggle-btn" onclick="toggleSection('key-points')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-columns"></i> Three Pillars of Observability</h4>
+                                <p>Logs, metrics, and traces form the three pillars of observability. Logs provide detailed records of discrete events with rich context. Metrics offer aggregated numeric time-series data for trend analysis and alerting. Traces track individual requests as they propagate across service boundaries, revealing latency bottlenecks and failure points. Each pillar answers different questions: metrics detect that a problem exists, logs explain why it happened, and traces show where in the distributed call chain the failure occurred. Modern platforms like OpenTelemetry unify all three under a single instrumentation framework.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-code"></i> Structured Logging</h4>
+                                <p>Structured logging replaces unstructured text messages with machine-parseable formats like JSON. Each log entry contains standardized fields — timestamp, severity, service name, trace ID, user ID, and contextual metadata. This enables powerful querying: "show me all ERROR logs from the payment-service where user_id=12345 in the last hour." Structured logs integrate seamlessly with log aggregation platforms like Elasticsearch, enabling faceted search, anomaly detection, and automated correlation. Best practices include using consistent field names across services, including correlation IDs for request tracing, and choosing appropriate log levels (DEBUG, INFO, WARN, ERROR, FATAL).</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-bell"></i> Metrics & Alerting (SLI/SLO/SLA)</h4>
+                                <p>Effective monitoring centers on Service Level Indicators (SLIs) — measurable aspects of service quality like latency, error rate, throughput, and availability. Service Level Objectives (SLOs) set target values for SLIs, such as "99.95% availability measured monthly." Alerts should fire when error budgets are being consumed too quickly, not on arbitrary thresholds. Prometheus uses PromQL for defining alert rules, while Grafana provides alert visualization. Common patterns include multi-window, multi-burn-rate alerting that balances detection speed with false positive rates. PagerDuty and OpsGenie integrate with these tools for on-call rotation and incident management.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-layer-group"></i> Log Aggregation</h4>
+                                <p>Centralized log aggregation collects, processes, and stores logs from all services in a distributed system. The ELK stack (Elasticsearch, Logstash, Kibana) is the most popular open-source solution: Filebeat ships logs from containers, Logstash parses and enriches them, Elasticsearch indexes them for full-text search, and Kibana provides visualization dashboards. Alternative stacks include Grafana Loki (log aggregation optimized for cost using label-based indexing), Fluentd/Fluent Bit (cloud-native log forwarding), and cloud-native solutions like AWS CloudWatch, Google Cloud Logging, and Azure Monitor. Key challenges include managing storage costs at scale, implementing appropriate retention policies, and ensuring log pipeline reliability.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>The three pillars of observability — logs, metrics, and traces — provide complementary views into system behavior and health</li>
+                                <li>Structured logging with JSON format and consistent field names enables powerful querying and automated analysis at scale</li>
+                                <li>SLI/SLO-based alerting reduces alert fatigue by focusing on user-impacting issues rather than raw infrastructure thresholds</li>
+                                <li>Prometheus collects metrics via pull-based scraping, storing them as time-series data queryable with PromQL</li>
+                                <li>Log aggregation pipelines (ELK, Loki, Fluentd) centralize logs from distributed services for unified search and analysis</li>
+                                <li>Correlation IDs and trace context propagation link logs, metrics, and traces together for end-to-end request debugging</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Diagrams -->
+                <section id="diagrams" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Diagrams</h2>
+                        <button class="toggle-btn" onclick="toggleSection('diagrams')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Observability Architecture Overview</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 13px;">
+                                        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 15px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold;">Service A</div>
+                                                <div style="font-size: 11px;">Logs + Metrics</div>
+                                            </div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 15px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold;">Service B</div>
+                                                <div style="font-size: 11px;">Logs + Metrics</div>
+                                            </div>
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 15px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold;">Service C</div>
+                                                <div style="font-size: 11px;">Logs + Metrics</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595; &#8595; &#8595;</div>
+                                        <div style="display: flex; gap: 30px; margin-bottom: 20px;">
+                                            <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 12px 18px; text-align: center; background: #fdf2e9;">
+                                                <div style="font-weight: bold;">Fluentd / Filebeat</div>
+                                                <div style="font-size: 11px;">Log Shipper</div>
+                                            </div>
+                                            <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 12px 18px; text-align: center; background: #fdf2e9;">
+                                                <div style="font-weight: bold;">Prometheus</div>
+                                                <div style="font-size: 11px;">Metrics Scraper</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595; &#8595;</div>
+                                        <div style="display: flex; gap: 30px; margin-bottom: 20px;">
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 12px 18px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Elasticsearch</div>
+                                                <div style="font-size: 11px;">Log Storage & Search</div>
+                                            </div>
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 12px 18px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Prometheus TSDB</div>
+                                                <div style="font-size: 11px;">Time-Series Storage</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595; &#8595;</div>
+                                        <div style="display: flex; gap: 20px;">
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 12px 18px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">Kibana</div>
+                                                <div style="font-size: 11px;">Log Dashboards</div>
+                                            </div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 12px 18px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">Grafana</div>
+                                                <div style="font-size: 11px;">Metrics Dashboards</div>
+                                            </div>
+                                            <div style="border: 2px solid #c0392b; border-radius: 8px; padding: 12px 18px; text-align: center; background: #fdedec;">
+                                                <div style="font-weight: bold;">AlertManager</div>
+                                                <div style="font-size: 11px;">PagerDuty / Slack</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diagram-card">
+                                <h4>Structured Log Flow Pipeline</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 13px;">
+                                        <div style="border: 2px solid #2c3e50; border-radius: 8px; padding: 12px 20px; text-align: center; background: #f8f9fa; margin-bottom: 15px; width: 80%;">
+                                            <div style="font-weight: bold;">Application Code</div>
+                                            <div style="font-size: 11px; color: #555;">logger.info({ event: "order_placed", orderId: "123", userId: "456", latencyMs: 45 })</div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595;</div>
+                                        <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 10px 20px; text-align: center; background: #fdf2e9; margin-bottom: 15px;">
+                                            <div style="font-weight: bold;">Log Shipper (Filebeat/Fluentd)</div>
+                                            <div style="font-size: 11px;">Tails log files, forwards to pipeline</div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595;</div>
+                                        <div style="border: 2px solid #2980b9; border-radius: 8px; padding: 10px 20px; text-align: center; background: #eaf2fd; margin-bottom: 15px;">
+                                            <div style="font-weight: bold;">Kafka Buffer</div>
+                                            <div style="font-size: 11px;">Decouples producers from consumers, handles bursts</div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595;</div>
+                                        <div style="border: 2px solid #16a085; border-radius: 8px; padding: 10px 20px; text-align: center; background: #e8f6f3; margin-bottom: 15px;">
+                                            <div style="font-weight: bold;">Logstash / Processing</div>
+                                            <div style="font-size: 11px;">Parse, enrich, transform, add geo-IP, redact PII</div>
+                                        </div>
+                                        <div style="font-size: 20px; margin-bottom: 10px;">&#8595;</div>
+                                        <div style="display: flex; gap: 20px;">
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 10px 15px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Elasticsearch</div>
+                                                <div style="font-size: 11px;">Hot / Warm / Cold</div>
+                                            </div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 10px 15px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">S3 Archive</div>
+                                                <div style="font-size: 11px;">Long-term Retention</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Interview Q&A -->
+                <section id="interview" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions</h2>
+                        <button class="toggle-btn" onclick="toggleSection('interview')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q1: What are the three pillars of observability and how do they complement each other?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The three pillars of observability are logs, metrics, and traces. Each serves a distinct purpose in understanding system behavior:</p>
+                                    <ul>
+                                        <li><strong>Metrics</strong> are aggregated numeric time-series data (e.g., request rate, error rate, latency percentiles). They're excellent for dashboards, alerting, and trend analysis. They answer "what is happening?" — for example, "error rate spiked to 5% at 2:30 PM."</li>
+                                        <li><strong>Logs</strong> are discrete event records with rich contextual detail. They answer "why did it happen?" — for example, a stack trace showing a NullPointerException in the payment processing code triggered by a missing field in the request payload.</li>
+                                        <li><strong>Traces</strong> track individual requests across service boundaries using trace IDs and spans. They answer "where did it happen?" — showing that the latency spike originated in the inventory-service's database query, not the API gateway.</li>
+                                        <li>Together, they provide full observability: metrics detect anomalies, logs provide root cause detail, and traces map the request journey across distributed services. Correlation IDs link all three for unified debugging.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q2: How would you design a logging pipeline for a system generating 100TB of logs per day?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Designing a high-volume logging pipeline requires careful attention to scalability, reliability, and cost efficiency:</p>
+                                    <ul>
+                                        <li><strong>Collection Layer:</strong> Deploy lightweight agents like Filebeat or Fluent Bit on each host/container. These tail log files with minimal resource overhead and provide backpressure handling when downstream systems are overwhelmed.</li>
+                                        <li><strong>Buffering Layer:</strong> Use Apache Kafka as a durable buffer between log producers and consumers. Kafka handles burst traffic, provides replay capability, and decouples the pipeline stages. Partition by service name for parallel processing.</li>
+                                        <li><strong>Processing Layer:</strong> Logstash or custom Kafka consumers parse, enrich, and transform logs. Apply filtering to drop DEBUG-level logs in production, redact PII fields, and add metadata like deployment version and region.</li>
+                                        <li><strong>Storage Layer:</strong> Implement tiered storage with hot-warm-cold architecture in Elasticsearch. Recent logs (24-48 hours) on fast SSDs for real-time search, older logs on cheaper storage, and archival to S3/GCS for compliance retention. Use index lifecycle management (ILM) for automated rollover and deletion.</li>
+                                        <li><strong>Sampling:</strong> For extreme volumes, implement tail-based sampling — keep all error and slow request logs, but sample only 1-10% of successful request logs.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q3: Explain the difference between SLI, SLO, and SLA. How do they inform your alerting strategy?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>SLI, SLO, and SLA form a hierarchy that connects technical monitoring to business commitments:</p>
+                                    <ul>
+                                        <li><strong>SLI (Service Level Indicator):</strong> A quantitative measure of service quality. Examples include request latency (p50, p95, p99), availability (successful requests / total requests), throughput (requests per second), and error rate. SLIs should be measured from the user's perspective, not just the server's.</li>
+                                        <li><strong>SLO (Service Level Objective):</strong> A target value or range for an SLI. For example, "99.9% of requests will complete within 200ms" or "monthly availability will be 99.95%." SLOs define the error budget — the allowed amount of unreliability (e.g., 0.1% or ~43 minutes per month of downtime).</li>
+                                        <li><strong>SLA (Service Level Agreement):</strong> A contractual commitment with consequences (refunds, credits) if SLOs are missed. SLAs should always be less stringent than internal SLOs to provide a safety margin.</li>
+                                        <li><strong>Alerting Strategy:</strong> Alert on error budget burn rate, not raw thresholds. Use multi-window alerting: a fast-burn alert (consuming 2% of monthly budget in 1 hour) pages on-call immediately, while a slow-burn alert (consuming 5% in 6 hours) creates a ticket for next business day. This approach minimizes alert fatigue while ensuring real problems are caught.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q4: How does Prometheus work and when would you choose it over other monitoring solutions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Prometheus is a pull-based, open-source monitoring system designed for reliability and simplicity in cloud-native environments:</p>
+                                    <ul>
+                                        <li><strong>Pull-Based Architecture:</strong> Prometheus scrapes HTTP endpoints (/metrics) exposed by services at regular intervals (typically 15-60 seconds). This simplifies service instrumentation — services just expose a metrics endpoint rather than pushing to a central system. Service discovery (Kubernetes, Consul, DNS) automatically finds new scrape targets.</li>
+                                        <li><strong>Time-Series Database:</strong> Prometheus stores all data as time-series identified by metric name and key-value labels. Its custom TSDB is optimized for append-heavy write patterns with efficient compression, achieving ~1-2 bytes per sample.</li>
+                                        <li><strong>PromQL:</strong> The powerful query language enables complex aggregations like rate(http_requests_total{status="500"}[5m]) to compute the per-second rate of 500 errors over 5-minute windows. PromQL supports mathematical operations, aggregation across labels, and histogram quantile calculations.</li>
+                                        <li><strong>When to Choose Prometheus:</strong> Ideal for Kubernetes-native environments, microservice metrics, and teams wanting open-source flexibility. Less suitable for long-term storage (use Thanos or Cortex for that), log management (use ELK/Loki instead), or high-cardinality business analytics. Combine with Grafana for visualization and Alertmanager for alert routing.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Quiz -->
+                <section id="quiz" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Quiz</h2>
+                        <button class="toggle-btn" onclick="toggleSection('quiz')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of logging and monitoring concepts.</p>
+                                <div class="quiz-stats">
+                                    <span>Question: <strong id="currentQuestion">1</strong>/<strong id="totalQuestions">5</strong></span>
+                                    <span>Score: <strong id="quizScore">0</strong></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>1.</strong> Which of the following is NOT one of the three pillars of observability?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Logs</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Metrics</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Dashboards</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Traces</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>2.</strong> How does Prometheus collect metrics from services?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Services push metrics to Prometheus at regular intervals</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Prometheus pulls/scrapes metrics from HTTP endpoints exposed by services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Through a shared message queue like Kafka</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>By reading log files on each service host</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">
+                                        <p><strong>3.</strong> What is the primary advantage of structured logging over unstructured logging?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Machine-parseable format enables efficient querying and automated analysis</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>It uses less storage space than unstructured logs</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>It is easier for humans to read directly</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>It encrypts sensitive log data automatically</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">
+                                        <p><strong>4.</strong> In the SLI/SLO/SLA hierarchy, which one has contractual business consequences?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>SLI (Service Level Indicator)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>SLO (Service Level Objective)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Error Budget</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>SLA (Service Level Agreement)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>5.</strong> Which component in the ELK stack is responsible for log ingestion, parsing, and transformation?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Elasticsearch</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Kibana</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Logstash</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Filebeat</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button id="submitQuiz" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                                <button id="resetQuiz" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/distributed-tracing.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-route"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Distributed Tracing</h4>
+                            <p>Track requests across microservice boundaries using trace IDs and spans for end-to-end visibility.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-cubes"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Understand the distributed architecture pattern that makes observability essential for operations.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Learn how monitoring and alerting underpin reliable system operations and incident response.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-video"></i></div>
+                        <h4>Video</h4>
+                        <p>Google SRE: Monitoring Distributed Systems — Learn observability best practices from the team that coined Site Reliability Engineering.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4>Documentation</h4>
+                        <p>Prometheus Official Docs — Comprehensive guide covering PromQL, alerting rules, service discovery, and best practices for metrics instrumentation.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-code"></i></div>
+                        <h4>Code</h4>
+                        <p>ELK Stack Tutorial — Hands-on guide to setting up Elasticsearch, Logstash, and Kibana for centralized log aggregation and analysis.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Design Portal</h4>
+                <p>A comprehensive learning platform for mastering system design concepts, from fundamentals to advanced distributed systems topics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../pages/logging-monitoring.html">Logging & Monitoring</a></li>
+                    <li><a href="../pages/distributed-tracing.html">Distributed Tracing</a></li>
+                    <li><a href="../pages/docker-kubernetes.html">Docker & Kubernetes</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Video Tutorials</a></li>
+                    <li><a href="#">Practice Problems</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

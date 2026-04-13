@@ -46,8 +46,8 @@
                     <h1>SQL vs NoSQL</h1>
                     <p class="topic-description">Database models comparison for different use cases</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Intermediate</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
@@ -253,8 +253,8 @@
                                 <p>Test your understanding of SQL vs NoSQL</p>
                             </div>
                             
-                            <div class="quiz-questions">
-                                <div class="question-container">
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
                                     <div class="question-text">
                                         <h4>1. Which database type is best for financial transactions requiring ACID compliance?</h4>
                                     </div>
@@ -278,7 +278,7 @@
                                     </div>
                                 </div>
 
-                                <div class="question-container">
+                                <div class="question-card" data-correct="c">
                                     <div class="question-text">
                                         <h4>2. Which type of database is designed for horizontal scaling?</h4>
                                     </div>
@@ -302,7 +302,7 @@
                                     </div>
                                 </div>
 
-                                <div class="question-container">
+                                <div class="question-card" data-correct="a">
                                     <div class="question-text">
                                         <h4>3. What does ACID stand for in SQL databases?</h4>
                                     </div>
@@ -326,7 +326,7 @@
                                     </div>
                                 </div>
 
-                                <div class="question-container">
+                                <div class="question-card" data-correct="c">
                                     <div class="question-text">
                                         <h4>4. Which NoSQL database type is best for social networks?</h4>
                                     </div>
@@ -350,7 +350,7 @@
                                     </div>
                                 </div>
 
-                                <div class="question-container">
+                                <div class="question-card" data-correct="b">
                                     <div class="question-text">
                                         <h4>5. Which database type provides flexible schemas?</h4>
                                     </div>
@@ -390,9 +390,113 @@
                         </div>
                     </div>
                 </section>
-            </div>
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Scaling databases for growth</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Replicating data across nodes</p>
+                        </div>
+                    </a>
+                    <a href="../pages/cap-theorem.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>CAP Theorem</h4>
+                            <p>Fundamental distributed system trade-offs</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

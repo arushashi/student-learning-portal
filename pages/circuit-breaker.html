@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Breaker Pattern - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Circuit Breaker Pattern</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Circuit Breaker Pattern</h1>
+                    <p class="topic-description">Prevent cascading failures in distributed systems by detecting faults and stopping repeated calls to failing services</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#x23F1; 25 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="circuit-breaker">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is the Circuit Breaker Pattern?</h3>
+                                <p>The Circuit Breaker pattern is a fault-tolerance design pattern used in distributed systems to detect failures and prevent an application from repeatedly trying to execute an operation that is likely to fail. Named after the electrical circuit breaker that automatically stops the flow of electricity when a fault is detected, this pattern wraps calls to external services in a circuit breaker object that monitors for failures. When failures reach a configured threshold, the circuit breaker trips and all subsequent calls return an error immediately without attempting to make the actual call, giving the failing service time to recover.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Just like an electrical circuit breaker protects your home from electrical fires by cutting power when it detects a dangerous surge, the software circuit breaker protects your system from cascading failures by cutting off calls to a struggling downstream service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you call a restaurant to place an order. If the phone rings busy once, you try again. But if you call 10 times in a row and it's always busy, you stop calling for a while and try again later. That's exactly what the circuit breaker pattern does for service-to-service communication.</p>
+
+                                <p>The circuit breaker operates in three distinct states:</p>
+
+                                <ul>
+                                    <li><strong>Closed (Normal):</strong> Requests flow through normally. The circuit breaker counts failures. If failures stay below the threshold, everything continues as usual. This is the healthy operating state.</li>
+                                    <li><strong>Open (Tripped):</strong> When failures exceed the threshold, the circuit breaker trips open. All requests are immediately rejected with a fallback response, without even attempting to reach the downstream service. This prevents wasting resources on calls that will likely fail.</li>
+                                    <li><strong>Half-Open (Testing):</strong> After a configured timeout period, the circuit breaker enters a half-open state. It allows a limited number of test requests through to the downstream service. If these succeed, the circuit breaker resets to closed. If they fail, it returns to open.</li>
+                                    <li><strong>Failure Threshold:</strong> A configurable number of consecutive failures or failure percentage that triggers the circuit breaker to open. Common thresholds are 5 consecutive failures or a 50% failure rate.</li>
+                                    <li><strong>Recovery Timeout:</strong> The duration the circuit breaker stays open before transitioning to half-open. This gives the failing service time to recover before being tested again.</li>
+                                </ul>
+
+                                <p>Key benefits of the circuit breaker pattern include:</p>
+                                <ul>
+                                    <li><strong>Fail Fast:</strong> Instead of waiting for timeouts, requests fail immediately when the circuit is open, preserving system resources</li>
+                                    <li><strong>Graceful Degradation:</strong> The system can serve fallback responses instead of errors, maintaining partial functionality</li>
+                                    <li><strong>Self-Healing:</strong> The half-open state allows automatic recovery when the downstream service comes back online</li>
+                                    <li><strong>Prevent Cascading Failures:</strong> One failing service won't bring down the entire system by exhausting thread pools and connection limits</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-netflix"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Netflix Hystrix</h5>
+                                        <p>Netflix developed Hystrix, one of the most well-known circuit breaker implementations, to handle the massive scale of their microservices architecture. With hundreds of microservices, a single slow or failing service could cascade and take down the entire platform. Hystrix wraps each service call in a circuit breaker, providing fallback behaviors like showing cached recommendations when the recommendation service is down, or displaying a generic movie list instead of personalized content. This ensures that even when individual services fail, Netflix continues to function for its millions of users.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-traffic-light"></i> Three States</h4>
+                                <p>The circuit breaker operates in Closed (normal flow), Open (requests blocked), and Half-Open (testing recovery) states. Transitions between states are driven by failure counts, thresholds, and timeout durations configured per service.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-bar"></i> Failure Threshold</h4>
+                                <p>Configure failure thresholds based on consecutive failures, failure rate percentage, or both. A common configuration is tripping after 5 failures in a 60-second window or when the failure rate exceeds 50% across recent requests.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-clock"></i> Timeout &amp; Recovery</h4>
+                                <p>The recovery timeout determines how long the circuit stays open before attempting recovery. Too short and you overwhelm a recovering service; too long and you delay recovery. Typical values range from 10 to 60 seconds.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Fallback Mechanisms</h4>
+                                <p>When the circuit is open, provide meaningful fallback responses: cached data, default values, alternative service calls, or graceful error messages. Fallbacks ensure users still get a usable experience during partial outages.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Circuit breaker prevents cascading failures by stopping calls to failing services</li>
+                                <li>Three states: Closed (normal), Open (blocking), Half-Open (testing)</li>
+                                <li>Failure thresholds trigger the transition from closed to open state</li>
+                                <li>Recovery timeouts allow the failing service time to heal before retrying</li>
+                                <li>Fallback mechanisms provide graceful degradation during outages</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Circuit Breaker State Machine</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;">
+                                            <div style="width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #28a745, #20c997); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 15px rgba(40,167,69,0.4);">
+                                                <div style="font-size: 14px;">CLOSED</div>
+                                                <div style="font-size: 10px; margin-top: 4px;">Requests flow</div>
+                                                <div style="font-size: 10px;">normally</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                                                <div style="font-size: 11px; color: #dc3545; font-weight: bold;">Failures exceed</div>
+                                                <div style="font-size: 11px; color: #dc3545; font-weight: bold;">threshold</div>
+                                                <div style="font-size: 24px; color: #dc3545;">&#x2192;</div>
+                                            </div>
+                                            <div style="width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #dc3545, #e74c3c); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 15px rgba(220,53,69,0.4);">
+                                                <div style="font-size: 14px;">OPEN</div>
+                                                <div style="font-size: 10px; margin-top: 4px;">Requests blocked</div>
+                                                <div style="font-size: 10px;">immediately</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin: 20px 0; display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <div style="font-size: 24px; color: #28a745;">&#x2191;</div>
+                                                <div style="font-size: 11px; color: #28a745; font-weight: bold;">Test requests</div>
+                                                <div style="font-size: 11px; color: #28a745; font-weight: bold;">succeed</div>
+                                            </div>
+                                            <div style="width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #ffc107, #f0ad4e); color: #333; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 15px rgba(255,193,7,0.4);">
+                                                <div style="font-size: 14px;">HALF-OPEN</div>
+                                                <div style="font-size: 10px; margin-top: 4px;">Limited test</div>
+                                                <div style="font-size: 10px;">requests allowed</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <div style="font-size: 24px; color: #dc3545;">&#x2191;</div>
+                                                <div style="font-size: 11px; color: #dc3545; font-weight: bold;">Test requests</div>
+                                                <div style="font-size: 11px; color: #dc3545; font-weight: bold;">fail</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 11px; color: #888; margin-top: 10px;">
+                                            &#x2B55; After timeout period, OPEN transitions to HALF-OPEN for recovery testing
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Circuit Breaker in Microservices Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 8px; font-weight: bold; margin-bottom: 15px;">
+                                            Client Request
+                                        </div>
+                                        <div style="font-size: 20px; color: #667eea;">&#x2193;</div>
+                                        <div style="display: inline-block; padding: 10px 20px; background: #764ba2; color: white; border-radius: 8px; font-weight: bold; margin: 10px 0;">
+                                            Service A (with Circuit Breaker)
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 14px; color: #28a745; font-weight: bold;">Circuit Closed &#x2705;</div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 8px 16px; background: #28a745; color: white; border-radius: 6px; font-size: 12px;">
+                                                    Call Service B
+                                                </div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 6px 12px; background: #e8f5e9; border-radius: 6px; font-size: 11px; color: #2e7d32;">
+                                                    Live Response
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 14px; color: #dc3545; font-weight: bold;">Circuit Open &#x274C;</div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 8px 16px; background: #dc3545; color: white; border-radius: 6px; font-size: 12px;">
+                                                    Skip Service B
+                                                </div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 6px 12px; background: #fff3e0; border-radius: 6px; font-size: 11px; color: #e65100;">
+                                                    Fallback Response
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the Circuit Breaker pattern and why is it important in microservices?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The Circuit Breaker pattern is a fault-tolerance mechanism that prevents cascading failures in distributed systems. It wraps service calls and monitors for failures. When failures exceed a threshold, it "trips" and immediately returns fallback responses without attempting the call. It's crucial in microservices because:</p>
+                                    <ul>
+                                        <li>A single failing service can exhaust thread pools and connections in upstream services</li>
+                                        <li>Without circuit breakers, failures cascade across the entire service mesh</li>
+                                        <li>It provides fail-fast behavior, freeing resources for requests that can succeed</li>
+                                        <li>It enables graceful degradation instead of total system failure</li>
+                                        <li>It gives failing services time to recover without being overwhelmed by retries</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Explain the three states of a circuit breaker and their transitions.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The three states and their transitions are:</p>
+                                    <ul>
+                                        <li><strong>Closed:</strong> The default state where all requests pass through. Failures are counted. When the failure count or rate exceeds the configured threshold within a time window, the circuit transitions to Open.</li>
+                                        <li><strong>Open:</strong> All requests are immediately rejected with a fallback response. No calls are made to the downstream service. After a configured timeout period (e.g., 30 seconds), the circuit transitions to Half-Open.</li>
+                                        <li><strong>Half-Open:</strong> A limited number of test requests are allowed through. If these succeed, the circuit transitions back to Closed (recovery confirmed). If any fail, the circuit transitions back to Open and the timeout resets.</li>
+                                    </ul>
+                                    <p>The key configuration parameters are: failure threshold (count or percentage), time window for counting failures, recovery timeout duration, and the number of test requests allowed in half-open state.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does the Circuit Breaker pattern differ from simple retry logic?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>While both handle failures, they serve different purposes and work best together:</p>
+                                    <ul>
+                                        <li><strong>Retry Logic:</strong> Attempts the same request multiple times, assuming the failure is transient. Good for intermittent network issues but can overwhelm a struggling service with repeated attempts.</li>
+                                        <li><strong>Circuit Breaker:</strong> Stops all requests after detecting a pattern of failures. Assumes the service is down and needs time to recover. Prevents resource waste and cascading failures.</li>
+                                        <li><strong>Combined Approach:</strong> Use retries for individual transient failures (with exponential backoff), and wrap them in a circuit breaker that trips when retries consistently fail across multiple requests.</li>
+                                    </ul>
+                                    <p>The circuit breaker adds system-level awareness, while retries handle request-level transient errors.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are effective fallback strategies when a circuit breaker is open?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Effective fallback strategies include:</p>
+                                    <ul>
+                                        <li><strong>Cached Data:</strong> Return the last known good response from a local cache. Works well for data that doesn't change frequently, like product catalogs or user profiles.</li>
+                                        <li><strong>Default Values:</strong> Return sensible default responses. For example, show a generic recommendation list when the personalization service is down.</li>
+                                        <li><strong>Alternative Service:</strong> Route the request to a backup or secondary service that provides similar functionality, potentially with reduced features.</li>
+                                        <li><strong>Queue for Later:</strong> Accept the request, queue it for processing when the service recovers, and acknowledge receipt to the user.</li>
+                                        <li><strong>Graceful Error Message:</strong> Return a user-friendly message explaining limited functionality, rather than a raw error or timeout.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of the Circuit Breaker Pattern</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the primary purpose of the Circuit Breaker pattern?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>To encrypt service-to-service communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>To prevent cascading failures by stopping calls to failing services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>To load balance requests across multiple servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>To cache responses for faster performance</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. In which state does the circuit breaker allow limited test requests through?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Closed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Open</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Half-Open</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Standby</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What happens when the failure threshold is exceeded in the Closed state?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>The circuit transitions to the Open state</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>The circuit transitions to the Half-Open state</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>The system restarts the failing service</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>The circuit remains Closed but logs warnings</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which library did Netflix create for implementing the Circuit Breaker pattern?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Netflix Zuul</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Netflix Eureka</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Netflix Ribbon</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Netflix Hystrix</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Which is NOT a recommended fallback strategy when the circuit is open?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Returning cached data from a previous successful response</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Aggressively retrying the failing service in a tight loop</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Providing sensible default values</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Routing to an alternative backup service</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Design systems as a collection of loosely coupled, independently deployable services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Ensure systems remain operational with minimal downtime through redundancy and failover</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-reliability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>System Reliability</h4>
+                            <p>Build robust systems that function correctly even under adverse conditions</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Learn circuit breaker concepts with visual walkthroughs and real implementations</p>
+                        <a href="#" class="resource-link">Watch Videos &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official Resilience4j and Hystrix documentation and configuration guides</p>
+                        <a href="#" class="resource-link">Read Docs &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical circuit breaker implementations in Java, Node.js, and Python</p>
+                        <a href="#" class="resource-link">View Code &#x2192;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

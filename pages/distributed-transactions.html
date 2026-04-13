@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Transactions - System Design Learning Portal</title>
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Distributed Transactions</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Distributed Transactions</h1>
+                    <p class="topic-description">Coordinate transactions across multiple services and databases using 2PC, 3PC, and Saga patterns to maintain data consistency</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#8986; 30 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="distributed-transactions">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are Distributed Transactions?</h3>
+                                <p>A distributed transaction is a database transaction that spans multiple networked resources &mdash; such as different databases, microservices, or message queues &mdash; and must either fully complete (commit) across all participants or fully roll back, maintaining atomicity. Unlike local transactions that operate within a single database, distributed transactions must coordinate multiple independent systems that can fail independently, making consistency guarantees significantly more complex. Key approaches include Two-Phase Commit (2PC), Three-Phase Commit (3PC), and the Saga pattern.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Distributed transactions represent a fundamental trade-off in system design. ACID transactions (2PC/3PC) provide strong consistency but reduce availability and performance, while BASE approaches (Sagas) provide eventual consistency with better availability &mdash; reflecting the CAP theorem constraints.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine booking a vacation that requires a flight, a hotel, and a rental car. You only want the trip if you can book all three. If the hotel is full, you need to cancel the flight and car reservations too. A distributed transaction is the system that coordinates all these separate bookings so they either all succeed together or all get cancelled &mdash; no one ends up with just a flight and no hotel.</p>
+
+                                <p>In distributed systems, there are three primary approaches to handling this coordination:</p>
+
+                                <ul>
+                                    <li><strong>Two-Phase Commit (2PC):</strong> A coordinator asks all participants to prepare (Phase 1: vote yes/no). If all vote yes, the coordinator tells everyone to commit (Phase 2). If any votes no, all abort. This provides strong atomicity but blocks if the coordinator fails after Phase 1.</li>
+                                    <li><strong>Three-Phase Commit (3PC):</strong> Adds a pre-commit phase between prepare and commit to reduce blocking. If the coordinator crashes, participants can determine the outcome based on the pre-commit state. However, it still cannot handle network partitions perfectly.</li>
+                                    <li><strong>Saga Pattern:</strong> Breaks a long transaction into a sequence of local transactions, each with a compensating action. If step 3 fails, compensating transactions undo steps 2 and 1. Sagas sacrifice atomicity for availability and work well in microservices architectures.</li>
+                                    <li><strong>ACID vs BASE:</strong> 2PC provides ACID (Atomicity, Consistency, Isolation, Durability) guarantees. Sagas follow BASE (Basically Available, Soft state, Eventually consistent) semantics &mdash; the system may be temporarily inconsistent but will converge.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Payment Processing Systems</h5>
+                                        <p>When you purchase something online, the payment flow involves multiple services: the order service creates the order, the payment service charges your card, the inventory service reserves stock, and the notification service sends a confirmation email. These must be coordinated as a distributed transaction. Companies like Stripe and PayPal use Saga-based approaches internally: if the payment succeeds but inventory reservation fails, a compensating transaction refunds the payment. The system eventually reaches a consistent state where either the full order is processed or all partial changes are rolled back.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-lock"></i> Two-Phase Commit (2PC)</h4>
+                                <p>The coordinator sends a prepare request to all participants. Each participant votes yes (prepared) or no (abort). If all vote yes, the coordinator sends commit; otherwise, abort. The protocol is blocking: if the coordinator crashes after prepare but before commit, participants are stuck holding locks until the coordinator recovers.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-undo"></i> Saga Pattern</h4>
+                                <p>A Saga is a sequence of local transactions where each step has a compensating action. Two orchestration strategies exist: Choreography (events trigger the next step) and Orchestration (a central coordinator directs steps). Sagas provide eventual consistency without distributed locks, making them ideal for microservices.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> ACID vs BASE</h4>
+                                <p>ACID ensures strict consistency through distributed locking (2PC), suitable for financial systems. BASE accepts temporary inconsistency for higher availability and performance, suitable for e-commerce and social media. Most modern microservices architectures lean toward BASE semantics with Sagas.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exclamation-triangle"></i> Failure Handling</h4>
+                                <p>Distributed transactions must handle coordinator failures, participant failures, network timeouts, and partial commits. Strategies include timeout-based abort, transaction logs for recovery, idempotent operations to safely retry, and compensating transactions to undo partial work.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Distributed transactions coordinate operations across multiple services/databases</li>
+                                <li>2PC provides strong atomicity but is blocking and reduces availability</li>
+                                <li>3PC reduces blocking but adds complexity and extra network round-trips</li>
+                                <li>Sagas break long transactions into compensatable local transactions</li>
+                                <li>ACID guarantees consistency; BASE accepts eventual consistency for availability</li>
+                                <li>Modern microservices favor Sagas over 2PC for better fault tolerance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Two-Phase Commit (2PC) Protocol</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>Coordinator orchestrates prepare and commit phases</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="display: inline-block; width: 130px; height: 50px; background: #667eea; color: white; border-radius: 10px; line-height: 50px; margin-bottom: 10px; font-weight: bold;">Coordinator</div>
+                                        <div style="display: flex; justify-content: center; gap: 30px; margin: 10px 0;">
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 12px; color: #ffc107; font-weight: bold;">Phase 1: Prepare?</div>
+                                                <div style="font-size: 18px; color: #667eea;">&darr;&darr;&darr;</div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 12px; color: #28a745; font-weight: bold;">Phase 2: Commit!</div>
+                                                <div style="font-size: 18px; color: #28a745;">&darr;&darr;&darr;</div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px;">
+                                            <div style="width: 90px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">DB-Orders</div>
+                                            <div style="width: 90px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">DB-Payment</div>
+                                            <div style="width: 90px; height: 40px; background: #28a745; color: white; border-radius: 5px; line-height: 40px; font-size: 12px;">DB-Inventory</div>
+                                        </div>
+                                        <p style="margin-top: 10px; font-size: 12px; color: #dc3545;">&#9888; Blocking: participants hold locks until Phase 2 completes</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Saga Pattern (Orchestration)</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-undo"></i>
+                                    <p>Each step has a compensating action for rollback</p>
+                                    <div style="text-align: center; margin-top: 20px; padding: 10px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 10px;">
+                                            <div style="width: 90px; height: 45px; background: #28a745; color: white; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">Create<br>Order</div>
+                                            <div style="font-size: 18px; color: #667eea;">&rarr;</div>
+                                            <div style="width: 90px; height: 45px; background: #28a745; color: white; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">Process<br>Payment</div>
+                                            <div style="font-size: 18px; color: #667eea;">&rarr;</div>
+                                            <div style="width: 90px; height: 45px; background: #dc3545; color: white; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">Reserve<br>Stock &#10007;</div>
+                                        </div>
+                                        <div style="font-size: 12px; color: #dc3545; font-weight: bold; margin: 8px 0;">&#8595; Failure! Trigger compensating transactions &#8595;</div>
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                            <div style="width: 90px; height: 45px; background: #ffc107; color: #333; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">Cancel<br>Order</div>
+                                            <div style="font-size: 18px; color: #dc3545;">&larr;</div>
+                                            <div style="width: 90px; height: 45px; background: #ffc107; color: #333; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">Refund<br>Payment</div>
+                                            <div style="font-size: 18px; color: #dc3545;">&larr;</div>
+                                            <div style="width: 90px; height: 45px; background: #6c757d; color: white; border-radius: 5px; line-height: 22px; padding-top: 2px; font-size: 11px;">No stock<br>to release</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the Two-Phase Commit protocol and what are its limitations?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Two-Phase Commit (2PC) is a protocol that ensures atomic commitment across multiple databases:</p>
+                                    <ul>
+                                        <li><strong>Phase 1 (Prepare):</strong> The coordinator asks all participants if they can commit. Each participant validates the transaction, acquires locks, writes to its WAL (write-ahead log), and responds yes or no.</li>
+                                        <li><strong>Phase 2 (Commit/Abort):</strong> If all participants voted yes, the coordinator sends commit. If any voted no, it sends abort. Participants then finalize accordingly.</li>
+                                        <li><strong>Blocking Problem:</strong> If the coordinator crashes after Phase 1, participants that voted yes are stuck holding locks indefinitely, unable to commit or abort until the coordinator recovers.</li>
+                                        <li><strong>Performance:</strong> 2PC requires at least 2 round-trips and holds distributed locks for the entire duration, significantly reducing throughput.</li>
+                                        <li><strong>Single Point of Failure:</strong> The coordinator is a single point of failure. If it crashes with the commit decision, the entire distributed transaction is blocked.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does the Saga pattern differ from 2PC, and when would you choose each?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Sagas and 2PC represent fundamentally different approaches to distributed transactions:</p>
+                                    <ul>
+                                        <li><strong>Isolation:</strong> 2PC provides full isolation (ACID) &mdash; intermediate states are never visible. Sagas allow intermediate states to be visible since each local transaction commits independently.</li>
+                                        <li><strong>Availability:</strong> 2PC blocks on coordinator/participant failures. Sagas are non-blocking; each step operates independently and compensating transactions handle failures asynchronously.</li>
+                                        <li><strong>Choose 2PC when:</strong> You need strict atomicity across databases (e.g., financial transfers between banks), and latency/availability trade-offs are acceptable.</li>
+                                        <li><strong>Choose Sagas when:</strong> You have microservices with separate databases, need high availability, and can tolerate brief inconsistency (e.g., e-commerce order processing, travel booking).</li>
+                                        <li><strong>Saga Challenges:</strong> Designing compensating transactions is complex. You must handle idempotency, handle concurrent sagas affecting the same data, and deal with the "semantic rollback" problem where some actions cannot be truly undone (e.g., a sent email).</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Explain Saga orchestration vs choreography.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>There are two ways to coordinate saga steps:</p>
+                                    <ul>
+                                        <li><strong>Orchestration:</strong> A central saga orchestrator (coordinator service) tells each participant what to do and when. The orchestrator maintains the saga's state and decides on compensating actions. Easier to understand and debug, but the orchestrator is a potential bottleneck and single point of failure.</li>
+                                        <li><strong>Choreography:</strong> Each service listens for events and decides independently what to do next. The order service emits an "OrderCreated" event; the payment service hears it and processes payment, emitting "PaymentProcessed"; the inventory service hears that and reserves stock. No central coordinator, but the flow is harder to follow and debug.</li>
+                                        <li><strong>Orchestration Advantages:</strong> Clear workflow visibility, easier error handling, simpler to add new steps.</li>
+                                        <li><strong>Choreography Advantages:</strong> No single point of failure, looser coupling, better for simple workflows with few steps.</li>
+                                        <li><strong>Recommendation:</strong> Use orchestration for complex sagas with many steps. Use choreography for simple, few-step flows where coupling is a concern.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between ACID and BASE, and how does it relate to distributed transactions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>ACID and BASE represent two philosophies for transaction guarantees in distributed systems:</p>
+                                    <ul>
+                                        <li><strong>ACID:</strong> Atomicity (all or nothing), Consistency (valid state transitions), Isolation (transactions don't see each other's intermediate states), Durability (committed data survives crashes). Achieved through 2PC/3PC with distributed locks.</li>
+                                        <li><strong>BASE:</strong> Basically Available (system remains operational), Soft state (state may change over time without input), Eventually consistent (system will converge to consistent state). Achieved through Sagas, event sourcing, and async messaging.</li>
+                                        <li><strong>Trade-off:</strong> ACID sacrifices availability and performance for consistency. BASE sacrifices immediate consistency for availability and partition tolerance &mdash; aligned with the CAP theorem.</li>
+                                        <li><strong>Practical Choice:</strong> Banking transfers need ACID (you can't have money appear in two accounts or disappear). E-commerce inventory can use BASE (briefly overselling then compensating is acceptable).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Distributed Transactions</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the biggest limitation of Two-Phase Commit (2PC)?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>It cannot handle more than 2 participants</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>It does not guarantee atomicity</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>It is blocking &mdash; participants hold locks if the coordinator fails</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>It requires all participants to be on the same network</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. In the Saga pattern, what happens when an intermediate step fails?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>The entire system rolls back using distributed locks</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Compensating transactions undo previously completed steps</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>The transaction is retried indefinitely until it succeeds</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>The failed step is skipped and the saga continues</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. Which consistency model does the Saga pattern follow?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>BASE (Basically Available, Soft state, Eventually consistent)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>ACID (Atomicity, Consistency, Isolation, Durability)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Strong consistency with linearizability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Causal consistency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is the key difference between Saga orchestration and choreography?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Orchestration uses eventual consistency; choreography uses strong consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Choreography requires a database; orchestration does not</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Orchestration is asynchronous; choreography is synchronous</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Orchestration uses a central coordinator; choreography uses event-driven communication</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. When would you choose 2PC over the Saga pattern?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>When building a social media feed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>When availability is the top priority</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>When strict atomicity is required, such as financial transfers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>When services communicate asynchronously via events</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/microservices.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Microservices Architecture</h4>
+                            <p>Design systems as independently deployable services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/saga-pattern.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Saga Pattern</h4>
+                            <p>Manage distributed transactions with compensating actions</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Build reactive systems using asynchronous event communication</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Animated walkthroughs of 2PC protocol and Saga orchestration</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Microservices Patterns by Chris Richardson &mdash; Saga chapter</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Implement Saga orchestration with event sourcing in Spring Boot</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

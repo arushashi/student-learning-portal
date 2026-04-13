@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 & JWT - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>OAuth 2.0 & JWT</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-id-badge"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>OAuth 2.0 & JWT</h1>
+                    <p class="topic-description">Learn the OAuth 2.0 authorization framework and JSON Web Token (JWT) based authentication — the industry standards for secure delegated access and stateless token-based authentication in modern web applications and APIs.</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="bookmark-btn" data-topic="oauth-jwt">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-target="definition">1. Definition</div>
+                    <div class="step" data-target="explanation">2. Explanation</div>
+                    <div class="step" data-target="key-points">3. Key Points</div>
+                    <div class="step" data-target="interview">4. Interview Q&A</div>
+                    <div class="step" data-target="quiz">5. Quiz</div>
+                </div>
+            </section>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Section 1: Definition -->
+                <section id="definition" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <button class="toggle-btn" onclick="toggleSection('definition')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are OAuth 2.0 & JWT?</h3>
+                                <p>OAuth 2.0 is an authorization framework (defined in RFC 6749) that enables third-party applications to obtain limited access to a user's resources on another service without exposing the user's credentials. Instead of sharing passwords, OAuth uses access tokens — short-lived credentials that specify what the third-party app can do (scopes) and for how long. For example, when you click "Sign in with Google" on a third-party website, OAuth 2.0 allows that website to access your Google profile information without ever knowing your Google password.</p>
+                                <p>JSON Web Token (JWT, pronounced "jot", defined in RFC 7519) is a compact, self-contained token format used to securely transmit information between parties as a JSON object. A JWT consists of three Base64URL-encoded parts separated by dots: header.payload.signature. The header specifies the signing algorithm, the payload contains claims (user ID, roles, expiration time), and the signature ensures the token hasn't been tampered with. JWTs are commonly used as the access token format in OAuth 2.0 implementations, and they enable stateless authentication — the server can verify the token's authenticity and extract user information without querying a database or session store.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Key Insight:</strong> OAuth 2.0 and JWT solve different but complementary problems. OAuth 2.0 is an authorization framework that defines the flow for obtaining tokens — how a user grants a third-party app permission to access their resources. JWT is a token format that defines how those tokens are structured and verified. You can use OAuth 2.0 without JWT (using opaque tokens that require server-side validation), and you can use JWT without OAuth (for simple API authentication). However, combining them is the most common modern pattern: OAuth 2.0 handles the authorization dance, and JWTs serve as the access tokens, enabling stateless, scalable authentication across microservices.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Explanation -->
+                <section id="explanation" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Detailed Explanation</h2>
+                        <button class="toggle-btn" onclick="toggleSection('explanation')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of OAuth 2.0 like a hotel key card system. When you check into a hotel (the authorization server), you prove your identity with your ID (credentials). The hotel gives you a key card (access token) that grants access to specific rooms (resources) for a specific duration (token expiry). You can give a copy of this key card to a friend (third-party app) so they can access the gym (limited scope) without giving them your actual identity documents. The hotel can also revoke the key card at any time. JWT is like the technology inside the key card — it encodes your room number, access level, and check-out date in a tamper-proof format that any door lock (resource server) can read and verify without calling the front desk (authorization server) every time.</p>
+                                <ul>
+                                    <li><strong>OAuth 2.0 Authorization Code Flow:</strong> The most secure and common OAuth flow for web applications. Step 1: The app redirects the user to the authorization server's login page with a client_id, redirect_uri, scope, and state parameter. Step 2: The user authenticates and grants permission. Step 3: The authorization server redirects back to the app with a short-lived authorization code. Step 4: The app's backend exchanges this code (plus client_secret) for an access token and optionally a refresh token. The authorization code acts as a one-time intermediary — it's exchanged server-to-server, so the access token never passes through the user's browser, preventing interception. PKCE (Proof Key for Code Exchange) extends this flow for public clients like mobile apps that can't securely store a client_secret.</li>
+                                    <li><strong>JWT Structure — Header, Payload, Signature:</strong> A JWT like <code>eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.signature</code> has three parts. The Header contains the token type ("JWT") and signing algorithm (e.g., RS256, HS256). The Payload contains claims — registered claims like <code>sub</code> (subject/user ID), <code>exp</code> (expiration), <code>iat</code> (issued at), <code>iss</code> (issuer); and custom claims like <code>roles</code>, <code>permissions</code>, or <code>tenant_id</code>. The Signature is created by signing the encoded header and payload with a secret key (HMAC) or private key (RSA/ECDSA). Any resource server holding the corresponding secret/public key can verify the token's integrity without contacting the authorization server, enabling stateless validation across distributed microservices.</li>
+                                    <li><strong>Access Tokens vs Refresh Tokens:</strong> Access tokens are short-lived (typically 15-60 minutes) and sent with every API request in the Authorization header (<code>Bearer &lt;token&gt;</code>). Their short lifespan limits the damage if intercepted. Refresh tokens are long-lived (days to months) and stored securely — they're used exclusively to obtain new access tokens when the current one expires, without requiring the user to re-authenticate. The refresh flow: when an API returns 401 (access token expired), the client sends the refresh token to the authorization server's token endpoint and receives a new access token. Refresh tokens should be rotated on each use (the old one is invalidated and a new one is issued) to detect token theft — if a stolen refresh token is used after the legitimate user has already rotated it, the authorization server detects the reuse and revokes all tokens for that session.</li>
+                                    <li><strong>Security Best Practices:</strong> Always use HTTPS for all OAuth flows to prevent token interception. Store access tokens in memory (JavaScript variable) rather than localStorage or cookies vulnerable to XSS. For refresh tokens in browsers, use httpOnly, secure, sameSite cookies. Validate JWT claims on every request: check <code>exp</code> (not expired), <code>iss</code> (trusted issuer), <code>aud</code> (intended audience), and signature. Use asymmetric signing (RS256/ES256) so resource servers only need the public key — they can verify tokens without the ability to create them. Implement token revocation for logout using a short-lived token allowlist or a token deny list cached in Redis for real-time revocation. Never store sensitive data in JWT payloads — they're only Base64-encoded, not encrypted.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>"Sign in with Google" on Third-Party Apps</h5>
+                                        <p>When you click "Sign in with Google" on a website like Medium, Figma, or Notion, you're experiencing OAuth 2.0 in action. Here's what happens: The third-party app redirects your browser to Google's authorization server (accounts.google.com) with parameters specifying what information it needs (scope: email, profile). You log in to Google (if not already) and see a consent screen: "Medium wants to access your email address and profile picture — Allow?" When you click "Allow," Google redirects you back to Medium with an authorization code. Medium's backend server exchanges this code with Google for an access token (and often an ID token, which is a JWT containing your identity claims via OpenID Connect). Medium uses the access token to call Google's userinfo API to get your name, email, and profile picture, then creates or links a Medium account. At no point did Medium see your Google password. If Medium is compromised, attackers only get access tokens with limited scopes — not your Google credentials. You can revoke Medium's access anytime from your Google account security settings. This pattern is used by millions of applications worldwide, with Google, Facebook, GitHub, Apple, and Microsoft serving as identity providers through OAuth 2.0 and OpenID Connect.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Key Points -->
+                <section id="key-points" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points</h2>
+                        <button class="toggle-btn" onclick="toggleSection('key-points')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-key"></i> OAuth 2.0 Grant Types</h4>
+                                <p>OAuth 2.0 defines multiple grant types for different client types. Authorization Code (with PKCE) is the recommended flow for web and mobile apps — the most secure option using a server-side code exchange. Client Credentials is used for machine-to-machine communication where no user is involved (e.g., a cron job calling an API) — the client authenticates with its own credentials and receives a token directly. Implicit grant (now deprecated in OAuth 2.1) returned tokens directly in the redirect URL, exposing them to the browser history and referrer headers. Device Authorization Grant is used for input-limited devices (smart TVs, CLI tools) — the device displays a code that the user enters on a separate device with a browser. Resource Owner Password Credentials (also deprecated) allowed direct username/password exchange, undermining the delegated authorization model.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-file-code"></i> JWT Structure & Validation</h4>
+                                <p>A JWT contains three dot-separated Base64URL-encoded segments: header, payload, and signature. Validation requires checking multiple aspects: (1) Decode the header and verify the signing algorithm matches what you expect (preventing algorithm confusion attacks where an attacker switches from RS256 to HS256 using the public key as the HMAC secret). (2) Verify the signature using the issuer's public key (for RSA/ECDSA) or shared secret (for HMAC). (3) Check the <code>exp</code> claim to ensure the token hasn't expired. (4) Validate the <code>iss</code> (issuer) matches your trusted authorization server. (5) Verify the <code>aud</code> (audience) includes your service to prevent tokens meant for other services from being accepted. JWTs are not encrypted by default — use JWE (JSON Web Encryption) if the payload contains sensitive data.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Access vs Refresh Tokens</h4>
+                                <p>Access tokens and refresh tokens serve complementary roles in a secure token lifecycle. Access tokens are sent with every API request, have short lifespans (15-60 minutes), and contain the user's identity and permissions. Their brevity limits the window of exploitation if stolen. Refresh tokens are stored securely and only sent to the authorization server's token endpoint — never to resource servers. They have longer lifespans (days to weeks) and are used solely to obtain fresh access tokens. Refresh token rotation (issuing a new refresh token with each use and invalidating the old one) provides token theft detection: if both the attacker and legitimate user try to use the same refresh token, the server detects the reuse and invalidates the entire token family, forcing re-authentication. This pattern provides the security benefits of short-lived tokens without the UX penalty of frequent re-logins.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Security Best Practices</h4>
+                                <p>Securing OAuth and JWT implementations requires defense in depth. Always use HTTPS (TLS 1.2+) for all OAuth endpoints and token transmission. Use the <code>state</code> parameter to prevent CSRF attacks in the authorization code flow. Implement PKCE for all public clients (mobile apps, SPAs) to prevent authorization code interception. Store tokens appropriately: access tokens in memory for SPAs, refresh tokens in httpOnly/secure/sameSite cookies. Use asymmetric signing (RS256 or ES256) so resource servers can verify but not forge tokens. Implement token revocation for logout — maintain a deny list of revoked JWT IDs (<code>jti</code> claim) in Redis with TTL matching the token's remaining lifetime. Set restrictive scopes — request only the minimum permissions needed. Validate the <code>redirect_uri</code> parameter exactly (no wildcard matching) to prevent open redirect attacks.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>OAuth 2.0 is an authorization framework for delegated access; JWT is a self-contained token format — they complement each other</li>
+                                <li>The Authorization Code flow with PKCE is the recommended grant type for web and mobile applications</li>
+                                <li>JWTs contain header (algorithm), payload (claims), and signature (tamper protection) in a base64-encoded dot-separated format</li>
+                                <li>Short-lived access tokens limit exposure; refresh tokens provide seamless token renewal without re-authentication</li>
+                                <li>Refresh token rotation detects token theft by invalidating the entire token family on reuse detection</li>
+                                <li>Always validate JWT issuer, audience, expiration, and signature; use asymmetric signing to separate token creation from verification</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Diagrams -->
+                <section id="diagrams" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Diagrams</h2>
+                        <button class="toggle-btn" onclick="toggleSection('diagrams')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>OAuth 2.0 Authorization Code Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 12px;">
+                                        <div style="display: flex; gap: 40px; width: 90%; justify-content: center; margin-bottom: 15px;">
+                                            <div style="border: 2px solid #3498db; border-radius: 8px; padding: 10px 18px; text-align: center; background: #eaf2fd;">
+                                                <div style="font-weight: bold;">User</div>
+                                                <div style="font-size: 10px;">Browser</div>
+                                            </div>
+                                            <div style="border: 2px solid #27ae60; border-radius: 8px; padding: 10px 18px; text-align: center; background: #e9f7ef;">
+                                                <div style="font-weight: bold;">Client App</div>
+                                                <div style="font-size: 10px;">Third-Party</div>
+                                            </div>
+                                            <div style="border: 2px solid #e67e22; border-radius: 8px; padding: 10px 18px; text-align: center; background: #fdf2e9;">
+                                                <div style="font-weight: bold;">Auth Server</div>
+                                                <div style="font-size: 10px;">Google/GitHub</div>
+                                            </div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 10px 18px; text-align: center; background: #f4ecf7;">
+                                                <div style="font-weight: bold;">Resource API</div>
+                                                <div style="font-size: 10px;">Protected Data</div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 85%; display: flex; flex-direction: column; gap: 8px; font-size: 11px;">
+                                            <div style="display: flex; align-items: center; padding: 6px 10px; background: #eaf2fd; border-radius: 4px;">
+                                                <span style="font-weight: bold; min-width: 25px;">1.</span>
+                                                <span>User clicks "Sign in with Google" → Redirect to Auth Server with client_id, scope, state</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; padding: 6px 10px; background: #fdf2e9; border-radius: 4px;">
+                                                <span style="font-weight: bold; min-width: 25px;">2.</span>
+                                                <span>User authenticates & grants consent → Auth Server redirects back with authorization code</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; padding: 6px 10px; background: #e9f7ef; border-radius: 4px;">
+                                                <span style="font-weight: bold; min-width: 25px;">3.</span>
+                                                <span>Client backend exchanges code + client_secret → Auth Server returns access_token + refresh_token</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; padding: 6px 10px; background: #f4ecf7; border-radius: 4px;">
+                                                <span style="font-weight: bold; min-width: 25px;">4.</span>
+                                                <span>Client calls Resource API with Bearer access_token → API validates JWT, returns protected data</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diagram-card">
+                                <h4>JWT Token Structure</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: monospace; font-size: 12px;">
+                                        <div style="text-align: center; margin-bottom: 15px; font-size: 11px; color: #666;">
+                                            header.payload.signature
+                                        </div>
+                                        <div style="display: flex; gap: 10px; width: 90%; justify-content: center; flex-wrap: wrap;">
+                                            <div style="border: 2px solid #c0392b; border-radius: 8px; padding: 12px; flex: 1; min-width: 150px; background: #fdedec;">
+                                                <div style="font-weight: bold; text-align: center; color: #c0392b; margin-bottom: 8px;">HEADER</div>
+                                                <div style="background: #fff; padding: 8px; border-radius: 4px; font-size: 11px;">
+                                                    <div>{</div>
+                                                    <div>&nbsp;&nbsp;"alg": "RS256",</div>
+                                                    <div>&nbsp;&nbsp;"typ": "JWT"</div>
+                                                    <div>}</div>
+                                                </div>
+                                            </div>
+                                            <div style="border: 2px solid #8e44ad; border-radius: 8px; padding: 12px; flex: 1.5; min-width: 180px; background: #f4ecf7;">
+                                                <div style="font-weight: bold; text-align: center; color: #8e44ad; margin-bottom: 8px;">PAYLOAD (Claims)</div>
+                                                <div style="background: #fff; padding: 8px; border-radius: 4px; font-size: 11px;">
+                                                    <div>{</div>
+                                                    <div>&nbsp;&nbsp;"sub": "user123",</div>
+                                                    <div>&nbsp;&nbsp;"name": "John Doe",</div>
+                                                    <div>&nbsp;&nbsp;"roles": ["admin"],</div>
+                                                    <div>&nbsp;&nbsp;"iss": "auth.example.com",</div>
+                                                    <div>&nbsp;&nbsp;"exp": 1716239022,</div>
+                                                    <div>&nbsp;&nbsp;"iat": 1716235422</div>
+                                                    <div>}</div>
+                                                </div>
+                                            </div>
+                                            <div style="border: 2px solid #2980b9; border-radius: 8px; padding: 12px; flex: 1; min-width: 150px; background: #eaf2fd;">
+                                                <div style="font-weight: bold; text-align: center; color: #2980b9; margin-bottom: 8px;">SIGNATURE</div>
+                                                <div style="background: #fff; padding: 8px; border-radius: 4px; font-size: 10px;">
+                                                    <div>RSASHA256(</div>
+                                                    <div>&nbsp;base64(header) +</div>
+                                                    <div>&nbsp;"." +</div>
+                                                    <div>&nbsp;base64(payload),</div>
+                                                    <div>&nbsp;privateKey</div>
+                                                    <div>)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 12px; padding: 8px 12px; background: #fff3cd; border-radius: 6px; font-size: 11px; text-align: center;">
+                                            Signature ensures integrity — any modification to header or payload invalidates the token
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Interview Q&A -->
+                <section id="interview" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions</h2>
+                        <button class="toggle-btn" onclick="toggleSection('interview')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q1: Explain the OAuth 2.0 Authorization Code flow. Why is it more secure than the Implicit flow?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The Authorization Code flow adds a critical server-side exchange step that keeps tokens out of the browser:</p>
+                                    <ul>
+                                        <li><strong>Flow Steps:</strong> (1) The client redirects the user to the authorization server with client_id, redirect_uri, scope, state, and code_challenge (PKCE). (2) The user authenticates and consents. (3) The authorization server redirects back with a short-lived authorization code (valid for ~60 seconds, single-use). (4) The client's backend server exchanges the code plus client_secret (or code_verifier for PKCE) for an access token and refresh token via a direct server-to-server HTTPS call.</li>
+                                        <li><strong>Security Advantage:</strong> The access token is never exposed to the browser — the authorization code passes through the browser's redirect, but it's useless without the client_secret/code_verifier. Even if the code is intercepted (e.g., in browser history or server logs), the attacker can't exchange it because they don't have the client_secret.</li>
+                                        <li><strong>Implicit Flow Weaknesses:</strong> The Implicit flow returned the access token directly in the URL fragment (#access_token=...), exposing it to browser history, referrer headers, and JavaScript on the page. It provided no refresh tokens, so users had to re-authenticate frequently. It's now deprecated in OAuth 2.1.</li>
+                                        <li><strong>PKCE Extension:</strong> For public clients (mobile apps, SPAs) that can't store a client_secret, PKCE (Proof Key for Code Exchange) adds a dynamically generated code_verifier/code_challenge pair that proves the client exchanging the code is the same one that initiated the flow, preventing authorization code interception attacks.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q2: How do you handle JWT token revocation since JWTs are stateless?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>JWT revocation is challenging because the stateless nature of JWTs means there's no central session store to invalidate. Several strategies address this:</p>
+                                    <ul>
+                                        <li><strong>Short Expiration + Refresh Tokens:</strong> The simplest approach — use very short-lived access tokens (5-15 minutes). Even if a token is compromised, it expires quickly. Combine with refresh tokens that can be revoked server-side. When a user logs out, revoke their refresh token so no new access tokens can be issued. The tradeoff: there's a window (up to the token's remaining lifetime) where a revoked token is still technically valid.</li>
+                                        <li><strong>Token Deny List:</strong> Maintain a deny list (in Redis) of revoked JWT IDs (<code>jti</code> claim). On each request, the resource server checks if the JWT's <code>jti</code> is in the deny list. Set Redis TTL equal to the token's remaining lifetime so entries auto-expire. This adds a fast cache lookup to each request but provides immediate revocation. The deny list stays small since entries expire.</li>
+                                        <li><strong>Token Versioning:</strong> Store a "token version" per user in the database. Include this version in the JWT. When revoking (e.g., password change, security breach), increment the user's token version. Resource servers compare the JWT's version with the stored version — mismatches mean the token is revoked.</li>
+                                        <li><strong>Hybrid Approach:</strong> Use stateless JWT validation for most requests (fast, no network call) but check the deny list for sensitive operations (payment, account changes). This balances performance with security granularity.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q3: What is the difference between authentication and authorization? How do OAuth 2.0 and OpenID Connect address each?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Authentication and authorization are distinct security concerns that are often confused:</p>
+                                    <ul>
+                                        <li><strong>Authentication (AuthN):</strong> Verifying who you are — proving your identity. "Are you really John Doe?" Methods include passwords, biometrics, multi-factor authentication, and certificates. Authentication answers the question of identity.</li>
+                                        <li><strong>Authorization (AuthZ):</strong> Determining what you're allowed to do — checking permissions after identity is established. "John Doe is authenticated, but can he access the admin panel?" Authorization answers the question of permissions and scopes.</li>
+                                        <li><strong>OAuth 2.0 is for Authorization:</strong> OAuth 2.0 is explicitly an authorization framework. It defines how a client obtains permission to access resources on behalf of a user. The access token represents authorization (what the client can do), not authentication (who the user is). OAuth 2.0 alone doesn't tell you who the user is — it tells you what they've permitted.</li>
+                                        <li><strong>OpenID Connect (OIDC) adds Authentication:</strong> OIDC is a thin identity layer built on top of OAuth 2.0. It adds an ID token (always a JWT) that contains identity claims — who the user is (sub, name, email). When you "Sign in with Google," OIDC provides the user's identity via the ID token, while OAuth 2.0 provides authorization via the access token. OIDC also defines a standard userinfo endpoint and standard scopes (openid, profile, email).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="question-card">
+                                <div class="question-header" onclick="toggleAnswer(this)">
+                                    <h4>Q4: How would you implement JWT-based authentication across a microservices architecture?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>JWT-based authentication in microservices requires careful token issuance, propagation, and validation:</p>
+                                    <ul>
+                                        <li><strong>Centralized Auth Service:</strong> A dedicated authentication/authorization service issues JWTs upon successful login. It signs tokens with a private key (RS256/ES256) and publishes the corresponding public key via a JWKS (JSON Web Key Set) endpoint. All other services can fetch this public key to verify tokens without needing the private key or direct communication with the auth service.</li>
+                                        <li><strong>API Gateway Validation:</strong> The API gateway validates the JWT on every incoming request — checking signature, expiration, issuer, and audience. Invalid tokens are rejected at the edge before reaching internal services. The gateway can extract user claims and forward them as headers to internal services, eliminating the need for each service to re-validate the full JWT.</li>
+                                        <li><strong>Token Propagation:</strong> When Service A calls Service B internally, it forwards the JWT in the Authorization header. Service B can trust the claims without re-authentication. For service-to-service calls not initiated by users (e.g., async jobs, event handlers), use the Client Credentials grant to obtain machine-to-machine tokens with appropriate scopes.</li>
+                                        <li><strong>Key Rotation:</strong> Periodically rotate signing keys using the JWKS endpoint. Include a <code>kid</code> (key ID) claim in the JWT header so resource servers know which key to use for verification. During rotation, both old and new keys are available in the JWKS endpoint, ensuring existing tokens remain valid while new tokens use the new key.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Quiz -->
+                <section id="quiz" class="concept-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Quiz</h2>
+                        <button class="toggle-btn" onclick="toggleSection('quiz')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of OAuth 2.0 and JWT concepts.</p>
+                                <div class="quiz-stats">
+                                    <span>Question: <strong id="currentQuestion">1</strong>/<strong id="totalQuestions">5</strong></span>
+                                    <span>Score: <strong id="quizScore">0</strong></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">
+                                        <p><strong>1.</strong> What are the three parts of a JWT token?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Username, Password, Token</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Client ID, Secret, Scope</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Header, Payload, Signature</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Access Token, Refresh Token, ID Token</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>2.</strong> Why was the OAuth 2.0 Implicit flow deprecated?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>It was too slow for modern applications</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>It exposed access tokens in the browser URL, making them vulnerable to interception</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>It required too many server round-trips</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>It didn't support refresh tokens or scopes</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">
+                                        <p><strong>3.</strong> What is the purpose of the refresh token in OAuth 2.0?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>To obtain new access tokens without requiring the user to re-authenticate</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>To refresh the user's profile data from the authorization server</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>To update the token's scopes and permissions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>To synchronize tokens across multiple devices</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">
+                                        <p><strong>4.</strong> What does PKCE (Proof Key for Code Exchange) protect against?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>JWT signature forgery</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Cross-site request forgery (CSRF)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Token expiration and replay attacks</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Authorization code interception by malicious apps</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">
+                                        <p><strong>5.</strong> Why is asymmetric signing (RS256) preferred over symmetric signing (HS256) in microservices?</p>
+                                    </div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Asymmetric signing produces smaller tokens</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Resource servers can verify tokens with the public key without being able to forge them</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Asymmetric signing is faster to compute</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>HS256 does not support token expiration claims</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button id="submitQuiz" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                                <button id="resetQuiz" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/authentication.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-lock"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Authentication</h4>
+                            <p>Explore broader authentication mechanisms including password hashing, MFA, and session-based authentication.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/system-security.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="related-topic-info">
+                            <h4>System Security</h4>
+                            <p>Learn about comprehensive security practices including encryption, HTTPS, CORS, and defense in depth.</p>
+                        </div>
+                    </a>
+                    <a href="../pages/sessions.html" class="related-topic-card">
+                        <div class="related-topic-icon"><i class="fas fa-user-clock"></i></div>
+                        <div class="related-topic-info">
+                            <h4>Sessions</h4>
+                            <p>Compare server-side session management with stateless JWT tokens and understand when to use each approach.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-video"></i></div>
+                        <h4>Video</h4>
+                        <p>OAuth 2.0 & OpenID Connect Explained — Visual walkthrough of all OAuth grant types, JWT structure, and real-world implementation patterns with security considerations.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4>Documentation</h4>
+                        <p>RFC 6749 (OAuth 2.0) & RFC 7519 (JWT) — The official specifications defining the OAuth 2.0 authorization framework and JSON Web Token standard.</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-code"></i></div>
+                        <h4>Code</h4>
+                        <p>JWT.io Debugger — Interactive tool for decoding, verifying, and generating JWTs with support for all major signing algorithms and library references.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Design Portal</h4>
+                <p>A comprehensive learning platform for mastering system design concepts, from fundamentals to advanced distributed systems topics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../pages/oauth-jwt.html">OAuth 2.0 & JWT</a></li>
+                    <li><a href="../pages/authentication.html">Authentication</a></li>
+                    <li><a href="../pages/system-security.html">System Security</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Video Tutorials</a></li>
+                    <li><a href="#">Practice Problems</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

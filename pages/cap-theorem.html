@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,47 +31,530 @@
 
     <main class="concept-main">
         <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">CAP Theorem</span>
+            </nav>
+
+            <!-- Topic Header -->
             <section class="topic-header">
                 <div class="topic-icon">
                     <i class="fas fa-project-diagram"></i>
                 </div>
                 <div class="topic-info">
                     <h1>CAP Theorem</h1>
-                    <p>Fundamental trade-offs in distributed database systems</p>
+                    <p class="topic-description">Fundamental trade-offs in distributed database systems</p>
                     <div class="topic-meta">
                         <span class="difficulty advanced">Advanced</span>
-                        <span class="duration">â± 25 min</span>
+                        <span class="duration">&#9201; 25 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="cap-theorem">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
                     </div>
                 </div>
             </section>
 
-            <section class="content-section">
-                <h2>Definition</h2>
-                <p>CAP theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.</p>
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is the CAP Theorem?</h3>
+                                <p>CAP theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance. Also known as Brewer's theorem (proposed by Eric Brewer in 2000), it is a fundamental principle guiding the design of distributed databases and systems.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> In the presence of a network partition, a distributed system must choose between consistency and availability. You cannot have all three guarantees simultaneously when partitions occur.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you and your friend each have a copy of a shared notebook. When you write something new, your friend's copy should also update. But what if the phone line between you goes down (a partition)? You have two choices: stop writing until the line is restored (sacrifice availability for consistency) or keep writing knowing your copies may diverge (sacrifice consistency for availability).</p>
+
+                                <h4>The Three Properties</h4>
+
+                                <p><strong>1. Consistency (C)</strong></p>
+                                <ul>
+                                    <li>All nodes see the same data at the same time</li>
+                                    <li>Every read receives the most recent write or an error</li>
+                                    <li>All clients have an identical view of the data</li>
+                                </ul>
+
+                                <p><strong>2. Availability (A)</strong></p>
+                                <ul>
+                                    <li>Every request receives a (non-error) response</li>
+                                    <li>The system remains operational at all times</li>
+                                    <li>No guarantee the response contains the most recent data</li>
+                                </ul>
+
+                                <p><strong>3. Partition Tolerance (P)</strong></p>
+                                <ul>
+                                    <li>System continues operating despite network partitions</li>
+                                    <li>Messages between nodes can be lost or delayed</li>
+                                    <li>Essential for any distributed system in production</li>
+                                </ul>
+
+                                <h4>The Trade-offs</h4>
+
+                                <p><strong>CP (Consistency + Partition Tolerance):</strong> Sacrifice availability. The system may refuse requests during a partition to maintain consistency. Examples: MongoDB, HBase, Redis.</p>
+                                <p><strong>AP (Availability + Partition Tolerance):</strong> Sacrifice consistency. The system remains available but may return stale data. Examples: Cassandra, DynamoDB, CouchDB.</p>
+                                <p><strong>CA (Consistency + Availability):</strong> No partition tolerance. Only possible when there are no network partitions, essentially a single-node system. Examples: Traditional RDBMS (PostgreSQL, MySQL on a single node).</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-amazon"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Amazon's DynamoDB (AP System)</h5>
+                                        <p>Amazon designed DynamoDB to prioritize availability over consistency. During the holiday shopping season, it's more important that customers can always add items to their cart (availability) even if there's a brief inconsistency across data centers. Amazon uses eventual consistency to reconcile data after partitions heal.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sync-alt"></i> Consistency Models</h4>
+                                <p>Strong consistency ensures all nodes see the same data simultaneously, while eventual consistency allows temporary divergence that converges over time.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-network-wired"></i> Partition Reality</h4>
+                                <p>Network partitions are inevitable in distributed systems. The real choice is between consistency and availability when partitions occur.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-balance-scale"></i> Trade-off Spectrum</h4>
+                                <p>CAP is not binary. Systems can tune their consistency and availability guarantees on a spectrum depending on the operation or configuration.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> PACELC Extension</h4>
+                                <p>The PACELC theorem extends CAP: even without partitions (Else), systems must choose between latency and consistency, adding another dimension.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>CAP theorem defines trade-offs in distributed systems</li>
+                                <li>You can only guarantee two of three: Consistency, Availability, Partition Tolerance</li>
+                                <li>Network partitions are unavoidable, so the real choice is C vs A</li>
+                                <li>CP systems sacrifice availability for data accuracy</li>
+                                <li>AP systems sacrifice consistency for uptime</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the CAP theorem and why is it important?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The CAP theorem states that a distributed data store can only provide two out of three guarantees simultaneously:</p>
+                                    <ul>
+                                        <li><strong>Consistency:</strong> All nodes see the same data at the same time</li>
+                                        <li><strong>Availability:</strong> Every request receives a response (success or failure)</li>
+                                        <li><strong>Partition Tolerance:</strong> The system continues to operate despite network partitions</li>
+                                    </ul>
+                                    <p>It's important because it guides architects in making fundamental design decisions about distributed systems based on their requirements.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Can you give examples of CP and AP systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>CP systems prioritize consistency over availability:</p>
+                                    <ul>
+                                        <li><strong>MongoDB:</strong> Uses replica sets with primary-based writes for strong consistency</li>
+                                        <li><strong>HBase:</strong> Built on HDFS, provides strong consistency guarantees</li>
+                                        <li><strong>Redis (cluster mode):</strong> Rejects writes during partitions to maintain consistency</li>
+                                    </ul>
+                                    <p>AP systems prioritize availability over consistency:</p>
+                                    <ul>
+                                        <li><strong>Cassandra:</strong> Uses eventual consistency with tunable consistency levels</li>
+                                        <li><strong>DynamoDB:</strong> Designed for high availability with eventual consistency</li>
+                                        <li><strong>CouchDB:</strong> Multi-master replication with eventual consistency</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is eventual consistency and how does it relate to CAP?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Eventual consistency is a consistency model where:</p>
+                                    <ul>
+                                        <li><strong>Temporary Divergence:</strong> Replicas may temporarily have different values</li>
+                                        <li><strong>Convergence:</strong> Given enough time without new updates, all replicas converge to the same value</li>
+                                        <li><strong>Trade-off:</strong> It's the consistency model chosen by AP systems to maintain availability</li>
+                                        <li><strong>Use Cases:</strong> Social media feeds, DNS, shopping carts where slight staleness is acceptable</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Why can't we have all three properties of CAP?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>When a network partition occurs, a distributed system faces an impossible choice:</p>
+                                    <ul>
+                                        <li><strong>If you choose consistency:</strong> You must block or reject requests to nodes that can't communicate, sacrificing availability</li>
+                                        <li><strong>If you choose availability:</strong> You must serve requests even with stale data, sacrificing consistency</li>
+                                        <li><strong>Partition tolerance is mandatory:</strong> In real-world distributed systems, network failures will occur, so partition tolerance cannot be sacrificed</li>
+                                    </ul>
+                                    <p>This makes the real-world choice between CP and AP, since network partitions are inevitable in production systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of CAP Theorem</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What does CAP stand for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Cache, Access, Performance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Compute, Availability, Persistence</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Consistency, Availability, Partition Tolerance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Concurrency, Authentication, Protection</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What do CP systems sacrifice?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Availability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Partition Tolerance</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Durability</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. In a network partition, what do AP systems prioritize?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Consistency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Availability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Latency</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Throughput</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">4. What do CA systems assume?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>No network partitions will occur</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Data can be inconsistent</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>System can go offline</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Only one node exists</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">5. Which is a real-world example of a CP system?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Cassandra</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>DynamoDB</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>CouchDB</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>MongoDB</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/database-replication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-clone"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Replication</h4>
+                            <p>Strategies for replicating data across multiple nodes</p>
+                        </div>
+                    </a>
+                    <a href="../pages/eventual-consistency.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Eventual Consistency</h4>
+                            <p>Understanding consistency models in distributed systems</p>
+                        </div>
+                    </a>
+                    <a href="../pages/distributed-transactions.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Distributed Transactions</h4>
+                            <p>Managing transactions across multiple services and databases</p>
+                        </div>
+                    </a>
+                </div>
             </section>
 
-            <section class="content-section">
-                <h2>The Three Properties</h2>
-                <ul>
-                    <li><strong>Consistency:</strong> All nodes see the same data simultaneously</li>
-                    <li><strong>Availability:</strong> System remains operational despite failures</li>
-                    <li><strong>Partition Tolerance:</strong> System continues operating despite network partitions</li>
-                </ul>
-            </section>
-
-            <section class="content-section">
-                <h2>Trade-offs</h2>
-                <ul>
-                    <li><strong>CP:</strong> Consistency + Partition Tolerance (sacrifice availability)</li>
-                    <li><strong>AP:</strong> Availability + Partition Tolerance (sacrifice consistency)</li>
-                    <li><strong>CA:</strong> Consistency + Availability (no partition tolerance)</li>
-                </ul>
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
 
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
 </body>
 </html>
-
-

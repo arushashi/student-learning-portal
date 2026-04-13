@@ -46,26 +46,60 @@
                     <h1>Real-Time Communication</h1>
                     <p class="topic-description">WebSockets & WebRTC for instant data exchange</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Advanced</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#9201; 30 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="real-time">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,132 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Real-time communication eliminates polling delays and provides instant bidirectional messaging.</p>
+                                <p><strong>Key Insight:</strong> Real-time communication eliminates polling delays and provides instant bidirectional messaging.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine you're at a live sports event. You see everything happen the instant it occurs &mdash; no delay, no waiting. Real-time communication in software works the same way: data flows immediately between parties without the need to constantly ask "is there anything new?"</p>
+
+                                <h4>How Real-Time Communication Works</h4>
+
+                                <p><strong>1. WebSockets</strong></p>
+                                <ul>
+                                    <li>An HTTP handshake upgrades the connection to a persistent TCP socket</li>
+                                    <li>Both client and server can send messages at any time (full-duplex)</li>
+                                    <li>Low overhead per message compared to repeated HTTP requests</li>
+                                    <li>Ideal for chat apps, live dashboards, and collaborative editing</li>
+                                </ul>
+
+                                <p><strong>2. Server-Sent Events (SSE)</strong></p>
+                                <ul>
+                                    <li>One-directional channel from server to client over HTTP</li>
+                                    <li>Automatic reconnection built into the browser API</li>
+                                    <li>Great for news feeds, stock tickers, and notification streams</li>
+                                    <li>Simpler than WebSockets when only server push is needed</li>
+                                </ul>
+
+                                <p><strong>3. Long Polling</strong></p>
+                                <ul>
+                                    <li>Client sends a request; server holds it open until data is available</li>
+                                    <li>Once a response is sent, the client immediately opens a new request</li>
+                                    <li>Works everywhere HTTP works &mdash; no special protocol needed</li>
+                                    <li>Higher latency and overhead than WebSockets</li>
+                                </ul>
+
+                                <p><strong>4. WebRTC</strong></p>
+                                <ul>
+                                    <li>Peer-to-peer communication directly between browsers</li>
+                                    <li>Supports audio, video, and arbitrary data channels</li>
+                                    <li>Uses STUN/TURN servers for NAT traversal</li>
+                                    <li>Powers video conferencing, screen sharing, and P2P file transfer</li>
+                                </ul>
+
+                                <h4>Pub/Sub Pattern in Real-Time Systems</h4>
+                                <p>The publish/subscribe pattern decouples message producers from consumers. Publishers emit events to topics, and subscribers receive only the events they're interested in. This pattern is fundamental to scalable real-time architectures like chat rooms, live notifications, and event-driven microservices.</p>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-slack"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Slack's Messaging Infrastructure</h5>
+                                        <p>Slack uses WebSockets to deliver messages instantly across millions of channels. When you type a message in a channel, it travels through Slack's gateway servers over a persistent WebSocket connection and is pushed to every connected client in that channel within milliseconds &mdash; no page refresh or polling required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> Full-Duplex</h4>
+                                <p>WebSockets enable simultaneous two-way communication, letting both client and server send data independently at any time.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-tachometer-alt"></i> Low Latency</h4>
+                                <p>Persistent connections eliminate the overhead of establishing new connections for each message, achieving sub-millisecond delivery.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-broadcast-tower"></i> Scalability Patterns</h4>
+                                <p>Pub/sub, message brokers, and fan-out strategies help real-time systems scale to millions of concurrent connections.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-video"></i> Peer-to-Peer</h4>
+                                <p>WebRTC allows direct browser-to-browser communication for audio, video, and data without routing through a central server.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>WebSockets provide persistent, full-duplex communication channels</li>
+                                <li>SSE offers simple one-directional server-to-client streaming</li>
+                                <li>Long polling simulates real-time over standard HTTP</li>
+                                <li>WebRTC enables peer-to-peer media and data exchange</li>
+                                <li>Pub/sub patterns decouple producers and consumers for scalability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +257,289 @@
                                     <p>WebRTC enables peer-to-peer real-time communication for video/audio calls, file sharing, and data transfer directly between browsers without server mediation.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does long polling differ from WebSockets?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Long polling works by holding an HTTP request open until the server has data to send, then the client immediately re-requests. Key differences include:</p>
+                                    <ul>
+                                        <li><strong>Connection overhead:</strong> Long polling creates a new HTTP request each cycle; WebSockets maintain one persistent connection</li>
+                                        <li><strong>Latency:</strong> WebSockets deliver messages faster since the connection is always open</li>
+                                        <li><strong>Direction:</strong> Long polling is essentially server-to-client; WebSockets are full-duplex</li>
+                                        <li><strong>Compatibility:</strong> Long polling works with any HTTP infrastructure; WebSockets require proxy/load-balancer support</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you scale a WebSocket-based chat system?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Scaling WebSocket systems involves several strategies:</p>
+                                    <ul>
+                                        <li><strong>Horizontal scaling:</strong> Run multiple WebSocket server instances behind a load balancer with sticky sessions</li>
+                                        <li><strong>Message broker:</strong> Use Redis Pub/Sub or Kafka to fan out messages across server instances</li>
+                                        <li><strong>Connection management:</strong> Implement heartbeats and graceful reconnection to handle dropped connections</li>
+                                        <li><strong>Sharding:</strong> Partition users across server groups by chat room or user ID</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Real-Time Communication</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">1. What type of communication does WebSocket provide?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Full-duplex communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Half-duplex communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Simplex communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Broadcast-only communication</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. How does long polling work?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Client sends rapid repeated requests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Server holds the connection open until data is available</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Server pushes data via a persistent stream</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Client establishes a peer-to-peer connection</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What is a key characteristic of Server-Sent Events (SSE)?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>They require a WebSocket upgrade</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>They support bidirectional messaging</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>They are one-directional from server to client</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>They use UDP for transport</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is a fundamental requirement for real-time systems?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>High storage capacity</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Complex encryption algorithms</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Batch processing capability</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Low latency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What does the pub/sub pattern achieve in real-time architectures?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Encrypts messages end-to-end</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Decouples publishers from subscribers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Guarantees message ordering</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Eliminates the need for servers</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication between distributed services</p>
+                        </div>
+                    </a>
+                    <a href="../pages/modern-apis.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Modern APIs</h4>
+                            <p>GraphQL, gRPC, and next-generation API paradigms</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Building systems that react to events in real time</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

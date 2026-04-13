@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gossip Protocol - System Design Learning Portal</title>
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Gossip Protocol</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Gossip Protocol</h1>
+                    <p class="topic-description">Epidemic-style protocols for decentralized information dissemination, failure detection, and membership management in distributed systems</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#8986; 25 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="gossip-protocol">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is a Gossip Protocol?</h3>
+                                <p>A gossip protocol (also called epidemic protocol) is a decentralized, peer-to-peer communication mechanism where each node in a distributed system periodically exchanges state information with a random subset of other nodes. Inspired by the way rumors spread in social networks, gossip protocols achieve rapid, reliable information dissemination across large clusters without requiring a central coordinator. Each node "infects" its peers with new information, and those peers spread it further, until all nodes converge to the same state &mdash; typically within O(log N) communication rounds for N nodes.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Gossip protocols trade consistency speed for extreme reliability and scalability. Even if individual messages are lost or nodes fail, the protocol's redundant, randomized nature ensures information eventually reaches every node. This makes gossip protocols ideal for failure detection and cluster membership in systems with hundreds or thousands of nodes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine a rumor spreading in a large office building. One person tells 3 random colleagues during a coffee break. Each of those 3 people tells 3 more random colleagues in the next coffee break. Within just a few rounds, the entire office knows the rumor &mdash; even though no one made an announcement. This is exactly how gossip protocols work in distributed systems: each node periodically shares what it knows with a few random peers, and information spreads exponentially.</p>
+
+                                <p>The gossip protocol works through a simple, repeated cycle on every node:</p>
+
+                                <ul>
+                                    <li><strong>Peer Selection:</strong> Each node periodically (e.g., every 1 second) selects one or more random peers from its membership list. The random selection ensures no single node becomes a bottleneck and provides robustness against failures.</li>
+                                    <li><strong>State Exchange:</strong> The node sends its local state (or a digest of it) to the selected peer. The peer compares the received state with its own and sends back any information the sender is missing. Both nodes update their local state.</li>
+                                    <li><strong>Convergence:</strong> Through repeated exchanges, all nodes converge to the same state in O(log N) rounds. For a 1,000-node cluster with 1-second gossip intervals, full convergence takes roughly 10 seconds (log2(1000) &asymp; 10).</li>
+                                    <li><strong>Failure Detection:</strong> If a node stops responding to gossip messages, its heartbeat counter stops incrementing. After a configurable timeout, the node is marked as suspected failed, and this suspicion itself is gossiped to the cluster.</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Apache Cassandra Node Discovery</h5>
+                                        <p>Apache Cassandra uses a gossip protocol for node discovery and failure detection. Every second, each Cassandra node selects up to 3 random peers and exchanges state information including the node's status (live/dead), load (data size), schema version, and token ownership on the consistent hash ring. When a new Cassandra node joins the cluster, it contacts seed nodes which gossip its existence to the rest of the cluster. Within seconds, all nodes are aware of the new member. Cassandra's gossip protocol also detects failures: if a node's heartbeat counter hasn't incremented for a configurable period (default: 8 seconds), the cluster marks it as down and begins streaming its data to other replicas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-heartbeat"></i> Failure Detection</h4>
+                                <p>Each node maintains a heartbeat counter that it increments and gossips. If a node's heartbeat hasn't been updated beyond a threshold (e.g., Phi Accrual Failure Detector in Cassandra), it is suspected as failed. The suspicion is then gossiped, and after a confirmation period, the node is marked dead. This decentralized approach avoids single-point-of-failure in monitoring.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-users"></i> Membership Protocol</h4>
+                                <p>Gossip handles cluster membership: when a node joins, it contacts seed nodes who spread awareness of the new member. When a node leaves or fails, the gossip protocol propagates this information. SWIM (Scalable Weakly-consistent Infection-style Membership) is a popular gossip-based membership protocol used by tools like HashiCorp's Memberlist library.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-line"></i> Convergence Speed</h4>
+                                <p>Gossip protocols converge in O(log N) rounds, where N is the number of nodes. In each round, the number of informed nodes roughly doubles (epidemic spreading). A 10,000-node cluster converges in about 14 rounds. This logarithmic scaling makes gossip suitable for very large clusters without centralized coordination.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-random"></i> Push, Pull, and Push-Pull</h4>
+                                <p>Three gossip variants exist: Push (sender sends updates to a peer), Pull (requester asks a peer for updates), and Push-Pull (both exchange updates bidirectionally). Push-Pull is most efficient and converges fastest, as each exchange can resolve differences in both directions simultaneously. Cassandra uses push-pull gossip.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Gossip protocols disseminate information via random peer-to-peer exchanges</li>
+                                <li>Convergence happens in O(log N) rounds &mdash; exponential spreading</li>
+                                <li>Used for failure detection, membership management, and state synchronization</li>
+                                <li>Decentralized: no single point of failure or bottleneck</li>
+                                <li>Resilient to message loss and node failures due to redundant communication</li>
+                                <li>Used by Cassandra, Consul, Amazon S3, DynamoDB, and Riak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Gossip Information Spreading</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-comments"></i>
+                                    <p>Information spreads exponentially through random peer exchanges</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="font-size: 13px;">Round 1: Node A gossips to B</strong>
+                                            <div style="display: flex; justify-content: center; gap: 8px; margin-top: 5px;">
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">A</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">B</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">C</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">D</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">E</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">F</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="font-size: 13px;">Round 2: A &rarr; C, B &rarr; D</strong>
+                                            <div style="display: flex; justify-content: center; gap: 8px; margin-top: 5px;">
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">A</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">B</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">C</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">D</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">E</div>
+                                                <div style="width: 40px; height: 40px; background: #6c757d; color: white; border-radius: 50%; line-height: 40px; font-size: 14px;">F</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 13px;">Round 3: All nodes informed!</strong>
+                                            <div style="display: flex; justify-content: center; gap: 8px; margin-top: 5px;">
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">A</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">B</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">C</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">D</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">E</div>
+                                                <div style="width: 40px; height: 40px; background: #28a745; color: white; border-radius: 50%; line-height: 40px; font-size: 14px; font-weight: bold;">F</div>
+                                            </div>
+                                        </div>
+                                        <p style="margin-top: 10px; font-size: 12px; color: #28a745;">&#10003; Convergence in O(log N) = ~3 rounds for 6 nodes</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Gossip Protocol Variants</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>Push, Pull, and Push-Pull gossip communication patterns</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 15px;">
+                                        <div style="margin-bottom: 18px;">
+                                            <strong style="color: #667eea;">Push Gossip:</strong>
+                                            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                                                <div style="width: 60px; height: 35px; background: #667eea; color: white; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node A</div>
+                                                <div style="font-size: 16px; color: #667eea;">&rarr; state &rarr;</div>
+                                                <div style="width: 60px; height: 35px; background: #6c757d; color: white; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node B</div>
+                                                <span style="font-size: 11px; color: #666;">Sender pushes updates</span>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 18px;">
+                                            <strong style="color: #ffc107;">Pull Gossip:</strong>
+                                            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                                                <div style="width: 60px; height: 35px; background: #6c757d; color: white; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node A</div>
+                                                <div style="font-size: 16px; color: #ffc107;">&larr; request &larr;</div>
+                                                <div style="width: 60px; height: 35px; background: #ffc107; color: #333; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node B</div>
+                                                <span style="font-size: 11px; color: #666;">Requester pulls updates</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <strong style="color: #28a745;">Push-Pull Gossip (most efficient):</strong>
+                                            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                                                <div style="width: 60px; height: 35px; background: #28a745; color: white; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node A</div>
+                                                <div style="font-size: 16px; color: #28a745;">&harr; exchange &harr;</div>
+                                                <div style="width: 60px; height: 35px; background: #28a745; color: white; border-radius: 5px; line-height: 35px; text-align: center; font-size: 12px;">Node B</div>
+                                                <span style="font-size: 11px; color: #666;">Bidirectional sync</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does a gossip protocol achieve convergence, and how fast is it?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Gossip protocols achieve convergence through repeated, random peer exchanges that create exponential information spread:</p>
+                                    <ul>
+                                        <li><strong>Exponential Spread:</strong> In each round, every informed node tells one random peer. Starting with 1 informed node, after round 1 there are 2, after round 2 there are 4, and so on. After O(log N) rounds, all N nodes are informed.</li>
+                                        <li><strong>Practical Speed:</strong> For a 1,000-node cluster with 1-second gossip intervals, convergence takes about 10 seconds. For 10,000 nodes, about 14 seconds. This logarithmic scaling is remarkably efficient.</li>
+                                        <li><strong>Redundancy:</strong> Because multiple paths carry the same information (a node may hear the same update from several peers), the protocol is resilient to message loss. Even with 50% message loss, convergence still occurs &mdash; it just takes a few more rounds.</li>
+                                        <li><strong>Mathematical Guarantee:</strong> With push-pull gossip, the probability of any node remaining uninformed after c * log(N) rounds decreases exponentially with c. Choosing c = 2 or 3 provides near-certain convergence.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How is gossip used for failure detection in distributed systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Gossip-based failure detection works by tracking heartbeats and using statistical methods:</p>
+                                    <ul>
+                                        <li><strong>Heartbeat Counters:</strong> Each node maintains a heartbeat counter that it increments periodically. During gossip exchanges, nodes share their heartbeat tables. If a node's heartbeat hasn't been updated for a threshold period, it is suspected as failed.</li>
+                                        <li><strong>Phi Accrual Failure Detector:</strong> Used by Cassandra, this adaptive algorithm calculates a "phi" value representing the likelihood that a node has failed based on the historical distribution of heartbeat arrival times. It adapts to network conditions rather than using a fixed timeout.</li>
+                                        <li><strong>SWIM Protocol:</strong> Instead of relying solely on heartbeats, SWIM uses direct pings, indirect pings (asking other nodes to ping the suspect), and dissemination via piggyback on gossip messages. This reduces false positives and network overhead.</li>
+                                        <li><strong>Suspicion Mechanism:</strong> When a node is suspected, this suspicion is gossiped. Other nodes may refute the suspicion if they can reach the suspect. After a timeout without refutation, the node is declared dead.</li>
+                                        <li><strong>Advantage:</strong> No central monitor means no single point of failure in failure detection itself.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the advantages and disadvantages of gossip protocols compared to centralized approaches?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Gossip protocols offer significant trade-offs compared to centralized broadcast or coordination systems:</p>
+                                    <ul>
+                                        <li><strong>Advantages:</strong>
+                                            <ul>
+                                                <li>No single point of failure &mdash; fully decentralized</li>
+                                                <li>Scales to thousands of nodes with O(log N) convergence</li>
+                                                <li>Resilient to message loss and partial network failures</li>
+                                                <li>Each node has bounded network load (contacts only a few peers per round)</li>
+                                                <li>Simple to implement and reason about</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Disadvantages:</strong>
+                                            <ul>
+                                                <li>Eventual consistency only &mdash; there is a convergence delay</li>
+                                                <li>Redundant messages waste bandwidth (same update sent multiple times)</li>
+                                                <li>Not suitable for time-critical coordination or strong consistency needs</li>
+                                                <li>Debugging is harder &mdash; non-deterministic propagation paths</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Name real-world systems that use gossip protocols and explain their use case.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Several major distributed systems rely on gossip protocols for critical operations:</p>
+                                    <ul>
+                                        <li><strong>Apache Cassandra:</strong> Uses gossip for node discovery, failure detection, and schema version propagation. Every second, each node gossips with up to 3 peers, sharing status, load, and token information.</li>
+                                        <li><strong>HashiCorp Consul:</strong> Uses the SWIM gossip protocol (via the Serf library) for service discovery and health monitoring. Consul agents gossip to detect failed services and propagate configuration changes.</li>
+                                        <li><strong>Amazon S3 &amp; DynamoDB:</strong> Use gossip internally for failure detection and membership management across massive server fleets spread across availability zones.</li>
+                                        <li><strong>Redis Cluster:</strong> Uses a gossip protocol (Cluster Bus) for nodes to exchange information about cluster topology, detect failures, and perform automatic failover.</li>
+                                        <li><strong>CockroachDB:</strong> Uses gossip to share node addresses, store descriptors, and liveness information across the cluster, complementing its Raft-based consensus for data replication.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Gossip Protocols</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. How many communication rounds does a gossip protocol typically need to reach all N nodes?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>O(N) rounds</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>O(N^2) rounds</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>O(log N) rounds</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>O(1) rounds</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. Which distributed database uses gossip protocol for node discovery and failure detection?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Apache Cassandra</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>MySQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>PostgreSQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>SQLite</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">3. Which gossip variant is the most efficient for convergence?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Push only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Pull only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Broadcast</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Push-Pull (bidirectional exchange)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">4. What is a key advantage of gossip-based failure detection over centralized monitoring?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>It detects failures instantly with zero delay</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>No single point of failure &mdash; fully decentralized monitoring</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>It uses less network bandwidth than any alternative</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>It provides strong consistency guarantees</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. Why are gossip protocols resilient to message loss?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Redundant propagation paths ensure information reaches nodes through multiple peers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>They use TCP with guaranteed delivery for every message</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>A central server retransmits lost messages</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Messages are stored on disk before being sent</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/eventual-consistency.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Eventual Consistency</h4>
+                            <p>Consistency models and convergence in distributed systems</p>
+                        </div>
+                    </a>
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Design systems that remain operational despite failures</p>
+                        </div>
+                    </a>
+                    <a href="../pages/consensus-algorithms.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Consensus Algorithms</h4>
+                            <p>How distributed nodes agree on values using Raft and Paxos</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>SWIM protocol animations and Cassandra gossip internals</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>SWIM paper and Cassandra gossip architecture documentation</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Implement a gossip protocol simulator in Python or Go</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

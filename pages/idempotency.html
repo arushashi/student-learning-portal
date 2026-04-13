@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idempotency - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Idempotency</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-redo"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Idempotency</h1>
+                    <p class="topic-description">Operations that produce the same result regardless of how many times they are executed</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 25 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="idempotency">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Idempotency?</h3>
+                                <p>Idempotency is a property of certain operations in mathematics and computer science where performing the operation multiple times produces the same result as performing it once. In distributed systems, an idempotent operation guarantees that no matter how many times a request is executed &mdash; whether due to retries, network failures, or duplicate submissions &mdash; the system state and response remain identical to a single successful execution. This concept is fundamental to building reliable, fault-tolerant APIs and distributed systems.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Idempotency is what allows you to safely press the "Pay Now" button twice without being charged double. It transforms unreliable networks into reliable systems by making retries inherently safe, which is the cornerstone of resilient distributed architectures.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of an elevator button. No matter how many times you press the "3rd floor" button, the elevator goes to the 3rd floor exactly once. Pressing it ten times doesn't send you to the 30th floor. That's idempotency in everyday life &mdash; the result is the same whether you perform the action once or a hundred times.</p>
+
+                                <p>In distributed systems, network failures are inevitable. A client sends a payment request, but the connection drops before it receives a confirmation. Did the payment go through? The client doesn't know, so it retries. Without idempotency, this retry could charge the customer twice. With idempotency, the server recognizes the duplicate request and returns the original result.</p>
+
+                                <ul>
+                                    <li><strong>Idempotency Keys:</strong> Unique tokens attached to requests that allow servers to detect and deduplicate repeated operations, commonly implemented as UUIDs sent in request headers</li>
+                                    <li><strong>At-Least-Once Delivery:</strong> Message systems guarantee delivery but may send duplicates; idempotent consumers handle this safely by deduplicating on the receiver side</li>
+                                    <li><strong>Exactly-Once Semantics:</strong> The holy grail of messaging achieved by combining at-least-once delivery with idempotent processing, ensuring each message is effectively processed once</li>
+                                    <li><strong>Retry Safety:</strong> Idempotent operations can be retried freely without side effects, enabling automatic retry policies with exponential backoff for resilient distributed communication</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Stripe Payment API</h5>
+                                        <p>Stripe uses idempotency keys to prevent double charges. When a client sends a payment request, it includes an <code>Idempotency-Key</code> header with a unique UUID. If the network fails and the client retries with the same key, Stripe recognizes the duplicate and returns the original charge result instead of creating a new one. Stripe stores these keys for 24 hours, ensuring that any retries within that window are safely deduplicated. This mechanism processes billions of dollars in transactions without accidental double charges.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-shield-alt"></i> Definition & Importance</h4>
+                                <p>Idempotency ensures that repeating an operation produces the same outcome as a single execution. In distributed systems where network partitions, timeouts, and retries are inevitable, idempotency is critical for maintaining data consistency and preventing unintended side effects like duplicate payments or orders.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-key"></i> Idempotency Keys</h4>
+                                <p>Idempotency keys are unique client-generated tokens (typically UUIDs) sent with each request. The server stores the key alongside the response. On subsequent requests with the same key, the server returns the cached response instead of re-executing the operation. Keys typically expire after 24-48 hours.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-exchange-alt"></i> HTTP Method Idempotency</h4>
+                                <p>GET, PUT, and DELETE are inherently idempotent by the HTTP specification. GET retrieves data without modification. PUT replaces the entire resource with the same result each time. DELETE removes a resource, and deleting it again has no additional effect. POST is not idempotent as it creates new resources with each call.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Database Operations</h4>
+                                <p>Database idempotency is achieved through upserts (INSERT ON CONFLICT UPDATE), conditional updates (UPDATE WHERE version = X), and unique constraints. Using optimistic concurrency control with version numbers ensures that replayed writes don't corrupt data or create duplicates.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Idempotent operations yield identical results regardless of execution count</li>
+                                <li>GET, PUT, and DELETE are idempotent; POST is not by default</li>
+                                <li>Idempotency keys allow servers to deduplicate retried requests</li>
+                                <li>Exactly-once semantics combine at-least-once delivery with idempotent processing</li>
+                                <li>Database upserts, version checks, and unique constraints enforce idempotency at the storage layer</li>
+                                <li>Idempotency is essential for payment systems, order processing, and any operation with financial impact</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Idempotency Key Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: flex-start; gap: 30px; flex-wrap: wrap;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 40px; background: #667eea; color: white; border-radius: 8px; line-height: 40px; font-size: 13px; font-weight: bold;">Client</div>
+                                                <div style="margin-top: 8px; font-size: 11px; color: #888;">Generates UUID</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
+                                                <span style="font-size: 11px; color: #667eea;">Key: abc-123</span>
+                                                <span style="font-size: 22px; color: #667eea;">&rarr;</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 100px; height: 40px; background: #28a745; color: white; border-radius: 8px; line-height: 40px; font-size: 13px; font-weight: bold;">API Server</div>
+                                                <div style="margin-top: 8px; font-size: 11px; color: #888;">Checks key store</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
+                                                <span style="font-size: 11px; color: #28a745;">Lookup</span>
+                                                <span style="font-size: 22px; color: #28a745;">&rarr;</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 100px; height: 40px; background: #ffc107; color: #333; border-radius: 8px; line-height: 40px; font-size: 13px; font-weight: bold;">Key Store</div>
+                                                <div style="margin-top: 8px; font-size: 11px; color: #888;">Redis / DB</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 20px; padding: 12px; background: rgba(102,126,234,0.1); border-radius: 8px; font-size: 12px;">
+                                            <div style="margin-bottom: 6px;"><strong>1st Request:</strong> Key not found &rarr; Execute operation &rarr; Store key + response &rarr; Return result</div>
+                                            <div><strong>Retry:</strong> Key found &rarr; Skip operation &rarr; Return cached response &rarr; No side effects</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>HTTP Methods &amp; Idempotency</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="padding: 20px;">
+                                        <div style="margin-bottom: 14px; display: flex; align-items: center;">
+                                            <span style="background: #28a745; color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; width: 70px; text-align: center; display: inline-block;">GET</span>
+                                            <span style="margin-left: 12px; font-size: 13px; color: #28a745; font-weight: bold;">&#10003; Idempotent</span>
+                                            <span style="margin-left: 12px; font-size: 12px; color: #666;">&mdash; Retrieves data; no state change</span>
+                                        </div>
+                                        <div style="margin-bottom: 14px; display: flex; align-items: center;">
+                                            <span style="background: #ffc107; color: #333; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; width: 70px; text-align: center; display: inline-block;">PUT</span>
+                                            <span style="margin-left: 12px; font-size: 13px; color: #28a745; font-weight: bold;">&#10003; Idempotent</span>
+                                            <span style="margin-left: 12px; font-size: 12px; color: #666;">&mdash; Replaces resource; same result each time</span>
+                                        </div>
+                                        <div style="margin-bottom: 14px; display: flex; align-items: center;">
+                                            <span style="background: #dc3545; color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; width: 70px; text-align: center; display: inline-block;">DELETE</span>
+                                            <span style="margin-left: 12px; font-size: 13px; color: #28a745; font-weight: bold;">&#10003; Idempotent</span>
+                                            <span style="margin-left: 12px; font-size: 12px; color: #666;">&mdash; Removes resource; already gone on retry</span>
+                                        </div>
+                                        <div style="margin-bottom: 14px; display: flex; align-items: center;">
+                                            <span style="background: #007bff; color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; width: 70px; text-align: center; display: inline-block;">POST</span>
+                                            <span style="margin-left: 12px; font-size: 13px; color: #dc3545; font-weight: bold;">&#10007; Not Idempotent</span>
+                                            <span style="margin-left: 12px; font-size: 12px; color: #666;">&mdash; Creates new resource each time</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="background: #fd7e14; color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; width: 70px; text-align: center; display: inline-block;">PATCH</span>
+                                            <span style="margin-left: 12px; font-size: 13px; color: #fd7e14; font-weight: bold;">&#9888; Depends</span>
+                                            <span style="margin-left: 12px; font-size: 12px; color: #666;">&mdash; "Set X to 5" is idempotent; "increment X" is not</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is idempotency and why is it important in distributed systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Idempotency means that performing an operation multiple times has the same effect as performing it once. It is critical in distributed systems because:</p>
+                                    <ul>
+                                        <li><strong>Network Unreliability:</strong> Messages can be lost, duplicated, or delayed. Clients often need to retry requests without knowing if the original succeeded.</li>
+                                        <li><strong>Retry Safety:</strong> Idempotent operations can be safely retried with exponential backoff, enabling robust error recovery patterns.</li>
+                                        <li><strong>Consistency:</strong> Without idempotency, duplicate requests could create duplicate records, charge customers twice, or corrupt system state.</li>
+                                        <li><strong>Exactly-Once Semantics:</strong> Combining at-least-once delivery with idempotent consumers achieves the practical equivalent of exactly-once processing.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you implement idempotency in a payment processing system?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A robust payment idempotency implementation involves:</p>
+                                    <ul>
+                                        <li><strong>Idempotency Key:</strong> Require clients to send a unique key (UUID) with each payment request in a header like <code>Idempotency-Key</code>.</li>
+                                        <li><strong>Key Storage:</strong> Store the key, request hash, and response in a fast store like Redis with a TTL of 24-48 hours.</li>
+                                        <li><strong>Atomic Check-and-Execute:</strong> Use a distributed lock or database transaction to atomically check for key existence and execute the payment if new.</li>
+                                        <li><strong>Request Fingerprint:</strong> Hash the request body and compare it on retry to detect misuse where different payloads share the same idempotency key.</li>
+                                        <li><strong>In-Flight Handling:</strong> If a request with the same key is still being processed, return a 409 Conflict or block until the original completes.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Which HTTP methods are idempotent and which are not? Explain why.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Per the HTTP specification (RFC 7231):</p>
+                                    <ul>
+                                        <li><strong>GET (Idempotent):</strong> Only reads data. Multiple identical GET requests return the same response without changing server state.</li>
+                                        <li><strong>PUT (Idempotent):</strong> Replaces the entire resource. Sending the same PUT twice still results in the same resource state.</li>
+                                        <li><strong>DELETE (Idempotent):</strong> Removes a resource. Deleting an already-deleted resource returns 404 but doesn't alter state further.</li>
+                                        <li><strong>HEAD (Idempotent):</strong> Same as GET but returns only headers. Safe and idempotent.</li>
+                                        <li><strong>POST (Not Idempotent):</strong> Creates a new resource each time. Two identical POST requests may create two separate resources.</li>
+                                        <li><strong>PATCH (Depends):</strong> Setting a field to a value is idempotent; incrementing a counter is not. It depends on the operation semantics.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between at-least-once, at-most-once, and exactly-once delivery?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>These are message delivery guarantees in distributed systems:</p>
+                                    <ul>
+                                        <li><strong>At-Most-Once:</strong> Messages are delivered zero or one time. No retries on failure. Simple but may lose messages. Used when occasional loss is acceptable (e.g., metrics, logs).</li>
+                                        <li><strong>At-Least-Once:</strong> Messages are delivered one or more times. Retries ensure delivery but may produce duplicates. Requires idempotent consumers to handle safely.</li>
+                                        <li><strong>Exactly-Once:</strong> Messages are delivered and processed exactly one time. Theoretically impossible in truly distributed systems (per the Two Generals Problem), but achievable in practice by combining at-least-once delivery with idempotent processing and transactional outbox patterns.</li>
+                                    </ul>
+                                    <p>Most production systems use at-least-once delivery with idempotent consumers, as it provides the best balance of reliability and simplicity.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Idempotency</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. Which HTTP method is NOT idempotent by default?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>GET</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>POST</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>PUT</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>DELETE</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. What is an idempotency key used for?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Encrypting API requests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Authenticating the user</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Detecting and deduplicating retried requests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Compressing response payloads</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. How do you achieve exactly-once processing in practice?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>At-least-once delivery combined with idempotent consumers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Sending each message only once without retries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Using synchronous communication only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Disabling network timeouts</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which database technique helps ensure idempotent writes?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Dropping indexes before writing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Using auto-increment primary keys</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Disabling foreign key constraints</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Using upserts with unique constraints (INSERT ON CONFLICT)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Why is a PATCH request not always idempotent?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>PATCH requests cannot modify data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Operations like "increment by 1" produce different results each time</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>PATCH always creates new resources</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>PATCH requests are never cached</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/distributed-transactions.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Distributed Transactions</h4>
+                            <p>Coordinate transactions across multiple services and databases</p>
+                        </div>
+                    </a>
+                    <a href="../pages/rest.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>REST Architecture</h4>
+                            <p>Representational State Transfer principles and constraints</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design Principles</h4>
+                            <p>Best practices for building robust and scalable APIs</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Deep dives into idempotency patterns and real-world implementations</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Stripe idempotency guide, HTTP RFC 7231, and distributed systems papers</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Idempotency middleware implementations in Node.js, Python, and Java</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

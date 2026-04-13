@@ -46,26 +46,60 @@
                     <h1>System Reliability</h1>
                     <p class="topic-description">High availability and fault tolerance principles</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Advanced</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#9201; 35 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="system-reliability">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,139 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Reliability is achieved through redundancy, fault tolerance, and proactive monitoring.</p>
+                                <p><strong>Key Insight:</strong> Reliability is achieved through redundancy, fault tolerance, and proactive monitoring.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a hospital's power supply. It has the main grid, a backup generator, and battery-powered UPS units. If one fails, the next takes over instantly because lives depend on it. System reliability works the same way &mdash; layers of safeguards ensure services keep running even when individual components fail.</p>
+
+                                <h4>Key Reliability Concepts</h4>
+
+                                <p><strong>1. Reliability Metrics</strong></p>
+                                <ul>
+                                    <li><strong>MTBF (Mean Time Between Failures):</strong> Average time a system operates before failing</li>
+                                    <li><strong>MTTR (Mean Time To Recovery):</strong> Average time to restore service after a failure</li>
+                                    <li><strong>Availability:</strong> Percentage of uptime (e.g., 99.99% = 52.6 min downtime/year)</li>
+                                    <li><strong>Error rate:</strong> Percentage of requests that result in errors</li>
+                                </ul>
+
+                                <p><strong>2. Fault Tolerance Patterns</strong></p>
+                                <ul>
+                                    <li><strong>Circuit Breaker:</strong> Stops cascading failures by halting requests to failing services</li>
+                                    <li><strong>Retry with Backoff:</strong> Automatically retries failed operations with increasing delays</li>
+                                    <li><strong>Bulkhead:</strong> Isolates components so one failure doesn't sink the whole system</li>
+                                    <li><strong>Failover:</strong> Automatically switches to a standby system on failure</li>
+                                </ul>
+
+                                <p><strong>3. Redundancy Strategies</strong></p>
+                                <ul>
+                                    <li><strong>Active-Active:</strong> Multiple instances handle traffic simultaneously</li>
+                                    <li><strong>Active-Passive:</strong> Standby instance takes over when the primary fails</li>
+                                    <li><strong>Data replication:</strong> Copies of data across multiple nodes or regions</li>
+                                    <li><strong>Geographic redundancy:</strong> Deploying across multiple data centers</li>
+                                </ul>
+
+                                <p><strong>4. Graceful Degradation</strong></p>
+                                <ul>
+                                    <li>Core features continue to work even when non-critical components fail</li>
+                                    <li>Feature flags disable problematic functionality dynamically</li>
+                                    <li>Fallback responses serve cached or simplified data</li>
+                                    <li>Load shedding drops low-priority requests under extreme load</li>
+                                </ul>
+
+                                <h4>Chaos Engineering</h4>
+                                <p>Chaos engineering proactively tests system resilience by intentionally injecting failures &mdash; killing servers, introducing network latency, or corrupting data &mdash; in controlled experiments. This practice, pioneered by Netflix's Chaos Monkey, reveals weaknesses before they cause real outages.</p>
+
+                                <h4>SLAs, SLOs, and SLIs</h4>
+                                <ul>
+                                    <li><strong>SLA (Service Level Agreement):</strong> A formal contract defining service level commitments and penalties</li>
+                                    <li><strong>SLO (Service Level Objective):</strong> Internal targets for reliability metrics (e.g., 99.95% uptime)</li>
+                                    <li><strong>SLI (Service Level Indicator):</strong> The actual measured metrics (e.g., request latency, error rate)</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-netflix"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Netflix's Resilience Architecture</h5>
+                                        <p>Netflix pioneered chaos engineering with Chaos Monkey, which randomly terminates production instances to ensure services can withstand failures. Their architecture uses circuit breakers (Hystrix), bulkheads, and multi-region failover so that even if an entire AWS region goes down, viewers can continue streaming without interruption.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-heartbeat"></i> Health Checks</h4>
+                                <p>Continuous health monitoring detects failures early, enabling automatic recovery and traffic rerouting before users are impacted.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-random"></i> Circuit Breakers</h4>
+                                <p>Circuit breakers prevent cascading failures by quickly failing requests to unhealthy services instead of waiting for timeouts.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-clone"></i> Redundancy</h4>
+                                <p>Running multiple instances across regions ensures no single point of failure can bring the entire system down.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-flask"></i> Chaos Engineering</h4>
+                                <p>Proactively injecting failures in controlled experiments reveals weaknesses and builds confidence in system resilience.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>MTBF and MTTR are key metrics for measuring reliability</li>
+                                <li>Circuit breakers, retries, and bulkheads prevent cascading failures</li>
+                                <li>Graceful degradation maintains core features during partial outages</li>
+                                <li>Chaos engineering proactively tests system resilience</li>
+                                <li>SLAs define formal service level commitments with customers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +264,289 @@
                                     <p>Common patterns include circuit breakers, retry mechanisms, bulkheads, failover systems, redundancy, health checks, and graceful degradation. These patterns help maintain service availability during failures.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between availability and reliability?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Availability and reliability are related but distinct concepts:</p>
+                                    <ul>
+                                        <li><strong>Availability:</strong> The proportion of time a system is operational and accessible (uptime vs total time)</li>
+                                        <li><strong>Reliability:</strong> The probability of a system functioning correctly without failure over a period</li>
+                                        <li><strong>Key distinction:</strong> A system can be highly available (quick recovery) but unreliable (frequent failures), or highly reliable (rare failures) but with planned downtime</li>
+                                        <li><strong>Both matter:</strong> Aim for high reliability to minimize failures and high availability to minimize impact when they occur</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does a circuit breaker work in distributed systems?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A circuit breaker monitors calls to a downstream service and operates in three states:</p>
+                                    <ul>
+                                        <li><strong>Closed (normal):</strong> Requests pass through; failures are counted</li>
+                                        <li><strong>Open (tripped):</strong> When failures exceed a threshold, all requests fail immediately without calling the downstream service</li>
+                                        <li><strong>Half-Open (testing):</strong> After a timeout, a limited number of requests are allowed through to test if the service has recovered</li>
+                                        <li><strong>Benefits:</strong> Prevents cascading failures, reduces load on failing services, and provides fast failure feedback to callers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of System Reliability</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What does MTTR measure?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Mean time between failures</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Mean time to recovery</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Maximum transaction throughput rate</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Minimum time to respond</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What is the primary purpose of a circuit breaker pattern?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Prevents cascading failures across services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Encrypts data between services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Balances load across servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Compresses network traffic</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What does graceful degradation ensure?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>All features work perfectly at all times</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>The system shuts down safely on failure</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Core features continue working during partial failures</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Data is automatically backed up</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. What is the goal of chaos engineering?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Introducing random bugs into code</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Stress testing the UI</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Optimizing database queries</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Testing system resilience by injecting failures</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. What does an SLA define?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Internal engineering best practices</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Service level commitments between provider and customer</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Software licensing terms</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Server hardware specifications</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/high-availability.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>High Availability</h4>
+                            <p>Designing systems that maximize uptime and minimize downtime</p>
+                        </div>
+                    </a>
+                    <a href="../pages/rate-limiting.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Rate Limiting</h4>
+                            <p>Controlling request rates to protect system resources</p>
+                        </div>
+                    </a>
+                    <a href="../pages/circuit-breaker.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Circuit Breaker</h4>
+                            <p>Preventing cascading failures in distributed systems</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

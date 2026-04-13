@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener Design - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">URL Shortener Design</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>URL Shortener Design</h1>
+                    <p class="topic-description">Designing a URL shortening service like TinyURL or Bitly with scalable architecture</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 28 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="url-shortener">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is a URL Shortener?</h3>
+                                <p>A URL shortener is a service that takes a long URL and creates a compact, unique alias that redirects to the original address. For example, a long URL like <code>https://example.com/articles/2024/system-design/url-shortener-complete-guide</code> becomes <code>https://short.ly/aB3xK9</code>. The system maps short codes to original URLs, handles high-volume redirections, and often provides analytics on click rates, geographic distribution, and referral sources. Designing a URL shortener is a classic system design interview question because it touches on encoding algorithms, database design, caching, and read-heavy architecture patterns.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> A URL shortener is fundamentally a read-heavy system &mdash; the ratio of reads (redirects) to writes (URL creation) is typically 100:1 or higher. This asymmetry drives every architectural decision, from caching strategies to database choice and replication topology.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a URL shortener like a coat check at a fancy restaurant. You hand over your bulky coat (long URL), and the attendant gives you a small numbered ticket (short code). When you're leaving, you present the ticket, and the attendant retrieves your exact coat. The mapping between ticket numbers and coats is stored in their system, and the process is fast because it's a simple lookup.</p>
+
+                                <p>The core challenge in building a URL shortener is generating unique, compact short codes at scale while handling millions of redirect lookups per second. The system must be fast, reliable, and capable of handling massive read traffic with minimal latency.</p>
+
+                                <ul>
+                                    <li><strong>Base62 Encoding:</strong> Convert a numeric ID to a short string using characters [a-z, A-Z, 0-9]. A 7-character Base62 code supports 62^7 = 3.5 trillion unique URLs, sufficient for decades of operation even at massive scale</li>
+                                    <li><strong>Hash Collisions:</strong> Using MD5 or SHA-256 hashes of the original URL and taking the first 7 characters can cause collisions. Solutions include appending a counter, using bloom filters for collision detection, or combining hashing with database uniqueness constraints</li>
+                                    <li><strong>Read-Heavy Architecture:</strong> With 100:1 read-to-write ratio, the system benefits from aggressive caching (Redis/Memcached), database read replicas, and CDN-based geographic distribution to minimize redirect latency</li>
+                                    <li><strong>Analytics Pipeline:</strong> Each redirect event generates clickstream data (timestamp, IP, user-agent, referrer) that flows through a message queue to an analytics service for real-time dashboards and historical reporting</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Bitly &mdash; Billions of Links</h5>
+                                        <p>Bitly processes over 600 million links created per month and handles billions of redirect clicks. Their architecture uses a distributed key-value store for URL mappings, multi-layer caching with Redis to serve hot links in under 10ms, and a real-time analytics pipeline built on Kafka. Bitly generates short codes using a counter-based approach with Base62 encoding, ensuring zero collisions. Their system serves 99.9% of redirects from cache without hitting the database, demonstrating how caching is the backbone of a read-heavy URL shortener.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-hashtag"></i> Hash/Encoding Approach</h4>
+                                <p>Two main approaches: (1) Counter-based with Base62 encoding &mdash; an auto-incrementing counter is encoded to a short string, guaranteeing uniqueness with zero collisions. (2) Hash-based using MD5/SHA256 &mdash; hash the URL and take the first N characters, requiring collision resolution. Counter-based is preferred for simplicity and reliability at scale.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-bolt"></i> Read-Heavy Architecture</h4>
+                                <p>URL shorteners have a 100:1+ read-to-write ratio. Optimize for reads with multi-layer caching (application cache, Redis, CDN), database read replicas, and denormalized storage. Hot URLs (recently created or viral) should be cached aggressively with high TTLs to minimize database load.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-directions"></i> 301 vs 302 Redirects</h4>
+                                <p>301 (Permanent Redirect) tells browsers to cache the redirect, reducing server load but losing analytics visibility. 302 (Temporary Redirect) forces browsers to hit the server on every click, enabling accurate click tracking. Most URL shorteners use 302 to maintain analytics accuracy, or 301 with server-side logging.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-chart-bar"></i> Analytics & Tracking</h4>
+                                <p>Each redirect logs click data asynchronously: timestamp, IP address, user agent, geographic location, and referrer. This data flows through a message queue (Kafka) to analytics processors that compute real-time click counts, geographic heatmaps, device breakdowns, and time-series trends for dashboards.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>URL shorteners map compact codes to long URLs using Base62 encoding or hash functions</li>
+                                <li>Counter-based ID generation with Base62 encoding prevents hash collisions entirely</li>
+                                <li>The system is extremely read-heavy (100:1 ratio), requiring aggressive caching strategies</li>
+                                <li>Use 302 redirects for analytics accuracy or 301 for reduced server load</li>
+                                <li>Analytics data is collected asynchronously via message queues to avoid impacting redirect latency</li>
+                                <li>A 7-character Base62 code supports 3.5 trillion unique URLs, sufficient for massive scale</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>URL Shortening Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Client</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">POST /shorten</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #667eea;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 40px; background: #28a745; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">API Server</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Generate code</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #28a745;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 40px; background: #fd7e14; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">ID Generator</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Counter/Snowflake</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #fd7e14;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #dc3545; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Base62</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Encode to aB3xK9</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #dc3545;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #ffc107; color: #333; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Database</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Store mapping</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 18px; padding: 10px; background: rgba(102,126,234,0.1); border-radius: 8px; font-size: 12px; color: #555;">
+                                            <strong>Write Path:</strong> Long URL &rarr; Generate unique ID &rarr; Base62 encode &rarr; Store (short_code, long_url) &rarr; Return short URL
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>URL Redirect Flow (Read Path)</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #667eea; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Browser</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">GET /aB3xK9</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #667eea;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #28a745; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Server</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Lookup code</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #28a745;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 40px; background: #dc3545; color: white; border-radius: 8px; line-height: 40px; font-size: 12px; font-weight: bold;">Cache</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Redis (99% hit)</div>
+                                            </div>
+                                            <span style="font-size: 20px; color: #dc3545;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 40px; background: #17a2b8; color: white; border-radius: 8px; line-height: 40px; font-size: 11px; font-weight: bold;">302 Redirect</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">To original URL</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; display: flex; justify-content: center; gap: 20px; font-size: 11px;">
+                                            <div style="padding: 6px 12px; background: rgba(40,167,69,0.1); border-radius: 6px; color: #28a745;">
+                                                <strong>Cache Hit:</strong> &lt; 5ms latency
+                                            </div>
+                                            <div style="padding: 6px 12px; background: rgba(255,193,7,0.1); border-radius: 6px; color: #856404;">
+                                                <strong>Cache Miss:</strong> Query DB &rarr; Cache result &rarr; ~20ms
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you generate unique short URLs at scale?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>There are several approaches for generating unique short codes:</p>
+                                    <ul>
+                                        <li><strong>Counter + Base62:</strong> Use a distributed counter (like Twitter's Snowflake) to generate unique 64-bit IDs, then encode them to Base62 strings. This guarantees uniqueness with zero collisions and produces predictable-length codes.</li>
+                                        <li><strong>Pre-generated Key Service:</strong> Generate millions of random short codes in advance and store them in a key database. When a URL is shortened, pop a pre-generated key. This decouples key generation from the request path and eliminates collision checks.</li>
+                                        <li><strong>Hash + Collision Resolution:</strong> Hash the URL with MD5, take the first 7 characters. On collision, append a counter and re-hash. This is simpler but requires collision detection, adding latency and complexity.</li>
+                                        <li><strong>Range-based Partitioning:</strong> Assign each server a range of IDs (Server 1: 1-1M, Server 2: 1M-2M). Each server increments within its range independently, eliminating coordination overhead.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Should you use 301 or 302 redirects for a URL shortener?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>The choice between 301 and 302 depends on your priorities:</p>
+                                    <ul>
+                                        <li><strong>301 Permanent Redirect:</strong> The browser caches the redirect and goes directly to the destination on future visits. Reduces server load significantly but means you lose visibility into subsequent clicks since they bypass your servers entirely.</li>
+                                        <li><strong>302 Temporary Redirect:</strong> The browser contacts your server on every click. This enables accurate click counting, A/B testing with dynamic destinations, and link expiration. Higher server load but full analytics visibility.</li>
+                                        <li><strong>Best Practice:</strong> Most URL shorteners (Bitly, TinyURL) use 302 because analytics is a core feature. If analytics aren't needed and you want to minimize infrastructure costs, 301 is more efficient.</li>
+                                        <li><strong>Hybrid Approach:</strong> Use 302 redirects for links with active analytics, and switch to 301 for older or high-traffic links where analytics collection is complete.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you handle the read-heavy nature of a URL shortener?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Optimizing for the 100:1 read-to-write ratio requires a multi-layer approach:</p>
+                                    <ul>
+                                        <li><strong>Caching Layer:</strong> Use Redis or Memcached to cache URL mappings. With proper cache warming and LRU eviction, you can achieve 95-99% cache hit rates, serving most redirects in under 5ms.</li>
+                                        <li><strong>Database Read Replicas:</strong> Deploy multiple read replicas for cache misses. Use a write-primary, read-replica topology to separate read and write traffic.</li>
+                                        <li><strong>CDN/Edge Caching:</strong> Place redirect logic at CDN edge locations (Cloudflare Workers, AWS CloudFront Functions) to handle redirects at the edge, reducing latency for geographically distributed users.</li>
+                                        <li><strong>Database Choice:</strong> Use a key-value store (DynamoDB, Cassandra) rather than a relational database for the URL mapping table, as it's a simple key-value lookup that benefits from horizontal scaling.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you design the analytics system for a URL shortener?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Analytics must be collected without impacting redirect latency:</p>
+                                    <ul>
+                                        <li><strong>Asynchronous Logging:</strong> On each redirect, publish a click event to a message queue (Kafka/SQS) containing the short code, timestamp, IP, user-agent, and referrer. This adds negligible latency to the redirect path.</li>
+                                        <li><strong>Stream Processing:</strong> Consumers read from the queue and enrich events with geolocation (from IP), device type (from user-agent), and write to both a real-time store (Redis for live counters) and a data warehouse (BigQuery/Redshift) for historical analysis.</li>
+                                        <li><strong>Pre-aggregation:</strong> Maintain pre-computed aggregates (clicks per hour, top countries, device breakdown) to avoid expensive real-time queries on raw event data.</li>
+                                        <li><strong>Data Retention:</strong> Keep detailed events for 30-90 days and aggregated summaries indefinitely. Use time-based partitioning for efficient querying and cleanup.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of URL Shortener Design</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. How many unique URLs can a 7-character Base62 code support?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>About 1 billion</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>About 3.5 trillion</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>About 62 million</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>About 100 billion</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">2. Why do most URL shorteners use 302 instead of 301 redirects?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>302 redirects are faster</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>301 redirects don't work in all browsers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>302 allows accurate click tracking since browsers don't cache the redirect</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>302 uses less bandwidth</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">3. What is the typical read-to-write ratio for a URL shortener?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>100:1 (read-heavy)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>1:1 (balanced)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>1:100 (write-heavy)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>10:1 (slightly read-heavy)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which approach guarantees zero hash collisions for short code generation?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>MD5 hashing with truncation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>SHA-256 hashing</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Random string generation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Counter-based ID with Base62 encoding</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. How should analytics data be collected in a URL shortener?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Synchronously write to database before redirecting</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Asynchronously publish to a message queue after redirect</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Use client-side JavaScript tracking only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Log directly to a file on the server</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching techniques</p>
+                        </div>
+                    </a>
+                    <a href="../pages/database-scaling.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Database Scaling</h4>
+                            <p>Strategies for scaling databases horizontally and vertically</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design Principles</h4>
+                            <p>Best practices for building robust and scalable APIs</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>System design interview walkthroughs for URL shortener architecture</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Bitly engineering blog, Base62 encoding specs, and redirect RFC</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Build a URL shortener in Node.js, Python Flask, and Go</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

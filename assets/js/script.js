@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>No results found for "${query}"</h3>
                     <p>Try searching with different keywords</p>
                 `;
-                document.querySelector('.topics-container').appendChild(noResults);
+                document.querySelector('.topics-grid').appendChild(noResults);
             }
         } else if (noResultsMsg) {
             noResultsMsg.remove();
@@ -173,13 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add keyboard navigation
     document.addEventListener('keydown', function(e) {
         // Press '/' to focus search
-        if (e.key === '/' && document.activeElement !== searchInput) {
+        if (e.key === '/' && searchInput && document.activeElement !== searchInput) {
             e.preventDefault();
             searchInput.focus();
         }
         
         // Press 'Escape' to clear search
-        if (e.key === 'Escape' && document.activeElement === searchInput) {
+        if (e.key === 'Escape' && searchInput && document.activeElement === searchInput) {
             searchInput.value = '';
             performSearch('');
             searchInput.blur();
@@ -196,28 +196,32 @@ document.addEventListener('DOMContentLoaded', function() {
     topicCards.forEach(card => {
         card.addEventListener('click', function() {
             const topic = this.dataset.topic;
-            const title = this.querySelector('h4').textContent;
+            const titleEl = this.querySelector('h3') || this.querySelector('h4');
+            const title = titleEl ? titleEl.textContent : topic;
+            const difficultyEl = this.querySelector('.difficulty');
             trackEvent('topic_clicked', {
                 topic: topic,
                 title: title,
-                difficulty: this.querySelector('.difficulty').textContent
+                difficulty: difficultyEl ? difficultyEl.textContent : 'N/A'
             });
         });
     });
 
     // Track search queries
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            if (this.value.trim().length > 0) {
-                trackEvent('search_performed', {
-                    query: this.value.trim(),
-                    results: document.querySelectorAll('.topic-card[style*="flex"]').length
-                });
-            }
-        }, 500);
-    });
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (this.value.trim().length > 0) {
+                    trackEvent('search_performed', {
+                        query: this.value.trim(),
+                        results: document.querySelectorAll('.topic-card[style*="flex"]').length
+                    });
+                }
+            }, 500);
+        });
+    }
 
     // Add bookmark functionality
     const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
@@ -380,7 +384,5 @@ function throttle(func, limit) {
 // Export functions for potential use in other scripts
 window.PortalUtils = {
     debounce,
-    throttle,
-    showNotification,
-    trackEvent
+    throttle
 };

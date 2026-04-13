@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication - System Design Learning Portal</title>
+    <title>Consistent Hashing - System Design Learning Portal</title>
 
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/concept.css">
@@ -11,23 +11,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h1>System Design Learning Portal</h1>
-                </div>
-                <nav class="nav">
-                    <a href="../index.html" class="nav-link">
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                    <a href="#" class="nav-link">About</a>
-                    <a href="#" class="nav-link">Contact</a>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <header class="simple-header">
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</header>
 
     <main class="concept-main">
         <div class="container">
@@ -35,25 +25,25 @@
             <nav class="breadcrumb">
                 <a href="../index.html">Home</a>
                 <span class="separator">/</span>
-                <span class="current">Authentication</span>
+                <span class="current">Consistent Hashing</span>
             </nav>
 
             <!-- Topic Header -->
             <section class="topic-header">
                 <div class="topic-icon">
-                    <i class="fas fa-key"></i>
+                    <i class="fas fa-circle-notch"></i>
                 </div>
                 <div class="topic-info">
-                    <h1>Authentication</h1>
-                    <p class="topic-description">User verification and identity management</p>
+                    <h1>Consistent Hashing</h1>
+                    <p class="topic-description">A distributed hashing technique that minimizes key remapping when nodes are added or removed from the system</p>
                     <div class="topic-meta">
-                        <span class="difficulty intermediate">Intermediate</span>
-                        <span class="duration">&#9201; 25 min</span>
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#8986; 25 min</span>
                         <span class="last-updated">&#128197; April 2, 2024</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn" data-topic="authentication">
+                    <button class="btn btn-primary bookmark-btn" data-topic="consistent-hashing">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
                     <button class="btn btn-secondary print-btn">
@@ -106,12 +96,12 @@
                     <div class="section-content">
                         <div class="definition-card">
                             <div class="definition-text">
-                                <h3>What is Authentication?</h3>
-                                <p>Authentication is the process of verifying the identity of a user, system, or entity before granting access to resources or services. It answers the question "Who are you?" and is the first step in any security framework, typically followed by authorization (what you can do).</p>
+                                <h3>What is Consistent Hashing?</h3>
+                                <p>Consistent hashing is a distributed hashing scheme that maps both data keys and server nodes onto a virtual ring (hash space from 0 to 2^32 - 1). Each key is assigned to the nearest server node found by walking clockwise around the ring. When a node is added or removed, only approximately 1/N of the keys need to be remapped (where N is the number of nodes), unlike traditional modular hashing where nearly all keys must be redistributed.</p>
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <p><strong>Key Insight:</strong> Authentication ensures that users are who they claim to be before accessing sensitive resources. It is distinct from authorization, which determines what an authenticated user is allowed to do.</p>
+                                <p><strong>Key Insight:</strong> Consistent hashing ensures that when a server is added or removed, only a minimal fraction of keys (~1/N) need to move, making it ideal for distributed caches, databases, and CDNs where rehashing the entire dataset would be catastrophically expensive.</p>
                             </div>
                         </div>
                     </div>
@@ -131,58 +121,26 @@
                         <div class="explanation-content">
                             <div class="explanation-text">
                                 <h3>Understanding the Concept</h3>
-                                <p>Think of authentication like showing your ID at a nightclub. The bouncer (authentication system) checks your ID (credentials) to verify you are who you claim to be. Once verified, you get a wristband (session token or JWT) that proves your identity for the rest of the night. Different clubs might accept different forms of ID (passwords, biometrics, tokens) - these are different authentication methods.</p>
+                                <p>Imagine a circular clock face where both your data items and your servers are placed at various positions around the clock. Each data item travels clockwise from its position until it finds the nearest server &mdash; that server is responsible for storing that data. If a server is removed, its data simply moves to the next server clockwise. If a server is added, it only takes responsibility for a small arc of data from the next server clockwise.</p>
 
-                                <h4>Authentication Methods</h4>
+                                <p>With traditional modular hashing (key % N), adding or removing a single server changes where almost every key maps. Consistent hashing solves this with a hash ring approach:</p>
 
-                                <p><strong>1. Password-based Authentication</strong></p>
                                 <ul>
-                                    <li>Most common and traditional method</li>
-                                    <li>User provides username and password</li>
-                                    <li>Passwords should be hashed using bcrypt, scrypt, or Argon2</li>
-                                    <li>Vulnerable to brute force, phishing, and credential stuffing</li>
-                                </ul>
-
-                                <p><strong>2. Multi-Factor Authentication (MFA)</strong></p>
-                                <ul>
-                                    <li>Combines multiple verification factors for stronger security</li>
-                                    <li>Something you know (password), something you have (phone/token), something you are (biometrics)</li>
-                                    <li>Significantly reduces account compromise risk</li>
-                                </ul>
-
-                                <p><strong>3. Token-based Authentication (JWT)</strong></p>
-                                <ul>
-                                    <li>Stateless authentication using signed tokens</li>
-                                    <li>Server issues a JWT after login; client sends it with each request</li>
-                                    <li>Ideal for APIs and microservices architectures</li>
-                                    <li>Contains claims (user info) and signature for verification</li>
-                                </ul>
-
-                                <p><strong>4. OAuth 2.0 / OpenID Connect</strong></p>
-                                <ul>
-                                    <li>OAuth 2.0 is an authorization framework (delegated access)</li>
-                                    <li>OpenID Connect adds authentication layer on top of OAuth 2.0</li>
-                                    <li>Enables "Sign in with Google/GitHub/Facebook"</li>
-                                    <li>Uses access tokens and refresh tokens</li>
-                                </ul>
-
-                                <p><strong>5. Session-based Authentication</strong></p>
-                                <ul>
-                                    <li>Server creates a session after login and stores state server-side</li>
-                                    <li>Session ID sent via cookies with each request</li>
-                                    <li>Stateful: requires server-side session storage</li>
-                                    <li>Easy to invalidate but harder to scale</li>
+                                    <li><strong>Hash Ring:</strong> Both keys and nodes are hashed onto a circular space (0 to 2^32 - 1). Each key is assigned to the first node encountered clockwise.</li>
+                                    <li><strong>Minimal Disruption:</strong> Adding a node only affects keys between the new node and its predecessor; removing a node only moves keys to the successor node.</li>
+                                    <li><strong>Virtual Nodes:</strong> Each physical node is mapped to multiple positions on the ring (e.g., 150-200 virtual nodes per physical server) to ensure even distribution of keys.</li>
+                                    <li><strong>Scalability:</strong> Systems can grow or shrink incrementally without massive data migration, enabling elastic scaling under varying loads.</li>
                                 </ul>
                             </div>
                             <div class="real-world-example">
                                 <h4><i class="fas fa-globe"></i> Real-World Example</h4>
                                 <div class="example-card">
                                     <div class="example-icon">
-                                        <i class="fab fa-google"></i>
+                                        <i class="fab fa-amazon"></i>
                                     </div>
                                     <div class="example-content">
-                                        <h5>Google's Authentication System</h5>
-                                        <p>Google uses a multi-layered authentication approach: password-based login with mandatory 2FA for sensitive accounts, OAuth 2.0 for third-party app access, and hardware security keys (FIDO2) for employees. Their system handles billions of authentication requests daily across Gmail, YouTube, Cloud, and hundreds of other services.</p>
+                                        <h5>Amazon DynamoDB</h5>
+                                        <p>Amazon DynamoDB uses consistent hashing to partition data across its storage nodes. When DynamoDB scales out by adding new nodes, only a fraction of the key space is migrated. Each physical node is represented by multiple virtual nodes on the hash ring, ensuring balanced data distribution across the cluster even as nodes join and leave. This design, originally described in the Amazon Dynamo paper (2007), allows DynamoDB to handle millions of requests per second while dynamically adjusting capacity.</p>
                                     </div>
                                 </div>
                             </div>
@@ -203,31 +161,90 @@
                     <div class="section-content">
                         <div class="key-points-grid">
                             <div class="key-point-card">
-                                <h4><i class="fas fa-lock"></i> Password Hashing</h4>
-                                <p>Never store passwords in plain text. Use adaptive hashing algorithms like bcrypt, scrypt, or Argon2 that are designed to be slow and resistant to brute force.</p>
+                                <h4><i class="fas fa-ring"></i> The Hash Ring</h4>
+                                <p>Both keys and server nodes are hashed onto a circular address space (0 to 2^32 - 1). Keys are assigned to the first server found clockwise from their hash position. This circular mapping eliminates the modular dependency on total node count.</p>
                             </div>
                             <div class="key-point-card">
-                                <h4><i class="fas fa-shield-alt"></i> Multi-Factor Auth</h4>
-                                <p>MFA combines multiple verification methods (knowledge, possession, biometrics) to dramatically reduce the risk of unauthorized access.</p>
+                                <h4><i class="fas fa-clone"></i> Virtual Nodes (Vnodes)</h4>
+                                <p>Each physical server is mapped to many positions on the ring. This solves the problem of uneven key distribution that arises when few physical nodes create large gaps. More powerful servers can have more virtual nodes to receive a proportionally larger share of the data.</p>
                             </div>
                             <div class="key-point-card">
-                                <h4><i class="fas fa-ticket-alt"></i> Token Management</h4>
-                                <p>JWTs should have short expiration times, use refresh tokens for renewal, and be transmitted only over HTTPS to prevent interception.</p>
+                                <h4><i class="fas fa-arrows-alt"></i> Minimal Redistribution</h4>
+                                <p>When a node joins or leaves, only approximately K/N keys need to be remapped (K = total keys, N = total nodes). This is dramatically better than modular hashing, where nearly all keys must move. Data migration becomes proportional rather than catastrophic.</p>
                             </div>
                             <div class="key-point-card">
-                                <h4><i class="fas fa-user-shield"></i> Auth vs Authz</h4>
-                                <p>Authentication verifies identity (who you are). Authorization determines permissions (what you can do). Both are essential for secure systems.</p>
+                                <h4><i class="fas fa-balance-scale"></i> Load Balancing</h4>
+                                <p>With a sufficient number of virtual nodes (typically 100-200 per server), consistent hashing achieves near-uniform distribution. The standard deviation of load per node decreases as virtual node count increases, providing predictable and balanced storage utilization.</p>
                             </div>
                         </div>
                         <div class="summary-box">
                             <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
                             <ul class="summary-list">
-                                <li>Authentication verifies user identity before granting access</li>
-                                <li>Common methods: passwords, MFA, JWT tokens, OAuth 2.0, sessions</li>
-                                <li>Always hash passwords with strong algorithms (bcrypt, Argon2)</li>
-                                <li>Token-based auth (JWT) is preferred for stateless, scalable systems</li>
-                                <li>MFA significantly improves security by requiring multiple verification factors</li>
+                                <li>Consistent hashing maps keys and servers onto a virtual ring for stable assignment</li>
+                                <li>Only ~1/N keys need remapping when a node is added or removed</li>
+                                <li>Virtual nodes ensure balanced distribution across heterogeneous servers</li>
+                                <li>Used in DynamoDB, Cassandra, Memcached, and CDN routing</li>
+                                <li>Eliminates the complete rehashing problem of traditional key % N approaches</li>
+                                <li>Supports heterogeneous clusters by assigning more virtual nodes to powerful servers</li>
                             </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Consistent Hashing Ring</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-circle-notch"></i>
+                                    <p>Keys map to the nearest server clockwise on the hash ring</p>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <div style="position: relative; width: 220px; height: 220px; border: 3px solid #667eea; border-radius: 50%; margin: 0 auto;">
+                                            <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 4px 10px; border-radius: 5px; font-size: 12px;">Node A</div>
+                                            <div style="position: absolute; top: 50%; right: -15px; transform: translateY(-50%); background: #28a745; color: white; padding: 4px 10px; border-radius: 5px; font-size: 12px;">Node B</div>
+                                            <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 4px 10px; border-radius: 5px; font-size: 12px;">Node C</div>
+                                            <div style="position: absolute; top: 50%; left: -15px; transform: translateY(-50%); background: #28a745; color: white; padding: 4px 10px; border-radius: 5px; font-size: 12px;">Node D</div>
+                                            <div style="position: absolute; top: 20%; left: 70%; background: #ffc107; color: #333; padding: 2px 8px; border-radius: 3px; font-size: 11px;">Key1 &rarr; B</div>
+                                            <div style="position: absolute; top: 65%; left: 60%; background: #ffc107; color: #333; padding: 2px 8px; border-radius: 3px; font-size: 11px;">Key2 &rarr; C</div>
+                                            <div style="position: absolute; top: 70%; left: 10%; background: #ffc107; color: #333; padding: 2px 8px; border-radius: 3px; font-size: 11px;">Key3 &rarr; D</div>
+                                        </div>
+                                        <p style="margin-top: 15px; font-size: 13px; color: #666;">Each key moves clockwise to find its assigned node</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Modular Hashing vs Consistent Hashing</h4>
+                                <div class="diagram-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <p>Key redistribution when adding a node</p>
+                                    <div style="text-align: left; margin-top: 20px; padding: 20px;">
+                                        <div style="margin-bottom: 15px;">
+                                            <strong>Modular Hashing (key % N):</strong>
+                                            <div style="background: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; margin-top: 5px; width: 90%;">~75% keys remapped (3 &rarr; 4 nodes)</div>
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <strong>Consistent Hashing (no vnodes):</strong>
+                                            <div style="background: #ffc107; color: #333; padding: 5px 10px; border-radius: 4px; margin-top: 5px; width: 35%;">~25% keys remapped</div>
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <strong>Consistent Hashing (with vnodes):</strong>
+                                            <div style="background: #28a745; color: white; padding: 5px 10px; border-radius: 4px; margin-top: 5px; width: 25%;">~1/N keys remapped</div>
+                                        </div>
+                                        <p style="font-size: 13px; color: #666; margin-top: 10px;">Virtual nodes improve uniformity and reduce variance in load distribution</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -246,54 +263,71 @@
                         <div class="interview-questions">
                             <div class="question-card">
                                 <div class="question-header">
-                                    <h4>What are the different authentication factors?</h4>
+                                    <h4>Why is consistent hashing preferred over simple modular hashing in distributed systems?</h4>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="answer-content">
-                                    <p>Authentication factors include: Something you know (passwords, PINs), something you have (tokens, phones, smart cards), and something you are (biometrics like fingerprints, face recognition). Multi-factor authentication combines multiple factors.</p>
-                                </div>
-                            </div>
-
-                            <div class="question-card">
-                                <div class="question-header">
-                                    <h4>What's the difference between authentication and authorization?</h4>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="answer-content">
-                                    <p>Authentication verifies who you are (identity verification), while authorization determines what you can do (access permissions). Authentication comes first, then authorization checks permissions for the authenticated user.</p>
-                                </div>
-                            </div>
-
-                            <div class="question-card">
-                                <div class="question-header">
-                                    <h4>How does JWT authentication work?</h4>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="answer-content">
-                                    <p>JWT (JSON Web Token) authentication works as follows:</p>
+                                    <p>With simple modular hashing (key % N), adding or removing a server changes N, causing almost every key to map to a different server. This means massive data migration. Consistent hashing solves this because:</p>
                                     <ul>
-                                        <li><strong>Login:</strong> User sends credentials; server validates and creates a signed JWT</li>
-                                        <li><strong>Token Structure:</strong> Header (algorithm), Payload (claims/user data), Signature (verification)</li>
-                                        <li><strong>Subsequent Requests:</strong> Client sends JWT in Authorization header</li>
-                                        <li><strong>Validation:</strong> Server verifies the signature without database lookup (stateless)</li>
-                                        <li><strong>Expiration:</strong> Tokens have expiry times; refresh tokens are used for renewal</li>
+                                        <li>Only ~K/N keys (where K is total keys) need to be remapped when a node changes</li>
+                                        <li>The hash ring structure decouples key assignment from total node count</li>
+                                        <li>Supports smooth elastic scaling without downtime or heavy data migration</li>
+                                        <li>Avoids cache stampede or hot-spot issues that arise from full redistribution</li>
+                                        <li>Provides deterministic key assignment without centralized coordination</li>
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="question-card">
                                 <div class="question-header">
-                                    <h4>How would you design authentication for a distributed system?</h4>
+                                    <h4>What are virtual nodes and why are they necessary?</h4>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="answer-content">
-                                    <p>Key considerations for distributed authentication:</p>
+                                    <p>Virtual nodes (vnodes) are multiple hash positions assigned to a single physical server on the consistent hash ring. They solve critical problems:</p>
                                     <ul>
-                                        <li><strong>Centralized Auth Service:</strong> Use a dedicated authentication service (e.g., Auth0, Keycloak) as a single source of truth</li>
-                                        <li><strong>Token-based:</strong> Use JWTs for stateless verification across services without shared session storage</li>
-                                        <li><strong>API Gateway:</strong> Validate tokens at the gateway level to offload auth from individual services</li>
-                                        <li><strong>Token Refresh:</strong> Implement short-lived access tokens with longer-lived refresh tokens</li>
-                                        <li><strong>Service-to-Service:</strong> Use mutual TLS or service tokens for internal communication</li>
+                                        <li><strong>Uneven Distribution:</strong> With few physical nodes, the hash space is split unevenly. Virtual nodes create many more points on the ring, smoothing out distribution.</li>
+                                        <li><strong>Heterogeneous Hardware:</strong> Powerful servers can be assigned more virtual nodes, receiving a proportionally larger data share.</li>
+                                        <li><strong>Better Recovery:</strong> When a node fails, its load is spread across many other nodes (each virtual node's data goes to a different successor), avoiding overloading a single server.</li>
+                                        <li><strong>Typical Count:</strong> Systems like DynamoDB use 100-200 virtual nodes per physical server to achieve near-uniform distribution.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How does consistent hashing handle node failures and additions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p><strong>Node Failure:</strong></p>
+                                    <ul>
+                                        <li>When a node fails, all keys assigned to it are automatically re-routed to the next node clockwise on the ring</li>
+                                        <li>With virtual nodes, the failed node's keys are distributed across multiple successors rather than one</li>
+                                        <li>Combined with replication (keys stored on N successive nodes), data loss is prevented</li>
+                                    </ul>
+                                    <p><strong>Node Addition:</strong></p>
+                                    <ul>
+                                        <li>A new node takes over a portion of keys from its successor on the ring</li>
+                                        <li>Only the keys that now fall in the new node's range need to be transferred</li>
+                                        <li>The process is incremental and does not disrupt the rest of the cluster</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Name real-world systems that use consistent hashing and explain how.</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Several major distributed systems rely on consistent hashing:</p>
+                                    <ul>
+                                        <li><strong>Amazon DynamoDB:</strong> Uses consistent hashing with virtual nodes to partition data across storage nodes for scalable key-value storage</li>
+                                        <li><strong>Apache Cassandra:</strong> Assigns token ranges on a consistent hash ring; each node owns a portion of the ring and replicates data to subsequent nodes</li>
+                                        <li><strong>Memcached (libketama):</strong> Client libraries use consistent hashing to distribute cache keys across memcached servers, minimizing cache misses during scaling</li>
+                                        <li><strong>Akamai CDN:</strong> Uses consistent hashing to route content requests to the nearest/most appropriate edge server with minimal reshuffling</li>
+                                        <li><strong>Discord:</strong> Uses consistent hashing to distribute user sessions and messages across their infrastructure</li>
                                     </ul>
                                 </div>
                             </div>
@@ -315,7 +349,7 @@
                         <div class="quiz-container">
                             <div class="quiz-header">
                                 <h3>Quick Quiz</h3>
-                                <p>Test your understanding of Authentication</p>
+                                <p>Test your understanding of Consistent Hashing</p>
                                 <div class="quiz-stats">
                                     <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
                                     <span class="score">Score: <span id="quizScore">0</span></span>
@@ -323,111 +357,111 @@
                             </div>
                             <div class="quiz-content">
                                 <div class="question-card" data-correct="c">
-                                    <div class="question-text">1. What does MFA (Multi-Factor Authentication) use?</div>
+                                    <div class="question-text">1. What fraction of keys need to be remapped when one node is added to a cluster of N nodes using consistent hashing?</div>
                                     <div class="options-list">
                                         <label class="option-label">
                                             <input type="radio" name="question_1" value="a">
-                                            <span>Only passwords</span>
+                                            <span>All keys must be remapped</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_1" value="b">
-                                            <span>Only biometrics</span>
+                                            <span>Approximately N/2 keys</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_1" value="c">
-                                            <span>Multiple verification factors</span>
+                                            <span>Approximately K/N keys (where K is total keys)</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_1" value="d">
-                                            <span>Only security questions</span>
+                                            <span>No keys need to be remapped</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="question-card" data-correct="b">
-                                    <div class="question-text">2. What is a key characteristic of JWT?</div>
+                                    <div class="question-text">2. What is the primary purpose of virtual nodes in consistent hashing?</div>
                                     <div class="options-list">
                                         <label class="option-label">
                                             <input type="radio" name="question_2" value="a">
-                                            <span>Requires database lookup for every request</span>
+                                            <span>To encrypt data on the ring</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_2" value="b">
-                                            <span>It is stateless</span>
+                                            <span>To ensure more uniform distribution of keys across nodes</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_2" value="c">
-                                            <span>It cannot expire</span>
+                                            <span>To reduce the total number of servers needed</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_2" value="d">
-                                            <span>It stores data in cookies only</span>
+                                            <span>To provide data compression</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="question-card" data-correct="a">
-                                    <div class="question-text">3. What is OAuth 2.0 primarily?</div>
+                                    <div class="question-text">3. In a consistent hash ring, how is a key assigned to a server?</div>
                                     <div class="options-list">
                                         <label class="option-label">
                                             <input type="radio" name="question_3" value="a">
-                                            <span>An authorization framework</span>
+                                            <span>The key walks clockwise to the nearest server node</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_3" value="b">
-                                            <span>An encryption algorithm</span>
+                                            <span>The key is assigned using key modulo N</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_3" value="c">
-                                            <span>A database system</span>
+                                            <span>The key is randomly assigned to any server</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_3" value="d">
-                                            <span>A hashing library</span>
+                                            <span>A central coordinator assigns keys to servers</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="question-card" data-correct="d">
-                                    <div class="question-text">4. What does session-based authentication store on the server?</div>
+                                    <div class="question-text">4. Which of the following is NOT a benefit of consistent hashing?</div>
                                     <div class="options-list">
                                         <label class="option-label">
                                             <input type="radio" name="question_4" value="a">
-                                            <span>JWT tokens</span>
+                                            <span>Minimal key redistribution on node changes</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_4" value="b">
-                                            <span>User passwords</span>
+                                            <span>Support for heterogeneous server capacities</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_4" value="c">
-                                            <span>OAuth tokens</span>
+                                            <span>Decentralized key-to-node mapping</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_4" value="d">
-                                            <span>Session state and user data</span>
+                                            <span>Guaranteed strong consistency of data</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="question-card" data-correct="b">
-                                    <div class="question-text">5. Which algorithm is commonly used for password hashing?</div>
+                                    <div class="question-text">5. Which system famously introduced consistent hashing with virtual nodes for production use?</div>
                                     <div class="options-list">
                                         <label class="option-label">
                                             <input type="radio" name="question_5" value="a">
-                                            <span>AES</span>
+                                            <span>MySQL Cluster</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_5" value="b">
-                                            <span>Bcrypt</span>
+                                            <span>Amazon Dynamo (DynamoDB)</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_5" value="c">
-                                            <span>RSA</span>
+                                            <span>PostgreSQL</span>
                                         </label>
                                         <label class="option-label">
                                             <input type="radio" name="question_5" value="d">
-                                            <span>Base64</span>
+                                            <span>Redis Sentinel</span>
                                         </label>
                                     </div>
                                 </div>
@@ -445,31 +479,31 @@
             <section class="related-topics">
                 <h3><i class="fas fa-link"></i> Related Topics</h3>
                 <div class="related-grid">
-                    <a href="../pages/oauth-jwt.html" class="related-topic-card">
+                    <a href="../pages/database-sharding.html" class="related-topic-card">
                         <div class="related-topic-icon">
-                            <i class="fas fa-id-badge"></i>
+                            <i class="fas fa-th-large"></i>
                         </div>
                         <div class="related-topic-info">
-                            <h4>OAuth & JWT</h4>
-                            <p>Token-based authentication and authorization protocols</p>
+                            <h4>Database Sharding</h4>
+                            <p>Horizontal partitioning of data across multiple database instances</p>
                         </div>
                     </a>
-                    <a href="../pages/system-security.html" class="related-topic-card">
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
                         <div class="related-topic-icon">
-                            <i class="fas fa-shield-alt"></i>
+                            <i class="fas fa-balance-scale"></i>
                         </div>
                         <div class="related-topic-info">
-                            <h4>System Security</h4>
-                            <p>Comprehensive security practices for distributed systems</p>
+                            <h4>Load Balancing</h4>
+                            <p>Distribute incoming traffic across multiple servers</p>
                         </div>
                     </a>
-                    <a href="../pages/rate-limiting.html" class="related-topic-card">
+                    <a href="../pages/caching.html" class="related-topic-card">
                         <div class="related-topic-icon">
-                            <i class="fas fa-tachometer-alt"></i>
+                            <i class="fas fa-memory"></i>
                         </div>
                         <div class="related-topic-info">
-                            <h4>Rate Limiting</h4>
-                            <p>Protecting services from abuse and brute force attacks</p>
+                            <h4>Caching Strategies</h4>
+                            <p>Improve performance with intelligent data caching</p>
                         </div>
                     </a>
                 </div>
@@ -484,7 +518,7 @@
                             <i class="fas fa-video"></i>
                         </div>
                         <h4>Video Tutorials</h4>
-                        <p>Recommended video content for visual learners</p>
+                        <p>Visual walkthroughs of consistent hashing rings and virtual nodes</p>
                         <a href="#" class="resource-link">Watch Videos &rarr;</a>
                     </div>
                     <div class="resource-card">
@@ -492,7 +526,7 @@
                             <i class="fas fa-file-alt"></i>
                         </div>
                         <h4>Documentation</h4>
-                        <p>Official documentation and technical specs</p>
+                        <p>Amazon Dynamo paper and consistent hashing specifications</p>
                         <a href="#" class="resource-link">Read Docs &rarr;</a>
                     </div>
                     <div class="resource-card">
@@ -500,7 +534,7 @@
                             <i class="fas fa-code"></i>
                         </div>
                         <h4>Code Examples</h4>
-                        <p>Practical implementations and sample code</p>
+                        <p>Implement a consistent hash ring with virtual nodes in Python/Java</p>
                         <a href="#" class="resource-link">View Code &rarr;</a>
                     </div>
                 </div>

@@ -46,26 +46,60 @@
                     <h1>Modern API Protocols</h1>
                     <p class="topic-description">GraphQL, gRPC, and other advanced API technologies</p>
                     <div class="topic-meta">
-                        <span class="difficulty">Advanced</span>
-                        <span class="duration">15 min read</span>
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#9201; 30 min</span>
                     </div>
                 </div>
                 <div class="topic-actions">
-                    <button class="btn btn-primary bookmark-btn">
+                    <button class="btn btn-primary bookmark-btn" data-topic="modern-apis">
                         <i class="fas fa-bookmark"></i> Bookmark
                     </button>
-                    <button class="btn btn-secondary share-btn">
-                        <i class="fas fa-share"></i> Share
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
                     </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Content Sections -->
             <div class="content-wrapper">
                 <!-- Definition Section -->
-                <section class="content-section">
+                <section class="content-section" id="definition">
                     <div class="section-header">
                         <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="definition-card">
@@ -75,17 +109,120 @@
                             </div>
                             <div class="definition-highlight">
                                 <i class="fas fa-lightbulb"></i>
-                                <h4>Key Insight</h4>
-                                <p>Modern protocols address REST limitations with more efficient data transfer and stronger typing.</p>
+                                <p><strong>Key Insight:</strong> Modern protocols address REST limitations with more efficient data transfer and stronger typing.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Interview Questions & Answers -->
-                <section class="content-section">
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of ordering food at a restaurant. REST is like a fixed menu where you order a set meal and get everything whether you want it or not. GraphQL is like a buffet where you pick exactly what you want. gRPC is like a direct kitchen intercom used by staff for fast, efficient communication behind the scenes.</p>
+
+                                <h4>Major Modern API Protocols</h4>
+
+                                <p><strong>1. GraphQL</strong></p>
+                                <ul>
+                                    <li><strong>Client-defined queries:</strong> Clients request exactly the fields they need, eliminating over-fetching and under-fetching</li>
+                                    <li><strong>Single endpoint:</strong> All queries go through one URL, unlike REST's multiple endpoints</li>
+                                    <li><strong>Strong typing:</strong> Schema defines all available types and operations</li>
+                                    <li><strong>Real-time subscriptions:</strong> Built-in support for live data updates via WebSocket</li>
+                                </ul>
+
+                                <p><strong>2. gRPC</strong></p>
+                                <ul>
+                                    <li><strong>Protocol Buffers:</strong> Uses binary serialization format (protobuf) for compact, fast data transfer</li>
+                                    <li><strong>HTTP/2 based:</strong> Leverages multiplexing, header compression, and bidirectional streaming</li>
+                                    <li><strong>Code generation:</strong> Auto-generates client and server code from .proto definitions</li>
+                                    <li><strong>Streaming:</strong> Supports unary, server-streaming, client-streaming, and bidirectional streaming</li>
+                                </ul>
+
+                                <p><strong>3. WebSocket &amp; Server-Sent Events</strong></p>
+                                <ul>
+                                    <li><strong>WebSocket:</strong> Full-duplex bidirectional communication over a single TCP connection</li>
+                                    <li><strong>Server-Sent Events (SSE):</strong> Unidirectional server-to-client streaming over HTTP</li>
+                                    <li><strong>Use cases:</strong> Real-time chat, live feeds, notifications, and collaborative editing</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-github"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>GitHub's GraphQL API</h5>
+                                        <p>GitHub migrated from REST to GraphQL for their API v4. This allows developers to request exactly the data they need in a single query, reducing API calls by up to 10x and eliminating the over-fetching problems common with their REST API v3.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-project-diagram"></i> GraphQL</h4>
+                                <p>Query language that lets clients request specific fields, reducing over-fetching and enabling flexible data retrieval.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-bolt"></i> gRPC</h4>
+                                <p>High-performance RPC framework using Protocol Buffers for efficient binary serialization and HTTP/2 transport.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-arrows-alt-h"></i> WebSocket</h4>
+                                <p>Enables persistent bidirectional communication for real-time applications like chat and live updates.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-stream"></i> SSE</h4>
+                                <p>Server-Sent Events provide simple unidirectional streaming from server to client over standard HTTP.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>GraphQL lets clients request exactly what they need from a single endpoint</li>
+                                <li>gRPC uses Protocol Buffers for high-performance microservices communication</li>
+                                <li>WebSocket enables full-duplex bidirectional real-time communication</li>
+                                <li>REST remains the most widely adopted API style for public APIs</li>
+                                <li>Each protocol has specific strengths suited to different use cases</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
                     <div class="section-header">
                         <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="section-content">
                         <div class="interview-questions">
@@ -108,12 +245,289 @@
                                     <p>Choose gRPC for microservices communication, high-performance requirements, type safety, streaming capabilities, and when working with Protocol Buffers for efficient serialization.</p>
                                 </div>
                             </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do WebSocket and Server-Sent Events differ?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Key differences between WebSocket and SSE:</p>
+                                    <ul>
+                                        <li><strong>Direction:</strong> WebSocket is bidirectional; SSE is unidirectional (server-to-client only)</li>
+                                        <li><strong>Protocol:</strong> WebSocket uses its own protocol after HTTP upgrade; SSE uses standard HTTP</li>
+                                        <li><strong>Complexity:</strong> SSE is simpler to implement and works through proxies and firewalls more easily</li>
+                                        <li><strong>Use cases:</strong> WebSocket for chat and gaming; SSE for live feeds, notifications, and dashboards</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the drawbacks of GraphQL?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>GraphQL has several considerations:</p>
+                                    <ul>
+                                        <li><strong>Complexity:</strong> More complex server-side implementation with resolvers and schema management</li>
+                                        <li><strong>Caching:</strong> HTTP caching is harder since all requests go to a single endpoint via POST</li>
+                                        <li><strong>N+1 Problem:</strong> Naive resolver implementations can trigger excessive database queries</li>
+                                        <li><strong>Security:</strong> Deeply nested queries can be used for denial-of-service attacks without proper rate limiting</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Modern API Protocols</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is a key feature of GraphQL?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Uses binary serialization format</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Lets clients request specific fields they need</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Requires multiple endpoints per resource</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Only supports unidirectional communication</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What serialization format does gRPC use?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Protocol Buffers (protobuf)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>JSON</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>XML</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>YAML</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What type of communication does WebSocket enable?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Request-response only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Server-to-client only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Bidirectional real-time communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Client-to-server only</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which API style is most widely adopted for public APIs?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>gRPC</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>GraphQL</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>SOAP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>REST</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. What is a characteristic of Server-Sent Events (SSE)?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Unidirectional streaming from server to client</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Bidirectional communication</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Uses binary protocol format</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Requires WebSocket upgrade</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/rest.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>REST API</h4>
+                            <p>Representational State Transfer for web service communication</p>
+                        </div>
+                    </a>
+                    <a href="../pages/api-design.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-pencil-ruler"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>API Design</h4>
+                            <p>Best practices for designing robust and scalable APIs</p>
+                        </div>
+                    </a>
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication between distributed services</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

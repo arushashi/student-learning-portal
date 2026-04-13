@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Design - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Notification System Design</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Notification System Design</h1>
+                    <p class="topic-description">Designing a scalable notification system supporting push, SMS, and email channels</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span class="duration">&#9201; 30 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="notification-system">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is a Notification System?</h3>
+                                <p>A notification system is a platform that sends timely, relevant alerts to users across multiple delivery channels including push notifications (iOS/Android), SMS, email, in-app messages, and webhooks. It acts as a centralized hub that receives notification requests from various services, applies user preferences and rate limits, renders messages from templates, routes them through the appropriate delivery channel, and tracks delivery status. At scale, systems like Facebook's notification platform handle billions of notifications per day across billions of users, requiring sophisticated queue management, prioritization, and fault-tolerant delivery pipelines.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> A great notification system is invisible when working correctly but immediately noticed when it fails. The challenge isn't just sending messages &mdash; it's sending the right message, to the right user, at the right time, through the right channel, without overwhelming them with notification fatigue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a notification system like a sophisticated mail room in a large corporate building. Departments (services) drop off messages to the mail room. The mail room staff (notification service) checks each recipient's preferences: do they want physical mail, email, or phone calls? They prioritize urgent messages over routine ones, batch similar messages together to avoid overwhelming recipients, and keep a log of every delivery attempt. If a delivery fails, they retry with a different method.</p>
+
+                                <p>The key complexity is that this mail room handles millions of messages per minute, each with different priorities, channels, and recipient preferences. The system must be both fast (urgent alerts within seconds) and respectful (not sending marketing emails at 3 AM). It must also be extremely reliable &mdash; a missed security alert or password reset email directly impacts user trust.</p>
+
+                                <ul>
+                                    <li><strong>Priority Queues:</strong> Notifications are classified into priority tiers (critical, high, medium, low). Security alerts and OTP codes are processed immediately from the critical queue, while marketing emails wait in the low-priority queue. Separate queues per priority prevent low-priority floods from delaying critical notifications</li>
+                                    <li><strong>Rate Limiting:</strong> Per-user and per-channel rate limits prevent notification fatigue. A user might receive at most 5 push notifications per hour, 3 SMS per day, and 10 emails per day. Global rate limits protect downstream providers (e.g., SMS gateway limits) from being overwhelmed</li>
+                                    <li><strong>Template Engine:</strong> Notifications are rendered from templates with variable interpolation, supporting localization (i18n) and personalization. A single template like "Hi {{name}}, your order {{orderId}} has shipped" serves millions of users in their preferred language</li>
+                                    <li><strong>Delivery Tracking:</strong> Each notification is tracked through its lifecycle: queued, sent, delivered, opened, clicked, or failed. This data feeds dashboards for delivery rates, open rates, and channel performance, and triggers automatic retries on failure</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-facebook"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Facebook Notification System</h5>
+                                        <p>Facebook's notification system serves over 2 billion users across push, email, SMS, and in-app channels. Their architecture uses a centralized notification aggregation service that deduplicates similar notifications ("John and 5 others liked your post" instead of 6 separate alerts), respects user-defined quiet hours, and employs machine learning to determine the optimal channel and timing for each notification. Their system processes billions of notifications daily with a priority queue architecture where security-critical alerts (login from new device) bypass all rate limits and are delivered within seconds, while social notifications are batched and optimized for engagement without causing fatigue.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-paper-plane"></i> Multi-Channel Delivery</h4>
+                                <p>A notification system must support multiple delivery channels: push notifications via APNs (iOS) and FCM (Android), email via SMTP/SendGrid/SES, SMS via Twilio/SNS, in-app via WebSocket, and webhooks for third-party integrations. Each channel has unique constraints &mdash; SMS has 160-character limits, push requires device tokens, email needs HTML rendering. Channel selection is based on notification type, user preferences, and fallback logic.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sort-amount-down"></i> Priority & Rate Limiting</h4>
+                                <p>Notifications are routed through priority-based queues: critical (security alerts, OTPs), high (order updates), medium (social interactions), and low (marketing). Rate limiting operates at multiple levels: per-user limits prevent fatigue (max 5 push/hour), per-channel limits respect provider quotas (SMS gateway throughput), and global limits protect the system during traffic spikes. Critical notifications bypass rate limits entirely.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-redo-alt"></i> Reliability & Retry Logic</h4>
+                                <p>Delivery failures are inevitable (device offline, email bounces, SMS gateway down). The system implements exponential backoff retries with jitter: 1st retry after 1 minute, 2nd after 5 minutes, 3rd after 30 minutes, up to a maximum retry count. Dead letter queues capture permanently failed notifications for manual review. Idempotency keys prevent duplicate deliveries on retry.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-user-cog"></i> User Preferences & Opt-Out</h4>
+                                <p>Users control which notifications they receive, through which channels, and when. Preferences are stored per user and per notification category (marketing, transactional, security). Quiet hours suppress non-critical notifications during configured times. One-click unsubscribe links in emails are legally required (CAN-SPAM, GDPR). The preference service is checked before every notification dispatch.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Support multiple channels: push (APNs/FCM), email (SMTP/SES), SMS (Twilio), in-app, webhooks</li>
+                                <li>Priority queues ensure critical alerts are delivered within seconds regardless of system load</li>
+                                <li>Rate limiting at per-user, per-channel, and global levels prevents notification fatigue</li>
+                                <li>Exponential backoff retries with dead letter queues handle delivery failures gracefully</li>
+                                <li>Template engine with i18n support renders personalized messages at scale</li>
+                                <li>User preference service enforces opt-outs, quiet hours, and channel preferences before every send</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Notification System Architecture</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 15px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 85px; height: 40px; background: #667eea; color: white; border-radius: 8px; line-height: 40px; font-size: 11px; font-weight: bold;">Services</div>
+                                                <div style="font-size: 9px; color: #888; margin-top: 3px;">Auth, Orders, Social</div>
+                                            </div>
+                                            <span style="font-size: 18px; color: #667eea;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 95px; height: 40px; background: #28a745; color: white; border-radius: 8px; line-height: 40px; font-size: 11px; font-weight: bold;">Notification API</div>
+                                                <div style="font-size: 9px; color: #888; margin-top: 3px;">Validate + Enqueue</div>
+                                            </div>
+                                            <span style="font-size: 18px; color: #28a745;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 95px; height: 40px; background: #fd7e14; color: white; border-radius: 8px; line-height: 40px; font-size: 11px; font-weight: bold;">Priority Queue</div>
+                                                <div style="font-size: 9px; color: #888; margin-top: 3px;">Kafka / SQS</div>
+                                            </div>
+                                            <span style="font-size: 18px; color: #fd7e14;">&rarr;</span>
+                                            <div style="text-align: center;">
+                                                <div style="width: 85px; height: 40px; background: #dc3545; color: white; border-radius: 8px; line-height: 40px; font-size: 11px; font-weight: bold;">Workers</div>
+                                                <div style="font-size: 9px; color: #888; margin-top: 3px;">Process + Route</div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                                            <div style="background: #17a2b8; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+                                                <i class="fas fa-mobile-alt" style="margin-right: 4px;"></i> Push (APNs/FCM)
+                                            </div>
+                                            <div style="background: #6f42c1; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+                                                <i class="fas fa-envelope" style="margin-right: 4px;"></i> Email (SES)
+                                            </div>
+                                            <div style="background: #e83e8c; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+                                                <i class="fas fa-sms" style="margin-right: 4px;"></i> SMS (Twilio)
+                                            </div>
+                                            <div style="background: #20c997; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+                                                <i class="fas fa-desktop" style="margin-right: 4px;"></i> In-App (WebSocket)
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 12px; padding: 8px; background: rgba(102,126,234,0.1); border-radius: 6px; font-size: 11px; color: #555;">
+                                            Workers check user preferences &rarr; apply rate limits &rarr; render template &rarr; dispatch to channel provider
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Priority Queue & Rate Limiting</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="padding: 20px;">
+                                        <div style="margin-bottom: 14px;">
+                                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                                <div style="width: 110px; background: #dc3545; color: white; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center;">CRITICAL</div>
+                                                <div style="flex: 1; height: 4px; background: #dc3545; margin: 0 8px; border-radius: 2px;"></div>
+                                                <span style="font-size: 11px; color: #dc3545; white-space: nowrap;">OTP, Security Alerts &mdash; No rate limit</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                                <div style="width: 110px; background: #fd7e14; color: white; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center;">HIGH</div>
+                                                <div style="flex: 1; height: 4px; background: #fd7e14; margin: 0 8px; border-radius: 2px;"></div>
+                                                <span style="font-size: 11px; color: #fd7e14; white-space: nowrap;">Order updates, Payments &mdash; 20/hour</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                                <div style="width: 110px; background: #ffc107; color: #333; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center;">MEDIUM</div>
+                                                <div style="flex: 1; height: 4px; background: #ffc107; margin: 0 8px; border-radius: 2px;"></div>
+                                                <span style="font-size: 11px; color: #856404; white-space: nowrap;">Likes, Comments &mdash; 5/hour</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 110px; background: #28a745; color: white; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center;">LOW</div>
+                                                <div style="flex: 1; height: 4px; background: #28a745; margin: 0 8px; border-radius: 2px;"></div>
+                                                <span style="font-size: 11px; color: #28a745; white-space: nowrap;">Marketing, Digest &mdash; 3/day, batched</span>
+                                            </div>
+                                        </div>
+                                        <div style="padding: 10px; background: rgba(220,53,69,0.08); border-radius: 6px; font-size: 11px; color: #555;">
+                                            <strong>Rate Limit Enforcement:</strong> Token bucket per user per channel. Exceeded notifications are queued for next window or dropped for marketing.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you design a notification system that supports multiple channels?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A multi-channel notification system requires a layered architecture:</p>
+                                    <ul>
+                                        <li><strong>Notification API:</strong> A unified ingestion endpoint that accepts notification requests with recipient, channel preferences, priority, template ID, and payload data. Validates input and publishes to a message queue.</li>
+                                        <li><strong>Channel Router:</strong> Determines which channels to use based on: (1) notification type (OTPs require SMS), (2) user preferences (opted out of email), (3) device availability (no push token means skip push), and (4) fallback logic (push fails, try SMS).</li>
+                                        <li><strong>Channel Workers:</strong> Dedicated worker pools per channel, each integrating with the appropriate provider API: APNs for iOS push, FCM for Android push, Amazon SES for email, Twilio for SMS. Each worker handles provider-specific formatting and error handling.</li>
+                                        <li><strong>Delivery Tracker:</strong> Records the status of each notification attempt (queued, sent, delivered, opened, failed) in a database. Failed deliveries trigger retry logic or fallback to alternative channels.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you prevent notification fatigue while ensuring important alerts get through?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Balancing notification volume requires multiple strategies:</p>
+                                    <ul>
+                                        <li><strong>Priority Classification:</strong> Categorize every notification type into priority tiers. Critical (security, OTP) bypass all limits. High (transactional) have generous limits. Medium/Low (social, marketing) have strict limits and can be batched.</li>
+                                        <li><strong>Per-User Rate Limiting:</strong> Implement a token bucket or sliding window counter per user per channel. Example: max 5 push notifications per hour, 10 emails per day, 2 SMS per day.</li>
+                                        <li><strong>Notification Aggregation:</strong> Instead of sending 10 separate "Someone liked your post" notifications, aggregate them into "John and 9 others liked your post." This reduces volume by 90% for viral content.</li>
+                                        <li><strong>Quiet Hours:</strong> Suppress non-critical notifications during user-configured quiet hours (e.g., 10 PM to 8 AM). Queue suppressed notifications and deliver them when quiet hours end.</li>
+                                        <li><strong>Smart Delivery:</strong> Use machine learning to learn each user's engagement patterns and deliver notifications at optimal times for maximum open rates.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle notification delivery failures and retries?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Robust failure handling is critical for notification reliability:</p>
+                                    <ul>
+                                        <li><strong>Exponential Backoff:</strong> On failure, retry with increasing delays: 1 min, 5 min, 30 min, 2 hours, 24 hours. Add random jitter to prevent thundering herd when a provider recovers from an outage.</li>
+                                        <li><strong>Channel Fallback:</strong> If the primary channel fails after max retries, fall back to the next preferred channel. Push notification failed? Try in-app. Email bounced? Try SMS for critical notifications.</li>
+                                        <li><strong>Dead Letter Queue:</strong> Notifications that exhaust all retries across all channels are moved to a dead letter queue for manual investigation. Alerts fire when DLQ depth exceeds thresholds.</li>
+                                        <li><strong>Idempotency:</strong> Each notification has a unique ID. Channel workers check for the ID before sending to prevent duplicate deliveries when retries overlap with delayed original deliveries.</li>
+                                        <li><strong>Circuit Breaker:</strong> If a provider (e.g., Twilio) returns errors above a threshold, trip a circuit breaker to stop sending traffic. This prevents wasting resources and allows the provider to recover.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you implement user notification preferences at scale?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>User preferences must be fast to query and flexible to configure:</p>
+                                    <ul>
+                                        <li><strong>Preference Schema:</strong> Store preferences as a matrix of (user_id, notification_category, channel) with values: enabled, disabled, or digest. Categories include security, transactional, social, marketing, and system.</li>
+                                        <li><strong>Default Preferences:</strong> New users inherit sensible defaults (all transactional enabled, marketing off). Users override only what they want to change, keeping the storage sparse.</li>
+                                        <li><strong>Caching:</strong> Cache user preferences in Redis with a TTL of 5-10 minutes. The notification worker checks preferences before every send. Cache invalidation is triggered on preference updates via a pub/sub event.</li>
+                                        <li><strong>Legal Compliance:</strong> CAN-SPAM requires one-click unsubscribe in every marketing email. GDPR requires explicit opt-in for marketing communications. The preference service enforces these rules automatically, rejecting send requests that violate compliance.</li>
+                                        <li><strong>Global Unsubscribe:</strong> Support a "mute all non-critical" toggle for users who want temporary silence without losing their granular preferences.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Notification System Design</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">1. Which notification type should bypass all rate limits?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Marketing promotions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Social media likes</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Weekly digest emails</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Security alerts and OTP codes</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">2. What is the best retry strategy for failed notification deliveries?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Retry immediately 10 times in a row</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Exponential backoff with jitter and a maximum retry count</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Never retry; discard failed notifications</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Retry exactly once after 24 hours</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. How does notification aggregation help reduce fatigue?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>It sends notifications faster</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>It encrypts notification content</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>It combines multiple similar events into a single notification</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>It routes all notifications to email only</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">4. What happens to notifications that fail after all retry attempts?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>They are moved to a dead letter queue for investigation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>They are automatically sent as postal mail</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>They are deleted permanently without any record</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>They restart from the beginning of the retry cycle</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">5. Why is it important to check user preferences before sending each notification?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>To compress the notification payload</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>To respect opt-outs, quiet hours, and legal requirements like CAN-SPAM/GDPR</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>To encrypt the notification before sending</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>To determine the notification's priority level</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-stream"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication patterns for distributed systems</p>
+                        </div>
+                    </a>
+                    <a href="../pages/rate-limiting.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Rate Limiting</h4>
+                            <p>Controlling request rates to protect systems and ensure fairness</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Building reactive systems with event-based communication</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>System design walkthroughs for notification platforms and push architecture</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>APNs guide, FCM docs, Amazon SES best practices, Twilio API reference</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Build a notification service with Node.js, Kafka, Redis, and provider SDKs</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

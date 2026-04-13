@@ -1,67 +1,564 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Sessions - System Design Learning Portal</title>
+
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/concept.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 </head>
 <body>
-    <header class="simple-header">
+    <header class="header">
         <div class="container">
-            <a href="../index.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Home
-            </a>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>System Design Learning Portal</h1>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
         </div>
     </header>
 
     <main class="concept-main">
         <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Web Sessions</span>
+            </nav>
+
+            <!-- Topic Header -->
             <section class="topic-header">
                 <div class="topic-icon">
                     <i class="fas fa-user-clock"></i>
                 </div>
                 <div class="topic-info">
                     <h1>Web Sessions</h1>
-                    <p>Managing user state and authentication in web applications</p>
+                    <p class="topic-description">Managing user state and authentication in web applications</p>
                     <div class="topic-meta">
                         <span class="difficulty beginner">Beginner</span>
-                        <span class="duration">â± 15 min</span>
+                        <span class="duration">&#9201; 15 min</span>
+                        <span class="last-updated">&#128197; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="sessions">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
                     </div>
                 </div>
             </section>
 
-            <section class="content-section">
-                <h2>Definition</h2>
-                <p>Web sessions are mechanisms to maintain user state across multiple HTTP requests, as HTTP itself is stateless.</p>
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What are Web Sessions?</h3>
+                                <p>Web sessions are mechanisms to maintain user state across multiple HTTP requests, as HTTP itself is stateless. A session allows a server to remember information about a user between different page requests, enabling features like login persistence, shopping carts, and personalized experiences.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Since HTTP is stateless by design, sessions bridge the gap by providing a way to track and maintain user context across multiple requests, making interactive web applications possible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Imagine visiting a coffee shop every morning. Without sessions, the barista forgets you each time you walk in, and you have to re-introduce yourself and re-state your order. With sessions, the barista gives you a loyalty card (session ID) on your first visit. Each time you return with the card, they instantly know who you are and your preferences.</p>
+
+                                <h4>Session Management Methods</h4>
+
+                                <p><strong>1. Cookie-based Sessions</strong></p>
+                                <ul>
+                                    <li>Store session ID in cookies sent with every request</li>
+                                    <li>Server maps session ID to stored user data</li>
+                                    <li>Most common approach for web applications</li>
+                                </ul>
+
+                                <p><strong>2. URL Rewriting</strong></p>
+                                <ul>
+                                    <li>Include session ID in URLs as query parameters</li>
+                                    <li>Used when cookies are disabled</li>
+                                    <li>Less secure as session ID is visible in the URL</li>
+                                </ul>
+
+                                <p><strong>3. Hidden Fields</strong></p>
+                                <ul>
+                                    <li>Store session data in hidden form fields</li>
+                                    <li>Works only with form-based navigation</li>
+                                    <li>Limited to POST requests</li>
+                                </ul>
+
+                                <p><strong>4. Token-based (Stateless) Sessions</strong></p>
+                                <ul>
+                                    <li>Store session data in signed tokens (JWT)</li>
+                                    <li>No server-side storage needed</li>
+                                    <li>Ideal for distributed systems and APIs</li>
+                                </ul>
+
+                                <h4>Session Storage Options</h4>
+                                <ul>
+                                    <li><strong>In-Memory:</strong> Fast but not scalable, lost on server restart</li>
+                                    <li><strong>Database:</strong> Persistent but slower query times</li>
+                                    <li><strong>Redis/Memcached:</strong> Fast and scalable, ideal for production</li>
+                                    <li><strong>Distributed Cache:</strong> For load-balanced applications across servers</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>E-Commerce Shopping Cart</h5>
+                                        <p>When you browse Amazon and add items to your cart, a session tracks your cart contents across pages. Even if you navigate away and come back, your items remain. Amazon uses distributed session storage (like DynamoDB) to handle millions of concurrent sessions across their global infrastructure.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-cookie-bite"></i> Session Cookies</h4>
+                                <p>Session IDs are typically stored in HTTP cookies and sent automatically with every request to identify the user's session on the server.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-server"></i> Sticky Sessions</h4>
+                                <p>In load-balanced environments, sticky sessions ensure a user's requests always go to the same server that holds their session data.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-clock"></i> Session Expiration</h4>
+                                <p>Sessions have configurable timeouts. Expired sessions are invalidated for security, requiring users to re-authenticate.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-lock"></i> Session Security</h4>
+                                <p>Protect sessions with HTTPS, HttpOnly cookies, secure flags, and regeneration after login to prevent session hijacking.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Sessions maintain user state across stateless HTTP requests</li>
+                                <li>Cookie-based sessions are the most common approach</li>
+                                <li>Session data can be stored in memory, databases, or distributed caches</li>
+                                <li>Token-based sessions (JWT) enable stateless architectures</li>
+                                <li>Session security is critical to prevent hijacking and fixation attacks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is a web session and why is it needed?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A web session is a mechanism for maintaining state between a client and server across multiple HTTP requests. It's needed because:</p>
+                                    <ul>
+                                        <li><strong>HTTP is stateless:</strong> Each request is independent with no memory of previous requests</li>
+                                        <li><strong>User tracking:</strong> Sessions enable login persistence, shopping carts, and preferences</li>
+                                        <li><strong>Security:</strong> Sessions help manage authentication and authorization across requests</li>
+                                        <li><strong>Personalization:</strong> User-specific content and settings require session context</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle sessions in a distributed system?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>In distributed systems, session management requires special strategies:</p>
+                                    <ul>
+                                        <li><strong>Sticky Sessions:</strong> Load balancer routes user to the same server (simple but limits scalability)</li>
+                                        <li><strong>Centralized Store:</strong> Use Redis or Memcached as a shared session store accessible by all servers</li>
+                                        <li><strong>Database-backed:</strong> Store sessions in a shared database (persistent but slower)</li>
+                                        <li><strong>Stateless Tokens:</strong> Use JWT tokens that contain session data, eliminating server-side storage</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the security risks associated with sessions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Common session security risks and mitigations include:</p>
+                                    <ul>
+                                        <li><strong>Session Hijacking:</strong> Attacker steals session ID. Mitigate with HTTPS, HttpOnly cookies, and IP validation.</li>
+                                        <li><strong>Session Fixation:</strong> Attacker sets a known session ID. Mitigate by regenerating session ID after login.</li>
+                                        <li><strong>Cross-Site Scripting (XSS):</strong> Scripts steal cookies. Mitigate with HttpOnly flag and input sanitization.</li>
+                                        <li><strong>CSRF Attacks:</strong> Forged requests use existing sessions. Mitigate with CSRF tokens.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is the difference between cookie-based and token-based sessions?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Key differences between the two approaches:</p>
+                                    <ul>
+                                        <li><strong>Cookie-based:</strong> Server stores session data; cookie only contains the session ID. Stateful on the server side.</li>
+                                        <li><strong>Token-based:</strong> Token (like JWT) contains the session data itself. Stateless on the server side.</li>
+                                        <li><strong>Scalability:</strong> Token-based scales better as no server-side storage is needed</li>
+                                        <li><strong>Revocation:</strong> Cookie-based sessions are easier to invalidate; tokens require additional mechanisms like blacklists</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Web Sessions</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">1. What is the primary purpose of a web session?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Encrypt network traffic</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Store user state across requests</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Speed up page loading</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Compress HTTP responses</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. How is a session ID typically sent to the server?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Via cookies</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Via DNS records</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Via TCP headers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Via IP addresses</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">3. What do sticky sessions do in a load-balanced environment?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Encrypt session data</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Replicate sessions across all servers</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Route a user to the same server</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Delete expired sessions automatically</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">4. Which approach uses tokens like JWT for stateless sessions?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Cookie-based sessions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Token-based sessions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>URL rewriting sessions</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Hidden field sessions</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">5. Why is session timeout important?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>It speeds up the application</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>It reduces database size</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>It increases bandwidth</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>It improves security</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/authentication.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Authentication</h4>
+                            <p>User verification and identity management</p>
+                        </div>
+                    </a>
+                    <a href="../pages/caching.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Caching</h4>
+                            <p>Storing frequently accessed data for faster retrieval</p>
+                        </div>
+                    </a>
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distributing traffic across multiple servers</p>
+                        </div>
+                    </a>
+                </div>
             </section>
 
-            <section class="content-section">
-                <h2>Session Management Methods</h2>
-                <ul>
-                    <li><strong>Cookie-based Sessions:</strong> Store session ID in cookies</li>
-                    <li><strong>URL Rewriting:</strong> Include session ID in URLs</li>
-                    <li><strong>Hidden Fields:</strong> Store session data in hidden form fields</li>
-                    <li><strong>Local Storage:</strong> Browser-based storage for session data</li>
-                </ul>
-            </section>
-
-            <section class="content-section">
-                <h2>Session Storage</h2>
-                <ul>
-                    <li><strong>In-Memory:</strong> Fast but not scalable</li>
-                    <li><strong>Database:</strong> Persistent but slower</li>
-                    <li><strong>Redis/Memcached:</strong> Fast and scalable</li>
-                    <li><strong>Distributed Cache:</strong> For load-balanced applications</li>
-                </ul>
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Recommended video content for visual learners</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>Official documentation and technical specs</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Practical implementations and sample code</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
 
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
 </body>
 </html>
-
-

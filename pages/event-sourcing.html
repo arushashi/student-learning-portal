@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Sourcing - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Event Sourcing</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Event Sourcing</h1>
+                    <p class="topic-description">Store application state as an immutable sequence of events, enabling complete audit trails, temporal queries, and state reconstruction</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#x23F1; 35 min</span>
+                        <span class="last-updated">&#x1F4C5; April 2, 2024</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="event-sourcing">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step completed" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is Event Sourcing?</h3>
+                                <p>Event Sourcing is an architectural pattern where the state of an application is determined by a sequence of immutable events rather than by storing just the current state. Instead of updating a record in place (as in traditional CRUD), every state change is captured as an event object and appended to an append-only event store. The current state of any entity can be reconstructed by replaying all its events from the beginning. Events are facts that happened in the past and are never modified or deleted, providing a complete and immutable history of everything that has occurred in the system.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> Think of your bank account statement. Instead of just showing your current balance ($1,250), the bank keeps a ledger of every transaction: deposited $2,000, withdrew $500, deposited $100, paid bill $350. The current balance is derived by replaying all transactions. If you dispute a charge, the bank can trace exactly what happened and when. That ledger is event sourcing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>In traditional systems, when you update a customer's address, you overwrite the old address with the new one. The old address is lost forever. With Event Sourcing, you store an "AddressChanged" event containing both the old and new address, along with a timestamp and who made the change. The current address is determined by replaying all events, and the full history of address changes is always available.</p>
+
+                                <p>Core concepts of Event Sourcing:</p>
+
+                                <ul>
+                                    <li><strong>Event Store:</strong> An append-only log where all events are persisted. Events are immutable once stored. The event store is the single source of truth. Technologies like EventStoreDB, Apache Kafka, or even a relational database table can serve as an event store.</li>
+                                    <li><strong>Events as Facts:</strong> Each event represents something that happened in the past: "OrderPlaced," "PaymentProcessed," "ItemShipped." Events are named in past tense because they describe facts that have already occurred. They contain all the data needed to describe the change.</li>
+                                    <li><strong>State Reconstruction:</strong> The current state of an aggregate (entity) is rebuilt by loading all its events from the event store and applying them in sequence. This process is called "rehydration." For example, an Order's state is rebuilt by replaying OrderCreated, ItemAdded, ItemRemoved, and OrderConfirmed events.</li>
+                                    <li><strong>Projections:</strong> Since querying an event stream directly is impractical for most use cases, projections (also called read models or materialized views) are built by processing events. A projection subscribes to events and maintains a denormalized, query-optimized view of the data. Multiple projections can be built from the same event stream.</li>
+                                    <li><strong>Snapshots:</strong> For aggregates with many events, replaying all events can be slow. Snapshots periodically capture the current state so that reconstruction only needs to replay events after the last snapshot, improving performance.</li>
+                                </ul>
+
+                                <p>Key benefits of Event Sourcing:</p>
+                                <ul>
+                                    <li><strong>Complete Audit Trail:</strong> Every change is recorded with who, what, when, and why, providing full traceability</li>
+                                    <li><strong>Temporal Queries:</strong> You can reconstruct the state of any entity at any point in time by replaying events up to that moment</li>
+                                    <li><strong>Debugging:</strong> Replay events to reproduce bugs and understand exactly how the system reached a particular state</li>
+                                    <li><strong>New Projections:</strong> Add new read models by replaying the complete event history, extracting insights you didn't anticipate when the system was designed</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>Banking and Financial Systems</h5>
+                                        <p>Banks are the quintessential example of event sourcing. A bank account's balance is never stored directly; instead, the bank records every transaction as an event: deposits, withdrawals, transfers, interest payments, and fees. The current balance is the result of replaying all these events. This approach is legally required for financial auditing, enables dispute resolution by examining the exact sequence of events, supports regulatory reporting by projecting transaction data into compliance views, and allows temporal queries like "What was the account balance at close of business on March 15th?" The entire financial industry operates on event sourcing principles through double-entry bookkeeping, which has been used for over 500 years.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-database"></i> Event Store vs State Store</h4>
+                                <p>A traditional state store overwrites data with each update, losing history. An event store appends immutable events, preserving the complete history. The event store is the source of truth; current state is derived by replaying events. Use technologies like EventStoreDB, Kafka, or DynamoDB Streams.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-eye"></i> Projections</h4>
+                                <p>Projections are read-optimized views built by processing events from the event store. They can be rebuilt from scratch at any time by replaying all events. Multiple projections can serve different query needs from the same event stream, each denormalized for its specific use case.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-redo-alt"></i> Replay Capability</h4>
+                                <p>The ability to replay events enables powerful capabilities: rebuild read models, fix bugs by replaying corrected logic, migrate to new schemas, create new projections retroactively, and perform temporal debugging to understand exact system behavior at any past point.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-search"></i> Audit Trail</h4>
+                                <p>Event sourcing provides a built-in, tamper-evident audit trail. Every change is recorded with full context: what changed, when, who triggered it, and why. This is invaluable for compliance (GDPR, SOX, HIPAA), debugging, analytics, and dispute resolution.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>Event Sourcing stores state as an append-only sequence of immutable events</li>
+                                <li>Current state is derived by replaying all events for an entity (aggregate)</li>
+                                <li>Projections build read-optimized views from the event stream for efficient queries</li>
+                                <li>Provides complete audit trail, temporal queries, and replay/debugging capabilities</li>
+                                <li>Pairs naturally with CQRS for separate read and write models</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Event Sourcing: How State Is Derived</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="font-weight: bold; color: #667eea; margin-bottom: 15px; font-size: 14px;">Event Store (Append-Only Log)</div>
+                                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;">
+                                            <div style="padding: 8px 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 6px; font-size: 10px; font-weight: bold;">
+                                                OrderCreated<br><span style="font-weight: normal; font-size: 9px;">t=1, $0</span>
+                                            </div>
+                                            <div style="font-size: 16px; color: #ccc; margin-top: 8px;">&#x2192;</div>
+                                            <div style="padding: 8px 12px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border-radius: 6px; font-size: 10px; font-weight: bold;">
+                                                ItemAdded<br><span style="font-weight: normal; font-size: 9px;">t=2, +$49.99</span>
+                                            </div>
+                                            <div style="font-size: 16px; color: #ccc; margin-top: 8px;">&#x2192;</div>
+                                            <div style="padding: 8px 12px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border-radius: 6px; font-size: 10px; font-weight: bold;">
+                                                ItemAdded<br><span style="font-weight: normal; font-size: 9px;">t=3, +$29.99</span>
+                                            </div>
+                                            <div style="font-size: 16px; color: #ccc; margin-top: 8px;">&#x2192;</div>
+                                            <div style="padding: 8px 12px; background: linear-gradient(135deg, #dc3545, #c0392b); color: white; border-radius: 6px; font-size: 10px; font-weight: bold;">
+                                                ItemRemoved<br><span style="font-weight: normal; font-size: 9px;">t=4, -$29.99</span>
+                                            </div>
+                                            <div style="font-size: 16px; color: #ccc; margin-top: 8px;">&#x2192;</div>
+                                            <div style="padding: 8px 12px; background: linear-gradient(135deg, #007bff, #0056b3); color: white; border-radius: 6px; font-size: 10px; font-weight: bold;">
+                                                OrderConfirmed<br><span style="font-weight: normal; font-size: 9px;">t=5, $49.99</span>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 24px; color: #667eea;">&#x2193;</div>
+                                        <div style="font-size: 12px; color: #888; margin: 8px 0;">Replay all events to derive current state</div>
+                                        <div style="font-size: 24px; color: #667eea;">&#x2193;</div>
+                                        <div style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #ffc107, #ff9800); color: #333; border-radius: 10px; font-weight: bold; box-shadow: 0 4px 15px rgba(255,193,7,0.4);">
+                                            Current State: Order #123<br>
+                                            <span style="font-size: 12px; font-weight: normal;">Status: Confirmed | 1 Item | Total: $49.99</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Event Sourcing with Projections</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 8px; font-weight: bold; margin-bottom: 10px;">
+                                            Event Store
+                                        </div>
+                                        <div style="font-size: 11px; color: #888; margin-bottom: 10px;">Events published to subscribers</div>
+                                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                                            <div style="text-align: center; min-width: 130px;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; font-size: 11px; font-weight: bold; color: #1565c0;">
+                                                    Order Summary<br>Projection
+                                                </div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 6px 10px; background: #bbdefb; border-radius: 4px; font-size: 10px;">
+                                                    PostgreSQL<br>(Order dashboard)
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center; min-width: 130px;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px; font-size: 11px; font-weight: bold; color: #2e7d32;">
+                                                    Search Index<br>Projection
+                                                </div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 6px 10px; background: #c8e6c9; border-radius: 4px; font-size: 10px;">
+                                                    Elasticsearch<br>(Product search)
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center; min-width: 130px;">
+                                                <div style="font-size: 18px; color: #667eea;">&#x2193;</div>
+                                                <div style="padding: 8px 12px; background: #fff3e0; border: 2px solid #ff9800; border-radius: 8px; font-size: 11px; font-weight: bold; color: #e65100;">
+                                                    Analytics<br>Projection
+                                                </div>
+                                                <div style="font-size: 18px;">&#x2193;</div>
+                                                <div style="padding: 6px 10px; background: #ffe0b2; border-radius: 4px; font-size: 10px;">
+                                                    ClickHouse<br>(Business reports)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; font-size: 11px; color: #888; padding: 8px; background: #f5f5f5; border-radius: 6px;">
+                                            Each projection builds a different read-optimized view from the same event stream
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What is Event Sourcing and how does it differ from traditional state-based persistence?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Event Sourcing stores every state change as an immutable event in an append-only log, while traditional persistence stores only the current state by overwriting previous values. Key differences:</p>
+                                    <ul>
+                                        <li><strong>History:</strong> Event Sourcing preserves the complete history of all changes; traditional persistence loses history with each update</li>
+                                        <li><strong>Storage:</strong> Event Sourcing uses an append-only event store; traditional uses mutable tables with UPDATE and DELETE operations</li>
+                                        <li><strong>Current State:</strong> In Event Sourcing, current state is derived by replaying events; in traditional persistence, it's read directly from the database</li>
+                                        <li><strong>Audit:</strong> Event Sourcing has a built-in audit trail; traditional systems need separate audit tables or change data capture</li>
+                                        <li><strong>Temporal Queries:</strong> Event Sourcing naturally supports "what was the state at time X" queries; traditional systems cannot answer this without separate versioning</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are projections in Event Sourcing and why are they needed?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Projections (also called read models or materialized views) are query-optimized data structures built by processing events from the event store. They are needed because:</p>
+                                    <ul>
+                                        <li><strong>Query Efficiency:</strong> Querying an event stream directly is slow and impractical for most use cases. A projection pre-computes and denormalizes data for fast retrieval.</li>
+                                        <li><strong>Multiple Views:</strong> Different consumers need different views of the same data. One projection might power a dashboard, another a search index, and a third an analytics report, all from the same events.</li>
+                                        <li><strong>Rebuild Capability:</strong> If a projection's schema changes or a bug is found, you can delete the projection and rebuild it from scratch by replaying all events through the corrected projection logic.</li>
+                                        <li><strong>Technology Flexibility:</strong> Each projection can use the best storage technology for its use case: SQL for relational queries, Elasticsearch for search, Redis for caching, etc.</li>
+                                    </ul>
+                                    <p>Projections are typically updated asynchronously by subscribing to the event stream, making them eventually consistent with the event store.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle the growing size of event streams? What are snapshots?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>As event streams grow, replaying all events to rebuild state becomes slow. Strategies to manage this include:</p>
+                                    <ul>
+                                        <li><strong>Snapshots:</strong> Periodically save the current aggregate state as a snapshot. When loading an aggregate, start from the latest snapshot and replay only events that occurred after it. For example, snapshot every 100 events.</li>
+                                        <li><strong>Event Stream Partitioning:</strong> Partition events by aggregate ID so each stream remains manageable. An order with 50 events loads quickly even if the system has millions of events total.</li>
+                                        <li><strong>Archiving:</strong> Move old, rarely accessed events to cold storage while keeping recent events in hot storage for fast access.</li>
+                                        <li><strong>Projection Optimization:</strong> Since most reads hit projections rather than the event store, optimize projection storage and indexing for your query patterns.</li>
+                                    </ul>
+                                    <p>In practice, most aggregates have relatively short event streams (tens to hundreds of events), so performance is rarely an issue without snapshots.</p>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>What are the challenges and trade-offs of Event Sourcing?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Event Sourcing introduces several challenges that teams must address:</p>
+                                    <ul>
+                                        <li><strong>Event Schema Evolution:</strong> Events are immutable, but your domain model evolves. You need versioning strategies: upcasting (transforming old event formats to new), weak schema (tolerating unknown fields), or event migration.</li>
+                                        <li><strong>Eventual Consistency:</strong> Projections are updated asynchronously, so reads may lag behind writes. Design your UI and business logic to handle this staleness gracefully.</li>
+                                        <li><strong>Complexity:</strong> The mental model is different from CRUD. Developers must think in terms of events and state derivation rather than direct state manipulation.</li>
+                                        <li><strong>GDPR and Data Deletion:</strong> Events are immutable, but regulations like GDPR require the ability to delete personal data. Solutions include crypto-shredding (encrypting personal data with per-user keys and deleting the key) or event tombstones.</li>
+                                        <li><strong>Testing:</strong> Testing requires constructing event histories, verifying projections, and testing event replay scenarios, which requires different testing approaches.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Event Sourcing</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What is the fundamental principle of Event Sourcing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>Store only the current state of entities in the database</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>Use events to trigger real-time notifications to users</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>Store all state changes as an immutable sequence of events</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>Replace database transactions with message queues</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. What is a projection in Event Sourcing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>A read-optimized view built by processing events from the event store</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>A prediction of future events based on past patterns</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>A backup copy of the event store for disaster recovery</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>A database index that speeds up event queries</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. Why are snapshots used in Event Sourcing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>To create backup copies of events for disaster recovery</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>To speed up state reconstruction by avoiding replaying all events from the beginning</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>To delete old events that are no longer needed</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>To compress events into a smaller storage format</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. Which industry is a classic real-world example of Event Sourcing?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Social media platforms</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Video streaming services</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Content management systems</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Banking and financial systems (transaction ledgers)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">5. How can Event Sourcing handle GDPR "right to be forgotten" requirements?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Delete all events containing the user's data from the event store</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Modify existing events to remove personal information</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Use crypto-shredding: encrypt personal data with per-user keys and delete the key</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Event Sourcing is incompatible with GDPR requirements</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/cqrs.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-columns"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>CQRS</h4>
+                            <p>Separate read and write models for independent scaling and optimization</p>
+                        </div>
+                    </a>
+                    <a href="../pages/event-driven.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Event-Driven Architecture</h4>
+                            <p>Build reactive systems that communicate through asynchronous events</p>
+                        </div>
+                    </a>
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Decouple services with asynchronous message-based communication</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Event Sourcing deep-dives with hands-on implementation walkthroughs</p>
+                        <a href="#" class="resource-link">Watch Videos &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>EventStoreDB documentation and Martin Fowler's Event Sourcing guide</p>
+                        <a href="#" class="resource-link">Read Docs &#x2192;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Event Sourcing implementations using EventStoreDB, Axon, and Marten</p>
+                        <a href="#" class="resource-link">View Code &#x2192;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>

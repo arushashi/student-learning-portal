@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat System Design - System Design Learning Portal</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/concept.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="concept-main">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Chat System Design</span>
+            </nav>
+
+            <!-- Topic Header -->
+            <section class="topic-header">
+                <div class="topic-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="topic-info">
+                    <h1>Chat System Design</h1>
+                    <p class="topic-description">Designing a real-time chat system like WhatsApp or Slack with message delivery guarantees</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span class="duration">&#9201; 35 min</span>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button class="btn btn-primary bookmark-btn" data-topic="chat-system">
+                        <i class="fas fa-bookmark"></i> Bookmark
+                    </button>
+                    <button class="btn btn-secondary print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Tracker -->
+            <section class="progress-tracker">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="definition">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Definition</span>
+                    </div>
+                    <div class="step" data-step="explanation">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Explanation</span>
+                    </div>
+                    <div class="step" data-step="key-points">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Key Points</span>
+                    </div>
+                    <div class="step" data-step="interview">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Interview Q&A</span>
+                    </div>
+                    <div class="step" data-step="quiz">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Quiz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Definition Section -->
+                <section class="content-section" id="definition">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Definition</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('definition')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="definition-card">
+                            <div class="definition-text">
+                                <h3>What is a Chat System?</h3>
+                                <p>A real-time chat system is a platform that enables instant messaging between users through persistent, bidirectional communication channels. It supports one-on-one conversations, group chats, media sharing, read receipts, and online presence indicators. At scale, services like WhatsApp handle over 100 billion messages per day across 2 billion users, requiring sophisticated architectures for real-time message delivery, reliable offline message storage, end-to-end encryption, and global distribution. Designing a chat system is one of the most complex system design challenges because it combines real-time communication, eventual consistency, and massive scale.</p>
+                            </div>
+                            <div class="definition-highlight">
+                                <i class="fas fa-lightbulb"></i>
+                                <p><strong>Key Insight:</strong> The fundamental challenge of a chat system is maintaining the illusion of instant, reliable communication over an inherently unreliable network. Every message must be delivered exactly once, in the correct order, even when users go offline, switch networks, or are on opposite sides of the globe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Section -->
+                <section class="content-section" id="explanation">
+                    <div class="section-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Simple Explanation</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('explanation')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="explanation-content">
+                            <div class="explanation-text">
+                                <h3>Understanding the Concept</h3>
+                                <p>Think of a chat system like a postal service with superpowers. In the traditional postal system, you write a letter, drop it at the post office, and the carrier delivers it to the recipient's mailbox. If the recipient isn't home, the letter waits in the mailbox. A chat system works similarly but at lightning speed: your message goes to a central server, which instantly pushes it to the recipient if they're online, or stores it for later delivery if they're offline.</p>
+
+                                <p>The "superpowers" come from WebSockets &mdash; a technology that keeps a persistent, two-way connection between each user and the server. Unlike traditional HTTP where the client must constantly ask "any new messages?", WebSockets allow the server to instantly push messages to clients the moment they arrive, enabling true real-time communication.</p>
+
+                                <ul>
+                                    <li><strong>WebSocket Connections:</strong> Each online user maintains a persistent WebSocket connection to a chat server. Messages are pushed instantly through this connection, achieving sub-100ms delivery latency. The server tracks which users are connected to which server instances for routing</li>
+                                    <li><strong>Message Ordering:</strong> Messages within a conversation must be displayed in the correct order. This is achieved using server-assigned timestamps or logical clocks (Lamport timestamps), with sequence numbers per conversation to handle clock skew between servers</li>
+                                    <li><strong>Offline Message Delivery:</strong> When a recipient is offline, messages are stored in a persistent queue. Upon reconnection, the client requests all messages with sequence numbers greater than its last received message, ensuring no messages are lost</li>
+                                    <li><strong>Presence System:</strong> Tracking which users are online, offline, or idle requires a heartbeat mechanism. Clients send periodic pings; if no heartbeat is received within a timeout (e.g., 30 seconds), the user is marked offline and their contacts are notified</li>
+                                </ul>
+                            </div>
+                            <div class="real-world-example">
+                                <h4><i class="fas fa-globe"></i> Real-World Example</h4>
+                                <div class="example-card">
+                                    <div class="example-icon">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </div>
+                                    <div class="example-content">
+                                        <h5>WhatsApp &mdash; 100B+ Messages Per Day</h5>
+                                        <p>WhatsApp handles over 100 billion messages daily with a remarkably lean engineering team. Their architecture uses Erlang/OTP on FreeBSD for the messaging servers, chosen for its exceptional concurrency model where each user connection is a lightweight Erlang process. Messages are stored temporarily on the server and deleted once delivered (store-and-forward model). WhatsApp uses the Signal Protocol for end-to-end encryption, meaning even WhatsApp servers cannot read message content. Group messages use a fan-out-on-write approach where the sender's server distributes copies to each group member's message queue.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Section -->
+                <section class="content-section" id="key-points">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Key Points & Summary</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('key-points')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="key-points-grid">
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-plug"></i> Real-Time Delivery</h4>
+                                <p>WebSockets provide full-duplex, persistent connections for instant message delivery with sub-100ms latency. Long polling serves as a fallback for environments where WebSockets are blocked. Server-Sent Events (SSE) work for one-way notifications but lack bidirectional support needed for chat. Each chat server maintains a connection registry mapping user IDs to active WebSocket connections.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-sort-numeric-down"></i> Message Ordering & Delivery</h4>
+                                <p>Messages use server-assigned monotonically increasing sequence numbers per conversation to guarantee ordering. Delivery follows a three-state model: sent (server received), delivered (recipient's device received), and read (recipient opened the chat). Each state change triggers an acknowledgment back through the WebSocket, powering the familiar single-check, double-check, blue-check indicators.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-circle"></i> Presence System</h4>
+                                <p>Online presence is tracked via heartbeats sent every 5-10 seconds over the WebSocket connection. When a heartbeat is missed beyond a configurable timeout (typically 30 seconds), the user is marked offline. Presence updates are propagated to relevant contacts using a pub/sub system (Redis Pub/Sub), but updates are throttled and batched to avoid overwhelming the system with status changes for users with thousands of contacts.</p>
+                            </div>
+                            <div class="key-point-card">
+                                <h4><i class="fas fa-users"></i> Group Chat Fan-Out</h4>
+                                <p>When a user sends a group message, the server must deliver it to all group members. Small groups (under 500 members) use fan-out-on-write: the message is immediately copied to each member's inbox queue. Large groups or channels use fan-out-on-read: the message is stored once, and members fetch it when they open the group. This hybrid approach balances write amplification against read latency.</p>
+                            </div>
+                        </div>
+                        <div class="summary-box">
+                            <h4><i class="fas fa-clipboard-check"></i> Quick Summary</h4>
+                            <ul class="summary-list">
+                                <li>WebSockets enable bidirectional, real-time message delivery with persistent connections</li>
+                                <li>Message ordering uses server-assigned sequence numbers per conversation</li>
+                                <li>Three delivery states: sent, delivered, read &mdash; each confirmed via acknowledgments</li>
+                                <li>Offline messages are queued and synced on reconnection using sequence-based catch-up</li>
+                                <li>Presence tracking uses heartbeats with pub/sub propagation to online contacts</li>
+                                <li>Group chats use fan-out-on-write for small groups and fan-out-on-read for large channels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Diagrams Section -->
+                <section class="content-section" id="diagrams">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Visual Diagrams</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('diagrams')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="diagrams-container">
+                            <div class="diagram-card">
+                                <h4>Chat Message Delivery Flow</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: flex; justify-content: center; align-items: flex-start; gap: 18px; flex-wrap: wrap;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 45px; background: #667eea; color: white; border-radius: 8px; line-height: 45px; font-size: 12px; font-weight: bold;">Sender</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">WebSocket</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+                                                <span style="font-size: 18px; color: #667eea;">&rarr;</span>
+                                                <span style="font-size: 9px; color: #888;">msg</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 45px; background: #28a745; color: white; border-radius: 8px; line-height: 45px; font-size: 11px; font-weight: bold;">Chat Server</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Route + Store</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+                                                <span style="font-size: 18px; color: #28a745;">&rarr;</span>
+                                                <span style="font-size: 9px; color: #888;">persist</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 45px; background: #ffc107; color: #333; border-radius: 8px; line-height: 45px; font-size: 12px; font-weight: bold;">Message DB</div>
+                                                <div style="font-size: 10px; color: #888; margin-top: 4px;">Cassandra/HBase</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 90px; height: 45px; background: #28a745; color: white; border-radius: 8px; line-height: 45px; font-size: 11px; font-weight: bold;">Chat Server</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <span style="font-size: 18px; color: #dc3545;">&rarr;</span>
+                                                <span style="font-size: 9px; color: #888;">push</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 80px; height: 45px; background: #dc3545; color: white; border-radius: 8px; line-height: 22px; font-size: 11px; font-weight: bold; padding-top: 1px;">Recipient<br>Online?</div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <div style="font-size: 10px; color: #28a745;">Yes &rarr; WebSocket push</div>
+                                                <div style="font-size: 10px; color: #fd7e14;">No &rarr; Push notification + queue</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 12px; padding: 8px; background: rgba(102,126,234,0.1); border-radius: 6px; font-size: 11px; color: #555;">
+                                            <strong>ACK Flow:</strong> Server &rarr; Sender (&#10003; sent) | Recipient &rarr; Server (&#10003;&#10003; delivered) | Recipient opens chat (&#128308; read)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-card">
+                                <h4>Group Chat Fan-Out Strategy</h4>
+                                <div class="diagram-placeholder">
+                                    <div style="padding: 20px;">
+                                        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+                                            <div style="text-align: center; flex: 1; min-width: 180px;">
+                                                <div style="background: #667eea; color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 10px;">Fan-Out on Write</div>
+                                                <div style="font-size: 11px; text-align: left; color: #555;">
+                                                    <div style="margin-bottom: 6px;">&#8226; Message copied to each member's inbox</div>
+                                                    <div style="margin-bottom: 6px;">&#8226; Fast reads (pre-computed)</div>
+                                                    <div style="margin-bottom: 6px;">&#8226; Write amplification (N copies)</div>
+                                                    <div style="margin-bottom: 6px; color: #28a745; font-weight: bold;">Best for: Small groups (&lt;500)</div>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center; flex: 1; min-width: 180px;">
+                                                <div style="background: #dc3545; color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 10px;">Fan-Out on Read</div>
+                                                <div style="font-size: 11px; text-align: left; color: #555;">
+                                                    <div style="margin-bottom: 6px;">&#8226; Message stored once in group</div>
+                                                    <div style="margin-bottom: 6px;">&#8226; Members fetch on open</div>
+                                                    <div style="margin-bottom: 6px;">&#8226; Slower reads, efficient writes</div>
+                                                    <div style="margin-bottom: 6px; color: #dc3545; font-weight: bold;">Best for: Large channels (1000+)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interview Questions Section -->
+                <section class="content-section" id="interview">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Interview Questions & Answers</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('interview')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="interview-questions">
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>Why use WebSockets instead of HTTP polling for a chat application?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>WebSockets are superior to HTTP polling for chat for several reasons:</p>
+                                    <ul>
+                                        <li><strong>Latency:</strong> WebSockets deliver messages instantly as they arrive. HTTP polling introduces delay equal to the polling interval (even 1-second polling adds average 500ms latency).</li>
+                                        <li><strong>Efficiency:</strong> A WebSocket connection has minimal overhead after the initial handshake. HTTP polling sends full HTTP headers with every request, wasting bandwidth &mdash; at scale this means billions of unnecessary requests per day.</li>
+                                        <li><strong>Bidirectional:</strong> WebSockets allow the server to push data to the client without the client asking. HTTP is strictly request-response, requiring the client to constantly poll.</li>
+                                        <li><strong>Scalability:</strong> A single server can maintain millions of idle WebSocket connections with minimal CPU usage, whereas the same number of polling clients would overwhelm the server with request processing.</li>
+                                        <li><strong>Fallback:</strong> Long polling (HTTP request that blocks until data is available) serves as a reliable fallback when WebSockets are blocked by firewalls or proxies.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you ensure messages are delivered in the correct order?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Message ordering in a distributed chat system is achieved through:</p>
+                                    <ul>
+                                        <li><strong>Per-Conversation Sequence Numbers:</strong> Each conversation maintains a monotonically increasing sequence number. When a message is stored, it's assigned the next sequence number atomically. Clients display messages sorted by sequence number.</li>
+                                        <li><strong>Server-Side Timestamps:</strong> Use the server's timestamp rather than the client's to avoid clock skew issues. A centralized or synchronized time source (NTP, Google TrueTime) provides consistent ordering.</li>
+                                        <li><strong>Handling Concurrent Messages:</strong> When two users send messages simultaneously, the server serializes them using a per-conversation lock or optimistic concurrency control, ensuring a deterministic order.</li>
+                                        <li><strong>Client-Side Reordering:</strong> Clients may receive messages out of order due to network delays. The client buffers incoming messages and reorders them by sequence number before displaying, requesting missing sequence numbers if gaps are detected.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How would you design the presence (online/offline) system?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>A presence system tracks and broadcasts user online status:</p>
+                                    <ul>
+                                        <li><strong>Heartbeat Mechanism:</strong> Each connected client sends a heartbeat ping every 5-10 seconds. The server stores the last heartbeat timestamp in Redis with a TTL. If the TTL expires (no heartbeat received), the user is considered offline.</li>
+                                        <li><strong>Status Propagation:</strong> When a user's status changes, publish the event to a Redis Pub/Sub channel. Only servers holding WebSocket connections to the user's contacts subscribe to these channels, avoiding broadcasting to the entire cluster.</li>
+                                        <li><strong>Optimization for Large Friend Lists:</strong> For users with thousands of contacts, batch and throttle presence updates. A user who rapidly toggles between online and offline (flapping) should have their status updates debounced to prevent notification storms.</li>
+                                        <li><strong>Lazy Propagation:</strong> Instead of pushing status to all contacts proactively, fetch presence status on-demand when a user opens a chat window. This dramatically reduces the number of presence updates for users with large contact lists.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <h4>How do you handle message delivery when the recipient is offline?</h4>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="answer-content">
+                                    <p>Offline message delivery requires a store-and-forward architecture:</p>
+                                    <ul>
+                                        <li><strong>Message Queue per User:</strong> Each user has a persistent inbox queue (stored in Cassandra or a similar database). When the recipient is offline, the message is written to their queue and a push notification is sent via APNs/FCM.</li>
+                                        <li><strong>Sync on Reconnection:</strong> When a user comes online, the client sends its last received sequence number. The server returns all messages with sequence numbers greater than the client's last known position, ensuring no messages are missed.</li>
+                                        <li><strong>Message Expiry:</strong> WhatsApp's store-and-forward model keeps messages on the server only until delivered, then deletes them. Other systems retain messages permanently for cross-device sync (like Telegram/Slack).</li>
+                                        <li><strong>Push Notifications:</strong> For high-priority messages, send push notifications through platform-specific channels (Apple Push Notification Service, Firebase Cloud Messaging) to wake the app and prompt the user to reconnect.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="content-section" id="quiz">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Test Your Knowledge</h2>
+                        <div class="section-actions">
+                            <button class="btn-icon" onclick="toggleSection('quiz')">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="quiz-container">
+                            <div class="quiz-header">
+                                <h3>Quick Quiz</h3>
+                                <p>Test your understanding of Chat System Design</p>
+                                <div class="quiz-stats">
+                                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                                    <span class="score">Score: <span id="quizScore">0</span></span>
+                                </div>
+                            </div>
+                            <div class="quiz-content">
+                                <div class="question-card" data-correct="c">
+                                    <div class="question-text">1. What protocol provides full-duplex, real-time communication for chat?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="a">
+                                            <span>HTTP/1.1 polling</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="b">
+                                            <span>SMTP</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="c">
+                                            <span>WebSocket</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_1" value="d">
+                                            <span>FTP</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">2. Which fan-out strategy is best for small group chats (under 500 members)?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="a">
+                                            <span>Fan-out on write (copy message to each member's inbox)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="b">
+                                            <span>Fan-out on read (members fetch messages on demand)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="c">
+                                            <span>Broadcast via UDP multicast</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_2" value="d">
+                                            <span>Peer-to-peer message passing</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="b">
+                                    <div class="question-text">3. How is message ordering typically guaranteed in a chat system?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="a">
+                                            <span>Using client-side timestamps only</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="b">
+                                            <span>Using server-assigned sequence numbers per conversation</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="c">
+                                            <span>Sorting messages alphabetically</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_3" value="d">
+                                            <span>Using random UUIDs</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="d">
+                                    <div class="question-text">4. How does a presence system detect that a user has gone offline?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="a">
+                                            <span>Checking the user's IP address every second</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="b">
+                                            <span>Sending an email to the user</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="c">
+                                            <span>Polling the user's device GPS</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_4" value="d">
+                                            <span>Heartbeat timeout (no ping received within configured period)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="question-card" data-correct="a">
+                                    <div class="question-text">5. What happens to messages when the recipient is offline?</div>
+                                    <div class="options-list">
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="a">
+                                            <span>Stored in the recipient's message queue and synced on reconnection</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="b">
+                                            <span>Discarded and the sender is notified of failure</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="c">
+                                            <span>Held in the sender's device until the recipient comes online</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="question_5" value="d">
+                                            <span>Converted to email and sent to the recipient</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-primary" id="submitQuiz">Submit Quiz</button>
+                                <button class="btn btn-secondary" id="resetQuiz">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Related Topics -->
+            <section class="related-topics">
+                <h3><i class="fas fa-link"></i> Related Topics</h3>
+                <div class="related-grid">
+                    <a href="../pages/real-time.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Real-Time Systems</h4>
+                            <p>Building systems that process and deliver data in real time</p>
+                        </div>
+                    </a>
+                    <a href="../pages/message-queues.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-stream"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Message Queues</h4>
+                            <p>Asynchronous communication patterns for distributed systems</p>
+                        </div>
+                    </a>
+                    <a href="../pages/load-balancing.html" class="related-topic-card">
+                        <div class="related-topic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="related-topic-info">
+                            <h4>Load Balancing</h4>
+                            <p>Distributing traffic across multiple servers efficiently</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section class="resources">
+                <h3><i class="fas fa-book-open"></i> Additional Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>System design interviews: WhatsApp, Slack, and Discord architecture deep dives</p>
+                        <a href="#" class="resource-link">Watch Videos &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Documentation</h4>
+                        <p>WebSocket RFC 6455, WhatsApp architecture paper, Erlang/OTP documentation</p>
+                        <a href="#" class="resource-link">Read Docs &rarr;</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Examples</h4>
+                        <p>Build a real-time chat with Socket.io, Go WebSockets, and Redis Pub/Sub</p>
+                        <a href="#" class="resource-link">View Code &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="fab scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design Learning Portal</h4>
+                    <p>Your comprehensive guide to mastering system design concepts</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">All Topics</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Practice Quizzes</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design Learning Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../assets/js/concept.js"></script>
+</body>
+</html>
